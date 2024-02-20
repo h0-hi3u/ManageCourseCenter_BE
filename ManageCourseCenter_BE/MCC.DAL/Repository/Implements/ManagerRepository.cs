@@ -1,5 +1,5 @@
 ﻿using MCC.DAL.DB.Models;
-using MCC.DAL.EntityModels.Context;
+using MCC.DAL.DB.Context;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 

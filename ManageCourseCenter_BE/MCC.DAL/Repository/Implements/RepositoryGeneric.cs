@@ -1,4 +1,4 @@
-﻿using MCC.DAL.EntityModels.Context;
+﻿using MCC.DAL.DB.Context;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,6 @@ public class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
     {
         return await _dbSet.FindAsync(id);
     }
-
 
     public void Update(T entity)
     {

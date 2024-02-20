@@ -4,7 +4,7 @@ using MCC.DAL.DB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace MCC.DAL.EntityModels.Context
+namespace MCC.DAL.DB.Context
 {
     public partial class ManageCourseCenterContext : DbContext
     {
@@ -405,6 +405,9 @@ namespace MCC.DAL.EntityModels.Context
             {
                 entity.ToTable("Manager");
 
+                entity.HasIndex(e => e.Email, "UNIQUE_EMAIL_MANAGER")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("id");
@@ -427,7 +430,11 @@ namespace MCC.DAL.EntityModels.Context
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
-                entity.Property(e => e.Phone).HasColumnName("phone");
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("phone");
 
                 entity.Property(e => e.Role).HasColumnName("role");
 
@@ -527,7 +534,7 @@ namespace MCC.DAL.EntityModels.Context
 
                 entity.Property(e => e.ChildrenId).HasColumnName("children_id");
 
-                entity.Property(e => e.CourseId).HasColumnName("course_id");
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
 
                 entity.Property(e => e.Date)
                     .HasColumnType("date")
@@ -546,6 +553,12 @@ namespace MCC.DAL.EntityModels.Context
                     .HasForeignKey(d => d.ChildrenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Schedule_Children");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Schedules)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Schedule_Class");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Schedules)

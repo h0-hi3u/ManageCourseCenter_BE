@@ -1,4 +1,4 @@
-using MCC.DAL.EntityModels.Context;
+using MCC.DAL.DB.Context;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Implements;

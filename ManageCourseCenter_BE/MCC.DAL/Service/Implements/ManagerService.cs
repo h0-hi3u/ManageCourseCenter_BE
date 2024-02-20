@@ -1,5 +1,5 @@
 ﻿using MCC.DAL.DB.Models;
-using MCC.DAL.EntityModels;
+using MCC.DAL.DB;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;

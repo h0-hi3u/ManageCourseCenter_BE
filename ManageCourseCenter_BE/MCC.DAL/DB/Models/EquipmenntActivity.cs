@@ -10,6 +10,7 @@ namespace MCC.DAL.DB.Models
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
         public DateTime OperateTime { get; set; }
+        public string Description { get; set; }
         public int Action { get; set; }
 
         public virtual Equipment Equipment { get; set; }

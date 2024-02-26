@@ -11,6 +11,7 @@ namespace MCC.DAL.DB.Models
             CartItems = new HashSet<CartItem>();
             Classes = new HashSet<Class>();
             Feedbacks = new HashSet<Feedback>();
+            Schedules = new HashSet<Schedule>();
         }
 
         public int Id { get; set; }
@@ -29,5 +30,6 @@ namespace MCC.DAL.DB.Models
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

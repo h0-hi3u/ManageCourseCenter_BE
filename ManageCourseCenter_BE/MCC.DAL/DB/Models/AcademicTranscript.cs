@@ -9,10 +9,11 @@ namespace MCC.DAL.DB.Models
         public int TeacherId { get; set; }
         public int CourseId { get; set; }
         public int ChildrenId { get; set; }
-        public double Quiz1 { get; set; }
-        public double Quiz2 { get; set; }
-        public double Midtern { get; set; }
-        public double Average { get; set; }
+        public decimal Quiz1 { get; set; }
+        public decimal Quiz2 { get; set; }
+        public decimal Midtern { get; set; }
+        public decimal Final { get; set; }
+        public decimal Average { get; set; }
         public int Status { get; set; }
 
         public virtual Child Children { get; set; }

@@ -12,5 +12,6 @@ namespace MCC.DAL.DB.Models
         public int Status { get; set; }
 
         public virtual Equipment Equipment { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

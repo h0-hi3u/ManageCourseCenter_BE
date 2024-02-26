@@ -21,7 +21,6 @@ namespace MCC.DAL.DB.Models
         public int Role { get; set; }
         public int Status { get; set; }
 
-        public virtual Parent Parent { get; set; }
         public virtual ICollection<AcademicTranscript> AcademicTranscripts { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }

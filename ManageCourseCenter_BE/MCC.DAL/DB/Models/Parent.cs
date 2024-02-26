@@ -8,6 +8,7 @@ namespace MCC.DAL.DB.Models
         public Parent()
         {
             Carts = new HashSet<Cart>();
+            Children = new HashSet<Child>();
         }
 
         public int Id { get; set; }
@@ -21,5 +22,6 @@ namespace MCC.DAL.DB.Models
         public int Status { get; set; }
 
         public virtual ICollection<Cart> Carts { get; set; }
+        public virtual ICollection<Child> Children { get; set; }
     }
 }

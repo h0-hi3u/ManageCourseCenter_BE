@@ -175,6 +175,12 @@ namespace MCC.DAL.DB.Context
                 entity.Property(e => e.Role).HasColumnName("role");
 
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.HasOne(d => d.Parent)
+                    .WithMany(p => p.Children)
+                    .HasForeignKey(d => d.ParentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Children_Parent");
             });
 
             modelBuilder.Entity<Class>(entity =>

@@ -10,8 +10,6 @@ namespace MCC.DAL.DB.Models
             AcademicTranscripts = new HashSet<AcademicTranscript>();
             CartItems = new HashSet<CartItem>();
             Classes = new HashSet<Class>();
-            Feedbacks = new HashSet<Feedback>();
-            Schedules = new HashSet<Schedule>();
         }
 
         public int Id { get; set; }
@@ -29,7 +27,5 @@ namespace MCC.DAL.DB.Models
         public virtual ICollection<AcademicTranscript> AcademicTranscripts { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
-        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

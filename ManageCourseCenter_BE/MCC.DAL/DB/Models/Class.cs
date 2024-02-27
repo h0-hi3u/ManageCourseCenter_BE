@@ -8,6 +8,7 @@ namespace MCC.DAL.DB.Models
         public Class()
         {
             CartItems = new HashSet<CartItem>();
+            ChildrenClasses = new HashSet<ChildrenClass>();
             ClassTimes = new HashSet<ClassTime>();
         }
 
@@ -15,11 +16,13 @@ namespace MCC.DAL.DB.Models
         public int CourseId { get; set; }
         public int TeacherId { get; set; }
         public string Name { get; set; }
+        public int TotalAmount { get; set; }
         public int Status { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<ChildrenClass> ChildrenClasses { get; set; }
         public virtual ICollection<ClassTime> ClassTimes { get; set; }
     }
 }

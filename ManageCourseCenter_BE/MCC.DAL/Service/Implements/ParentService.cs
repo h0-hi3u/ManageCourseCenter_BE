@@ -24,6 +24,20 @@ public class ParentService : IParentService
         return actionResult.BuildResult(data);
     }
 
+    public async Task<AppActionResult> GetChildWithParentEmail(string email)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _parentRepo.GetChildFromParentEmailAsync(email);
+        if (data != null)
+        {
+            return actionResult.BuildResult(data);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
     public async Task<AppActionResult> GetChildWithParentId(int id)
     {
         var actionResult = new AppActionResult();

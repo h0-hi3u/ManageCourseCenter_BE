@@ -8,4 +8,5 @@ public interface IParentService
     Task<AppActionResult> GetParentByIdAsync(int id);
     Task<AppActionResult> GetParentByNameAsync(string name);
     Task<AppActionResult> GetChildWithParentId(int id);
+    Task<AppActionResult> GetChildWithParentEmail(string email);
 }

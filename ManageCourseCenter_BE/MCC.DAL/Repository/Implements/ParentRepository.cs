@@ -34,4 +34,17 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
             return null;
         }
     }
+
+    public async Task<IEnumerable<Child>> GetChildFromParentEmailAsync(string email)
+    {
+        var parent = await _dbSet.Include(p => p.Children).SingleOrDefaultAsync(p => p.Email == email);
+        if (parent != null)
+        {
+            return parent.Children;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

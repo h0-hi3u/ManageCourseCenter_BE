@@ -8,6 +8,7 @@ namespace MCC.DAL.DB.Models
         public Room()
         {
             EquipmenntActivities = new HashSet<EquipmenntActivity>();
+            EquipmentReports = new HashSet<EquipmentReport>();
             Schedules = new HashSet<Schedule>();
         }
 
@@ -17,6 +18,7 @@ namespace MCC.DAL.DB.Models
         public int Status { get; set; }
 
         public virtual ICollection<EquipmenntActivity> EquipmenntActivities { get; set; }
+        public virtual ICollection<EquipmentReport> EquipmentReports { get; set; }
         public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

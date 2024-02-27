@@ -11,6 +11,5 @@ namespace MCC.DAL.DB.Models
         public int Status { get; set; }
 
         public virtual Cart Cart { get; set; }
-        public virtual Parent CartNavigation { get; set; }
     }
 }

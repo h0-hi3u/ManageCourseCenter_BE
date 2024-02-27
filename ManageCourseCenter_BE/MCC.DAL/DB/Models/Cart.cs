@@ -15,6 +15,7 @@ namespace MCC.DAL.DB.Models
         public int ParentId { get; set; }
         public int Status { get; set; }
 
+        public virtual Parent Parent { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }

@@ -5,4 +5,5 @@ namespace MCC.DAL.Repository.Interface;
 public interface IClassReposotory : IRepositoryGeneric<Class>
 {
     Task<IEnumerable<Class>> GetCourseByNameAsync(string name);
+    Task<Class> GetClassByNameAsync(string name);
 }

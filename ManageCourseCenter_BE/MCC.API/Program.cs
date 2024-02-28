@@ -49,7 +49,7 @@ builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneri
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 //builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
-//builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
+builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
 //builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
@@ -66,6 +66,7 @@ builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IClassTimeService, ClassTimeService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IParentService, ParentService>();

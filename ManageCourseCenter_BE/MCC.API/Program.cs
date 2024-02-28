@@ -43,7 +43,7 @@ builder.Services.AddDbContext<ManageCourseCenterContext>(options =>
 
 // register Repository
 builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
-//builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
+builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
@@ -75,6 +75,7 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IChildrenClassService, ChildrenClassService>();
+builder.Services.AddScoped<IAcademicTranscriptService, AcademicTranscriptService>();
 
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>

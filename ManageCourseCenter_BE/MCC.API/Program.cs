@@ -53,7 +53,7 @@ builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
 //builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
-//builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 //builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
@@ -63,6 +63,7 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // register Service
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IClassService, ClassService>();

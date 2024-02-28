@@ -49,7 +49,7 @@ builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneri
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 //builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
-//builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
+builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
 //builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
@@ -58,19 +58,21 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 //builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-//builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-//builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // register Service
-builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IClassTimeService, ClassTimeService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IParentService, ParentService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
 // Add automapper

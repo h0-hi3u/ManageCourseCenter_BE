@@ -11,6 +11,11 @@ public class ClassRepositoy : RepositoryGeneric<Class>, IClassReposotory
     {
     }
 
+    public async Task<Class> GetClassByNameAsync(string name)
+    {
+        return await _dbSet.SingleOrDefaultAsync(c => c.Name == name);
+    }
+
     public async Task<IEnumerable<Class>> GetCourseByNameAsync(string name)
     {
         return await _dbSet.Where(c => c.Name.Contains(name)).ToListAsync();

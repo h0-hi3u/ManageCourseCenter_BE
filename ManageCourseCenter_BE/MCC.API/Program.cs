@@ -59,7 +59,7 @@ builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 //builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 //builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-//builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // register Service
@@ -69,6 +69,8 @@ builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>
 {

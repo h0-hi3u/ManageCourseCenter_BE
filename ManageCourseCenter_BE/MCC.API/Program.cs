@@ -54,7 +54,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
 //builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
-//builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 //builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
@@ -70,6 +70,9 @@ builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>
 {

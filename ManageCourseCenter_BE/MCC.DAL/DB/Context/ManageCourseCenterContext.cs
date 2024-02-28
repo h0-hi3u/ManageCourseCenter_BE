@@ -21,6 +21,7 @@ namespace MCC.DAL.DB.Context
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartItem> CartItems { get; set; }
         public virtual DbSet<Child> Children { get; set; }
+        public virtual DbSet<ChildrenClass> ChildrenClasses { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<ClassTime> ClassTimes { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
@@ -84,19 +85,19 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.AcademicTranscripts)
                     .HasForeignKey(d => d.ChildrenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__AcademicT__child__2E1BDC42");
+                    .HasConstraintName("FK__AcademicT__child__2F10007B");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.AcademicTranscripts)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__AcademicT__cours__2D27B809");
+                    .HasConstraintName("FK__AcademicT__cours__2E1BDC42");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.AcademicTranscripts)
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__AcademicT__teach__2C3393D0");
+                    .HasConstraintName("FK__AcademicT__teach__2D27B809");
             });
 
             modelBuilder.Entity<Cart>(entity =>
@@ -113,7 +114,7 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Cart__parent_id__38996AB5");
+                    .HasConstraintName("FK__Cart__parent_id__398D8EEE");
             });
 
             modelBuilder.Entity<CartItem>(entity =>
@@ -134,25 +135,25 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__cart_i__3B75D760");
+                    .HasConstraintName("FK__CartItem__cart_i__3C69FB99");
 
                 entity.HasOne(d => d.Children)
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.ChildrenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__childr__3E52440B");
+                    .HasConstraintName("FK__CartItem__childr__3F466844");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__class___3D5E1FD2");
+                    .HasConstraintName("FK__CartItem__class___3E52440B");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__course__3C69FB99");
+                    .HasConstraintName("FK__CartItem__course__3D5E1FD2");
             });
 
             modelBuilder.Entity<Child>(entity =>
@@ -180,7 +181,30 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.Children)
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Children_Parent");
+                    .HasConstraintName("FK__Children__parent__267ABA7A");
+            });
+
+            modelBuilder.Entity<ChildrenClass>(entity =>
+            {
+                entity.ToTable("ChildrenClass");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ChildrenId).HasColumnName("children_id");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.HasOne(d => d.Children)
+                    .WithMany(p => p.ChildrenClasses)
+                    .HasForeignKey(d => d.ChildrenId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChildrenC__child__5441852A");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.ChildrenClasses)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChildrenC__class__534D60F1");
             });
 
             modelBuilder.Entity<Class>(entity =>
@@ -200,17 +224,19 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
+                entity.Property(e => e.TotalAmount).HasColumnName("total_amount");
+
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Classes)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Class__course_id__34C8D9D1");
+                    .HasConstraintName("FK__Class__course_id__35BCFE0A");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.Classes)
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Class__teacher_i__35BCFE0A");
+                    .HasConstraintName("FK__Class__teacher_i__36B12243");
             });
 
             modelBuilder.Entity<ClassTime>(entity =>
@@ -235,7 +261,7 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.ClassTimes)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ClassTime__class__412EB0B6");
+                    .HasConstraintName("FK__ClassTime__class__4222D4EF");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -300,19 +326,19 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.EquipmenntActivities)
                     .HasForeignKey(d => d.EquipmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__equip__4AB81AF0");
+                    .HasConstraintName("FK__Equipmenn__equip__4BAC3F29");
 
                 entity.HasOne(d => d.Manager)
                     .WithMany(p => p.EquipmenntActivities)
                     .HasForeignKey(d => d.ManagerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__manag__49C3F6B7");
+                    .HasConstraintName("FK__Equipmenn__manag__4AB81AF0");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.EquipmenntActivities)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__room___4BAC3F29");
+                    .HasConstraintName("FK__Equipmenn__room___4CA06362");
             });
 
             modelBuilder.Entity<Equipment>(entity =>
@@ -327,6 +353,8 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("name");
 
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.Type).HasColumnName("type");
             });
 
             modelBuilder.Entity<EquipmentReport>(entity =>
@@ -347,13 +375,13 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.EquipmentReports)
                     .HasForeignKey(d => d.EquipmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipment__equip__4F7CD00D");
+                    .HasConstraintName("FK__Equipment__equip__5070F446");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.EquipmentReports)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipment__room___4E88ABD4");
+                    .HasConstraintName("FK__Equipment__room___4F7CD00D");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -362,9 +390,7 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ChildrenId).HasColumnName("children_id");
-
-                entity.Property(e => e.CourseId).HasColumnName("course_id");
+                entity.Property(e => e.ChildrenClassId).HasColumnName("children_class_id");
 
                 entity.Property(e => e.CourseRating).HasColumnName("course_rating");
 
@@ -374,17 +400,11 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.TeacherRating).HasColumnName("teacher_rating");
 
-                entity.HasOne(d => d.Children)
+                entity.HasOne(d => d.ChildrenClass)
                     .WithMany(p => p.Feedbacks)
-                    .HasForeignKey(d => d.ChildrenId)
+                    .HasForeignKey(d => d.ChildrenClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Feedback__childr__52593CB8");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Feedbacks)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Feedback__course__534D60F1");
+                    .HasConstraintName("FK__Feedback__childr__571DF1D5");
             });
 
             modelBuilder.Entity<Manager>(entity =>
@@ -479,7 +499,7 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__cart_id__59063A47");
+                    .HasConstraintName("FK__Payment__cart_id__5CD6CB2B");
             });
 
             modelBuilder.Entity<Room>(entity =>
@@ -503,9 +523,7 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Attendance).HasColumnName("attendance");
 
-                entity.Property(e => e.ChildrenId).HasColumnName("children_id");
-
-                entity.Property(e => e.CourseId).HasColumnName("course_id");
+                entity.Property(e => e.ChildrenClassId).HasColumnName("children_class_id");
 
                 entity.Property(e => e.EndTime)
                     .HasColumnType("datetime")
@@ -519,29 +537,23 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
-                entity.HasOne(d => d.Children)
+                entity.HasOne(d => d.ChildrenClass)
                     .WithMany(p => p.Schedules)
-                    .HasForeignKey(d => d.ChildrenId)
+                    .HasForeignKey(d => d.ChildrenClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__childr__5CD6CB2B");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Schedules)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__course__5DCAEF64");
+                    .HasConstraintName("FK__Schedule__childr__60A75C0F");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__room_i__5EBF139D");
+                    .HasConstraintName("FK__Schedule__room_i__619B8048");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__teache__5BE2A6F2");
+                    .HasConstraintName("FK__Schedule__teache__5FB337D6");
             });
 
             modelBuilder.Entity<Teacher>(entity =>

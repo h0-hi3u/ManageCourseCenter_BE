@@ -10,7 +10,16 @@ using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interfacep;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Add cros policy
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -38,12 +47,13 @@ builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneri
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
-//builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
+//builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
+builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
 //builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
-//builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
 //builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
-//builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 //builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
@@ -53,8 +63,11 @@ builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // register Service
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IChildService, ChildService>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 // Add automapper

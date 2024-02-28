@@ -38,4 +38,10 @@ public class ParentController : ControllerBase
         var result = await _parentService.GetChildWithParentId(id);
         return Ok(result);
     }
+    [HttpGet("get-child-email")]
+    public async Task<IActionResult> GetChildWithParentEmailAsync(string email)
+    {
+        var result = await _parentService.GetChildWithParentEmail(email);
+        return Ok(result);
+    }
 }

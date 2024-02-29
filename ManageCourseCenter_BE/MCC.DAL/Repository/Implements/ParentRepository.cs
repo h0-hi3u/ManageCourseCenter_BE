@@ -47,4 +47,30 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
             return null;
         }
     }
+
+    public async Task<bool> CheckExistingEmailAsync(string email)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Email == email);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> CheckExistingPhoneAsync(string phone)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Phone == phone);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

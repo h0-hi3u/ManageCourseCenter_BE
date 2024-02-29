@@ -2,6 +2,7 @@
 using MCC.DAL.Common;
 using MCC.DAL.Constants;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,29 @@ public class ManagerService : IManagerService
         _mapper = mapper;
     }
 
-    public async Task CreateAsync(Manager entity)
+    public async Task<AppActionResult> CreateAsync(ManagerCreateDto entity)
     {
+        var actionResult = new AppActionResult();
+
         var checkEmail = await _managerRepo.CheckExistingEmailAsync(entity.Email);
-        if (checkEmail)
+        if(!checkEmail)
         {
-            await _managerRepo.AddAsync(entity);
+            return actionResult.BuildError("Duplicate email");
+        }
+        var checkPhone = await _managerRepo.CheckExistingPhoneAsync(entity.Phone);
+        if (!checkPhone)
+        {
+            return actionResult.BuildError("Duplicate phone");
+        }
+        try
+        {
+            var manager = _mapper.Map<Manager>(entity);
+            await _managerRepo.AddAsync(manager);
             await _managerRepo.SaveChangesAsync();
+            return actionResult.SetInfo(true, "Add success");
+        } catch
+        {
+            return actionResult.BuildError("Add fail");
         }
     }
 
@@ -40,7 +57,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetAdminByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.ADMIN && m.Id == id);
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_ADMIN && m.Id == id);
         if (data != null)
         {
             return actionResult.BuildResult(data);
@@ -54,7 +71,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetAdminByNameAsync(string name)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.ADMIN && m.FullName.Contains(name));
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_ADMIN && m.FullName.Contains(name));
         if (data != null)
         {
             return actionResult.BuildResult(data);
@@ -68,28 +85,28 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetListAdminAsync()
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().Where(m => m.Role == RoleConstants.ADMIN).ToListAsync();
+        var data = await _managerRepo.Entities().Where(m => m.Role == CoreConstants.ROLE_ADMIN).ToListAsync();
         return actionResult.BuildResult(data);
     }
 
     public async Task<AppActionResult> GetListManagerAsync()
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().Where(m => m.Role == RoleConstants.MANAGER).ToListAsync();
+        var data = await _managerRepo.Entities().Where(m => m.Role == CoreConstants.ROLE_MANAGER).ToListAsync();
         return actionResult.BuildResult(data);
     }
 
     public async Task<AppActionResult> GetListStaffAsync()
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().Where(m => m.Role == RoleConstants.STAFF).ToListAsync();
+        var data = await _managerRepo.Entities().Where(m => m.Role == CoreConstants.ROLE_STAFF).ToListAsync();
         return actionResult.BuildResult(data);
     }
 
     public async Task<AppActionResult> GetManagerByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.MANAGER && m.Id == id);
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_MANAGER && m.Id == id);
         if (data != null)
         {
             return actionResult.BuildResult(data);
@@ -103,7 +120,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetManagerByNameAsync(string name)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.MANAGER && m.FullName.Contains(name));
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_MANAGER && m.FullName.Contains(name));
         if (data != null)
         {
             return actionResult.BuildResult(data);
@@ -117,7 +134,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetStaffByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.STAFF && m.Id == id);
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_STAFF && m.Id == id);
         if (data != null)
         {
             return actionResult.BuildResult(data);
@@ -131,7 +148,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetStaffByNameAsync(string name)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == RoleConstants.STAFF && m.FullName.Contains(name));
+        var data = await _managerRepo.Entities().SingleOrDefaultAsync(m => m.Role == CoreConstants.ROLE_STAFF && m.FullName.Contains(name));
         if (data != null)
         {
             return actionResult.BuildResult(data);

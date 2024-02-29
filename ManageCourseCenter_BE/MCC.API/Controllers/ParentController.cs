@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.ParentDto;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,12 @@ public class ParentController : ControllerBase
     public async Task<IActionResult> GetChildWithParentEmailAsync(string email)
     {
         var result = await _parentService.GetChildWithParentEmail(email);
+        return Ok(result);
+    }
+    [HttpPost("create-parent")]
+    public async Task<IActionResult> CreateParentAsync(ParentCreateDto parentCreateDto)
+    {
+        var result = await _parentService.CreateParentAsync(parentCreateDto);
         return Ok(result);
     }
 }

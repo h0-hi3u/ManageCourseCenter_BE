@@ -51,8 +51,8 @@ builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>()
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
 builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-//builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
-//builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
+builder.Services.AddScoped<IEquipmentActivityRepository, EquipmentActivityRepository>();
+builder.Services.AddScoped<IEquipmentReportRepository, EquipmentReportRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
@@ -63,11 +63,13 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // register Service
+builder.Services.AddScoped<IEquipmentReportService, EquipmentReportService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<IClassTimeService, ClassTimeService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IEquipmentActivityService, EquipmentActivityService>();
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
@@ -98,7 +100,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();

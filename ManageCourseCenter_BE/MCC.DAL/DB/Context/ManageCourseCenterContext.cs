@@ -65,9 +65,9 @@ namespace MCC.DAL.DB.Context
                     .HasColumnType("decimal(3, 1)")
                     .HasColumnName("final");
 
-                entity.Property(e => e.Midtern)
+                entity.Property(e => e.Midterm)
                     .HasColumnType("decimal(3, 1)")
-                    .HasColumnName("midtern");
+                    .HasColumnName("midterm");
 
                 entity.Property(e => e.Quiz1)
                     .HasColumnType("decimal(3, 1)")

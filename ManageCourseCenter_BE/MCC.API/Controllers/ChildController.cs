@@ -1,4 +1,6 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.ChildDto;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +32,12 @@ public class ChildController : ControllerBase
     public async Task<IActionResult> GetByIdAsync(int id)
     {
         var result = await _childService.GetChildByIdAsync(id);
+        return Ok(result);
+    }
+    [HttpPost("create-child")]
+    public async Task<IActionResult> CreateChildAsync(ChildCreatDto childCreatDto)
+    {
+        var result = await _childService.CreateChildAsync(childCreatDto);
         return Ok(result);
     }
 }

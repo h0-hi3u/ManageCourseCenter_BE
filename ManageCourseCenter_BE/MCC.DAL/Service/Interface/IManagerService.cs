@@ -1,5 +1,6 @@
 ﻿using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ManagerDto;
 
 namespace MCC.DAL.Service.Interface;
 
@@ -16,5 +17,5 @@ public interface IManagerService
     Task<AppActionResult> GetStaffByNameAsync(string name);
     Task UpdateAsync(Manager entity);
     Task DeleteAsync(int id);
-    Task CreateAsync(Manager entity);
+    Task<AppActionResult> CreateAsync(ManagerCreateDto entity);
 }

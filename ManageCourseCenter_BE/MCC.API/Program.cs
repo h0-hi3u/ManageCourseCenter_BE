@@ -43,11 +43,11 @@ builder.Services.AddDbContext<ManageCourseCenterContext>(options =>
 
 // register Repository
 builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
-//builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
+builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
-//builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
+builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
 builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
@@ -76,6 +76,8 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IChildrenClassService, ChildrenClassService>();
+builder.Services.AddScoped<IAcademicTranscriptService, AcademicTranscriptService>();
 
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>
@@ -98,7 +100,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();

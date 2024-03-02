@@ -3,6 +3,7 @@ using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Dto.ParentDto;
+using MCC.DAL.Dto.RoomDto;
 using MCC.DAL.Dto.TeacherDto;
 
 namespace MCC.DAL.Dto.MappingAutoMapper;
@@ -15,6 +16,7 @@ public class MappingProfile : Profile
         TeacherMappingProfile();
         ParentMappingProfile();
         ChildMappingProfile();
+        RoomMappingProfile();
     }
     private void ManagerMappingProfile()
     {
@@ -32,5 +34,9 @@ public class MappingProfile : Profile
     private void ChildMappingProfile()
     {
         CreateMap<ChildCreatDto, Child>();
+    }
+    private void RoomMappingProfile()
+    {
+        CreateMap<RoomCreateDto, Room>();
     }
 }

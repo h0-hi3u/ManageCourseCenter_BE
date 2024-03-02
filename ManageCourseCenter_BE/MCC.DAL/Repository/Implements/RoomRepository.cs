@@ -11,6 +11,19 @@ public class RoomRepository : RepositoryGeneric<Room>, IRoomRepository
     {
     }
 
+    public async Task<bool> CheckExistingRoomNoAsync(int roomNo)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(r => r.RoomNo == roomNo);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public async Task<IEnumerable<Room>> GetRoomByFloorAsync(int floor)
     {
         return await _dbSet.Where(r => r.Floor == floor).ToListAsync();

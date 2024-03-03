@@ -1,4 +1,6 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.TeacherDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,4 +14,5 @@ public interface ICourseService
     Task<AppActionResult> GetAllCoureAsync();
     Task<AppActionResult> GetCourseByNameAsync(string name);
     Task<AppActionResult> GetCourseByIdAsync(int id);
+    Task<AppActionResult> CreateCourseAsync(CourseCreateDto courseCreateDto);
 }

@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.ClassDto;
 
 namespace MCC.DAL.Service.Interface;
 
@@ -9,4 +10,5 @@ public interface IClassService
     public Task<AppActionResult> GetClassByCourseNameAsync(string courseName);
     public Task<AppActionResult> GetClassByIdAsync(int id);
     public Task<AppActionResult> GetClassByNameAsync(string name);
+    Task<AppActionResult> CreateClassAsync(ClassCreateDto classCreateDto);
 }

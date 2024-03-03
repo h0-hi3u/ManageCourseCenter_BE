@@ -9,4 +9,5 @@ public interface ITeacherService
     Task<AppActionResult> GetTeachByIdAsync(int id);
     Task<AppActionResult> GetTeachByNameAsync(string name);
     Task<AppActionResult> CreateTeacherAsync(TeacherCreateDto teacherCreateDto);
+    Task<AppActionResult> GetTeacherByEmailAndPasswordAsync(string email, string password);
 }

@@ -73,4 +73,9 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
             return false;
         }
     }
+
+    public async Task<Parent> GetParentByEmailAndPasswordAsync(string email, string password)
+    {
+        return await _dbSet.SingleOrDefaultAsync(p => p.Email == email && p.Password == password && p.Status == 1);
+    }
 }

@@ -51,4 +51,10 @@ public class ParentController : ControllerBase
         var result = await _parentService.CreateParentAsync(parentCreateDto);
         return Ok(result);
     }
+    [HttpGet("get-parent-email-password")]
+    public async Task<IActionResult> GetParentByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _parentService.GetParentByEmailAndPasswordAsync(email, password);
+        return Ok(result);
+    }
 }

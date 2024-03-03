@@ -35,4 +35,9 @@ public class TeacherRepository : RepositoryGeneric<Teacher>, ITeacherRepository
             return false;
         }
     }
+
+    public async Task<Teacher> GetTeacherByEmailAndPasswordAsync(string email, string password)
+    {
+        return await _dbSet.SingleOrDefaultAsync(t => t.Email == email && t.Password == password && t.Status == 1);
+    }
 }

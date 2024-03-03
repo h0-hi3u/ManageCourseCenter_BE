@@ -9,4 +9,5 @@ public interface IParentRepository : IRepositoryGeneric<Parent>
     Task<IEnumerable<Child>> GetChildFromParentEmailAsync(string email);
     Task<bool> CheckExistingEmailAsync(string email);
     Task<bool> CheckExistingPhoneAsync(string phone);
+    Task<Parent> GetParentByEmailAndPasswordAsync(string email, string password);
 }

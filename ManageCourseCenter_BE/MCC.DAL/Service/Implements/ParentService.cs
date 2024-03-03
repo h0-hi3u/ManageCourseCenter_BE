@@ -82,6 +82,19 @@ public class ParentService : IParentService
         }
     }
 
+    public async Task<AppActionResult> GetParentByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _parentRepo.GetParentByEmailAndPasswordAsync(email, password);
+        if (data != null)
+        {
+            return actionResult.BuildResult(data);
+        } else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
     public async Task<AppActionResult> GetParentByIdAsync(int id)
     {
         var actionResult = new AppActionResult();

@@ -11,4 +11,5 @@ public interface IParentService
     Task<AppActionResult> GetChildWithParentId(int id);
     Task<AppActionResult> GetChildWithParentEmail(string email);
     Task<AppActionResult> CreateParentAsync(ParentCreateDto parentCreateDto);
+    Task<AppActionResult> GetParentByEmailAndPasswordAsync(string email, string password);
 }

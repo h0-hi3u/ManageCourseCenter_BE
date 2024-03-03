@@ -71,4 +71,17 @@ public class TeacherService : ITeacherService
         var data = await _teacherRepo.Entities().Where(t => t.FullName.Contains(name)).ToListAsync();
         return actionResult.BuildResult(data);
     }
+
+    public async Task<AppActionResult> GetTeacherByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _teacherRepo.GetTeacherByEmailAndPasswordAsync(email, password);
+        if(data == null)
+        {
+            return actionResult.BuildError("Not found");
+        } else
+        {
+            return actionResult.BuildResult(data);
+        }
+    }
 }

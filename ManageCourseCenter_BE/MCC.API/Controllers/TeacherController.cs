@@ -39,4 +39,10 @@ public class TeacherController : ControllerBase
         var result = await _teacherService.CreateTeacherAsync(teacherCreateDto);
         return Ok(result);
     }
+    [HttpGet("get-teacher-email-password")]
+    public async Task<IActionResult> GetTeacherByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _teacherService.GetTeacherByEmailAndPasswordAsync(email, password);
+        return Ok(result);
+    }
 }

@@ -2,6 +2,7 @@
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Dto.RoomDto;
@@ -19,7 +20,14 @@ public class MappingProfile : Profile
         ChildMappingProfile();
         RoomMappingProfile();
         CourseMappingProfile();
+        EquipmentCreateDto();
     }
+
+    private void EquipmentCreateDto()
+    {
+        CreateMap<EquipmentCreateDto, Equipment>();
+    }
+
     private void ManagerMappingProfile()
     {
         CreateMap<Manager, ManagerShowResponseDto>();

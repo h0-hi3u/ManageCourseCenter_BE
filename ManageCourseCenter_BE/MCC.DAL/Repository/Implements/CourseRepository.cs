@@ -11,6 +11,19 @@ public class CourseRepository : RepositoryGeneric<Course>, ICourseRepository
     {
     }
 
+    public async Task<bool> CheckExistingNameAsync(string name)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Name == name);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }    
+    }
+
     public async Task<IEnumerable<Course>> GetCourseByNameAsync(string name)
     {
         return await _dbSet.Where(c => c.Name.Contains(name)).ToListAsync();

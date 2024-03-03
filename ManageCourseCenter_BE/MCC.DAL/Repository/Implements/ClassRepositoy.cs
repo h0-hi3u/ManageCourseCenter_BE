@@ -20,4 +20,17 @@ public class ClassRepositoy : RepositoryGeneric<Class>, IClassReposotory
     {
         return await _dbSet.Where(c => c.Name.Contains(name)).ToListAsync();
     }
+
+    public async Task<bool> CheckExistingNameAsync(string name)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Name == name);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

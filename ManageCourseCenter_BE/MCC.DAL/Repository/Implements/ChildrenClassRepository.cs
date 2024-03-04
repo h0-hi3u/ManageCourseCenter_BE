@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MCC.DAL.Repository.Implements;
 
-public class ChildrenClassRepository : RepositoryGeneric<ChildrenClass>, IChildrendClassRepository
+public class ChildrenClassRepository : RepositoryGeneric<ChildrenClass>, IChildrenClassRepository
 {
     public ChildrenClassRepository(ManageCourseCenterContext context) : base(context)
     {

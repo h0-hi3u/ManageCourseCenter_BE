@@ -47,7 +47,7 @@ builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepo
 //builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
-builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
+builder.Services.AddScoped<IChildrenClassRepository, ChildrenClassRepository>();
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
 builder.Services.AddScoped<IClassTimeRepository, ClassTimeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MCC.DAL.Repository.Interface;
 
-public interface IChildrendClassRepository : IRepositoryGeneric<ChildrenClass>
+public interface IChildrenClassRepository : IRepositoryGeneric<ChildrenClass>
 {
     Task <IEnumerable<ChildrenClass>> GetChildrenClassByChildrenIDAsync(int childrenId);
     Task <IEnumerable<ChildrenClass>> GetChildrensClassByChildrenNameAsync(string childrenName);

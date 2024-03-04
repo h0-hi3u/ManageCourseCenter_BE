@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ClassDto;
 using MCC.DAL.Dto.CourceDto;
@@ -25,6 +26,11 @@ public class MappingProfile : Profile
         ClassMappingProfile();
         EquipmentActivityMappingProfile();
         EquipmentReportMappingProfile();
+        AcademicTranscriptMappingProfile();
+    }
+    private void AcademicTranscriptMappingProfile()
+    {
+        CreateMap<AcademicTranscriptCreateDto, AcademicTranscript>();
     }
     private void EquipmentReportMappingProfile()
     {

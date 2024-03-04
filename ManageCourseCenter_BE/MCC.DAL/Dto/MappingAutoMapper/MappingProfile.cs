@@ -29,17 +29,13 @@ public class MappingProfile : Profile
         EquipmentActivityMappingProfile();
         EquipmentReportMappingProfile();
         AcademicTranscriptMappingProfile();
-        CartMappingProfile();
         FeedbackMappingProfile();
     }
     private void FeedbackMappingProfile()
     {
         CreateMap<FeedbackCreateDto, Feedback>();
     }
-    private void CartMappingProfile()
-    {
-        CreateMap<CartCreateDto, Cart>();
-    }
+   
     private void AcademicTranscriptMappingProfile()
     {
         CreateMap<AcademicTranscriptCreateDto, AcademicTranscript>();

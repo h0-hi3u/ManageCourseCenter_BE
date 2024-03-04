@@ -6,4 +6,5 @@ public interface IRoomRepository: IRepositoryGeneric<Room>
 {
     Task<Room> GetRoomByNoAsync(int no);
     Task<IEnumerable<Room>> GetRoomByFloorAsync(int floor);
+    Task<bool> CheckExistingRoomNoAsync(int roomNo);
 }

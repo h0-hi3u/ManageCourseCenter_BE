@@ -1,6 +1,9 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interface;
+using MCC.DAL.Repository.Interfacep;
 using MCC.DAL.Service.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +14,47 @@ namespace MCC.DAL.Service.Implements
 {
     public class ChildrenClassService : IChildrenClassService
     {
-        private readonly IChildrendClassRepository _childrendClassRepo;
+        private IChildrendClassRepository _childrendClassRepo;
+        private IChildRepository _childRepo;
+        private IClassReposotory _classRepo;
 
-        public ChildrenClassService(IChildrendClassRepository childrendClassRepo)
+        public ChildrenClassService(IChildrendClassRepository childrendClassRepo, IClassReposotory classRepo, IChildRepository childRepository)
         {
             _childrendClassRepo = childrendClassRepo;
+            _classRepo = classRepo;
+            _childRepo = childRepository;
         }
+
+        //public async Task<AppActionResult> CreateChildClassAsync(int classId, int childId)
+        //{
+        //    var actionResult = new AppActionResult();
+
+        //    var classExisting = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == classId);
+        //    if (classExisting == null)
+        //    {
+        //        return actionResult.BuildError("Not found class");
+        //    }
+
+        //    var child = await _childRepo.Entities().Include(c => c.ChildrenClasses).SingleOrDefaultAsync(c => c.Id == childId);
+        //    if (child == null) 
+        //    {
+        //        return actionResult.BuildError("Not found children");
+        //    }
+
+        //    var childrenClasses = child.ChildrenClasses;
+        //    var listClass = new List<Class>();
+        //    foreach (var childClass in childrenClasses)
+        //    {
+        //        var classById = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == childClass.Id);
+        //        listClass.Add(classById);
+        //    }
+
+        //    bool isValidClassTime = true;
+        //    foreach (var classJoined in listClass)
+        //    {
+        //        if(classJoined.ClassTimes)
+        //    }
+        //}
 
         public async Task<AppActionResult> GetChildrenClassByChildrenIDAsync(int childrenId)
         {

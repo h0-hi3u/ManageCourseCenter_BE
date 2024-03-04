@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCC.API.Controllers;
@@ -40,5 +43,12 @@ public class EquipmentController : ControllerBase
     {
         var reult = await _equipService.GetEquipmentByTypeAsync(type);
         return Ok(reult);
+    }
+
+    [HttpPost("create-equipment")]
+    public async Task<IActionResult> CreateEquipmentAsync(EquipmentCreateDto equipmentCreateDto)
+    {
+        var result = await _equipService.CreateEquipmentAsync(equipmentCreateDto);
+        return Ok(result);
     }
 }

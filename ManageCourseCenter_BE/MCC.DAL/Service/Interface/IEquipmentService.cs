@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.EquipmentDto;
 
 namespace MCC.DAL.Service.Interface
 {
@@ -8,5 +9,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> GetEquipmentByIdAsync(int id);
         Task<AppActionResult> GetEquipmentByNameAsync(string name);
         Task<AppActionResult> GetEquipmentByTypeAsync(int type);
+        Task<AppActionResult> CreateEquipmentAsync(EquipmentCreateDto equipmentCreateDto);
     }
 }

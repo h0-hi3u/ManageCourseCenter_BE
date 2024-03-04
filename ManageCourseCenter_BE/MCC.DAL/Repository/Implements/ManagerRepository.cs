@@ -22,4 +22,17 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
             return false;
         }
     }
+
+    public async Task<bool> CheckExistingPhoneAsync(string phone)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Phone == phone);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +23,29 @@ namespace MCC.DAL.Service.Implements
         {
             _equipRepo = equipRepo;
             _mapper = mapper;
+        }
+
+        public async Task<AppActionResult> CreateEquipmentAsync(EquipmentCreateDto equipmentCreateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            var checkName = await _equipRepo.CheckExistingNameAsync(equipmentCreateDto.Name);
+            if (!checkName)
+            {
+                return actionResult.BuildError("Duplicate name");
+            }
+
+            try
+            {
+                var equip = _mapper.Map<Equipment>(equipmentCreateDto);
+                await _equipRepo.AddAsync(equip);
+                await _equipRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
         }
 
         public async Task<AppActionResult> GetAllEquipmentAsync()

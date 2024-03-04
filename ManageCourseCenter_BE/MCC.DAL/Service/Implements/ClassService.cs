@@ -1,5 +1,8 @@
-﻿using MCC.DAL.Common;
+﻿using AutoMapper;
+using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ClassDto;
+using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +18,36 @@ public class ClassService : IClassService
 {
     private IClassReposotory _classRepo;
     private ICourseRepository _courseRepo;
+    private IMapper _mapper;
 
-    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo)
+    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo, IMapper mapper)
     {
         _classRepo = classRepo;
         _courseRepo = courseRepo;
+        _mapper = mapper;
+    }
+
+    public async Task<AppActionResult> CreateClassAsync(ClassCreateDto classCreateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var checkName = await _classRepo.CheckExistingNameAsync(classCreateDto.Name);
+        if (!checkName)
+        {
+            return actionResult.BuildError("Duplicate name");
+        }
+
+        try
+        {
+            var clas = _mapper.Map<Class>(classCreateDto);
+            await _classRepo.AddAsync(clas);
+            await _classRepo.SaveChangesAsync();
+            return actionResult.SetInfo(true, "Add success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Add fail");
+        }
     }
 
     public async Task<AppActionResult> GetAllClassAsync()

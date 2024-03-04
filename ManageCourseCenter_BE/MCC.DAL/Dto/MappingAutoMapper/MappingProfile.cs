@@ -35,7 +35,7 @@ public class MappingProfile : Profile
     {
         CreateMap<FeedbackCreateDto, Feedback>();
     }
-   
+
     private void AcademicTranscriptMappingProfile()
     {
         CreateMap<AcademicTranscriptCreateDto, AcademicTranscript>();

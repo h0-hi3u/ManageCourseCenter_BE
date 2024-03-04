@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -41,6 +42,13 @@ namespace MCC.API.Controllers
         public async Task<IActionResult> GetChildrenClassByClassName(string className)
         {
             var result = await _childrenClassService.GetChildrenClassByClassNameAsync(className);
+            return Ok(result);
+        }
+
+        [HttpPost("create-children-class")]
+        public async Task<IActionResult> CreateChildrenClassAsync(ChildrenClassCreateDto childrenClassCreateDto)
+        {
+            var result = await _childrenClassService.CreateChildClassAsync(childrenClassCreateDto);
             return Ok(result);
         }
     }

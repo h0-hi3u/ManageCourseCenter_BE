@@ -2,6 +2,7 @@
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.ChildDto;
+using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Dto.ClassDto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
@@ -27,6 +28,7 @@ public class MappingProfile : Profile
         EquipmentActivityMappingProfile();
         EquipmentReportMappingProfile();
         AcademicTranscriptMappingProfile();
+        ChildrenClassMappingProfile();
     }
     private void AcademicTranscriptMappingProfile()
     {
@@ -73,5 +75,9 @@ public class MappingProfile : Profile
     private void CourseMappingProfile()
     {
         CreateMap<CourseCreateDto, Course>();
+    }
+    private void ChildrenClassMappingProfile()
+    {
+        CreateMap<ChildrenClassCreateDto, ChildrenClass>();
     }
 }

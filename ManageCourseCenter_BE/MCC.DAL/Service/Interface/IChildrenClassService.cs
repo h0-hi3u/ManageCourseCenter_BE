@@ -1,5 +1,6 @@
 ﻿using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ChildrenClassDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,5 @@ public interface IChildrenClassService
     Task<AppActionResult> GetChildrensClassByChildrenNameAsync(string childrenName);
     Task<AppActionResult> GetChildrenClassByClassIDAsync(int classId);
     Task<AppActionResult> GetChildrenClassByClassNameAsync(string className);
-    //Task<AppActionResult> CreateChildClassAsync(int classId, int childId);
+    Task<AppActionResult> CreateChildClassAsync(ChildrenClassCreateDto childrenClassCreateDto);
 }

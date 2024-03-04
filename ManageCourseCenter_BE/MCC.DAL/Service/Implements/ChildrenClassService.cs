@@ -1,5 +1,7 @@
-﻿using MCC.DAL.Common;
+﻿using AutoMapper;
+using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Repository.Interfacep;
 using MCC.DAL.Service.Interface;
@@ -14,47 +16,76 @@ namespace MCC.DAL.Service.Implements
 {
     public class ChildrenClassService : IChildrenClassService
     {
-        private IChildrendClassRepository _childrendClassRepo;
         private IChildRepository _childRepo;
         private IClassReposotory _classRepo;
+        private IChildrenClassRepository _childrenClassRepo;
+        private IMapper _mapper;
 
-        public ChildrenClassService(IChildrendClassRepository childrendClassRepo, IClassReposotory classRepo, IChildRepository childRepository)
+        public ChildrenClassService(IClassReposotory classRepo, IChildRepository childRepository, IChildrenClassRepository childrenClassRepository, IMapper mapper)
         {
-            _childrendClassRepo = childrendClassRepo;
             _classRepo = classRepo;
             _childRepo = childRepository;
+            _childrenClassRepo = childrenClassRepository;
+            _mapper = mapper;
         }
 
-        //public async Task<AppActionResult> CreateChildClassAsync(int classId, int childId)
-        //{
-        //    var actionResult = new AppActionResult();
+        public async Task<AppActionResult> CreateChildClassAsync(ChildrenClassCreateDto childrenClassCreateDto)
+        {
+            var actionResult = new AppActionResult();
+            // check class existing
+            var classExisting = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == childrenClassCreateDto.ClassId);
+            if (classExisting == null)
+            {
+                return actionResult.BuildError("Not found class");
+            }
+            var listClassTime = classExisting.ClassTimes.ToList();
 
-        //    var classExisting = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == classId);
-        //    if (classExisting == null)
-        //    {
-        //        return actionResult.BuildError("Not found class");
-        //    }
+            // check child existing
+            var child = await _childRepo.Entities().SingleOrDefaultAsync(c => c.Id == childrenClassCreateDto.ChildrenId);
+            if (child == null)
+            {
+                return actionResult.BuildError("Not found children");
+            }
 
-        //    var child = await _childRepo.Entities().Include(c => c.ChildrenClasses).SingleOrDefaultAsync(c => c.Id == childId);
-        //    if (child == null) 
-        //    {
-        //        return actionResult.BuildError("Not found children");
-        //    }
-
-        //    var childrenClasses = child.ChildrenClasses;
-        //    var listClass = new List<Class>();
-        //    foreach (var childClass in childrenClasses)
-        //    {
-        //        var classById = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == childClass.Id);
-        //        listClass.Add(classById);
-        //    }
-
-        //    bool isValidClassTime = true;
-        //    foreach (var classJoined in listClass)
-        //    {
-        //        if(classJoined.ClassTimes)
-        //    }
-        //}
+            // get list children class by children id, include Class
+            var listClassJoined = await _childrenClassRepo.Entities().Include(c => c.Class).Include(c => c.Class.ClassTimes).Where(c => c.ChildrenId == childrenClassCreateDto.ChildrenId).ToListAsync();
+            bool isValidClassTime = true;
+            // loop all children class joined
+            foreach (var c in listClassJoined)
+            {
+                // loop each classTime of class joined
+                foreach (var lt in c.Class.ClassTimes)
+                {
+                    // loop all classTime of class children want to join
+                    foreach (var lct in listClassTime)
+                    {
+                        // compare classTime of class joined and want to join
+                        if (lct.DayInWeek == lt.DayInWeek && lct.StarTime == lt.StarTime)
+                        {
+                            // if classTime is duplicate isValidClassTime will be false ann break loop;
+                            isValidClassTime = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!isValidClassTime)
+            {
+                return actionResult.BuildError("Not valid class time!");
+            }
+            //add children class
+            try
+            {
+                var childrenClass = _mapper.Map<ChildrenClass>(childrenClassCreateDto);
+                await _childrenClassRepo.AddAsync(childrenClass);
+                await _childrenClassRepo.SaveChangesAsync();
+                return actionResult.BuildResult("Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
+        }
 
         public async Task<AppActionResult> GetChildrenClassByChildrenIDAsync(int childrenId)
         {
@@ -67,7 +98,7 @@ namespace MCC.DAL.Service.Implements
 
             try
             {
-                var childrenClass = await _childrendClassRepo.GetChildrenClassByChildrenIDAsync(childrenId);
+                var childrenClass = await _childrenClassRepo.GetChildrenClassByChildrenIDAsync(childrenId);
                 if (childrenClass == null || !childrenClass.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given children ID.");
@@ -91,7 +122,7 @@ namespace MCC.DAL.Service.Implements
 
             try
             {
-                var childrenClass = await _childrendClassRepo.GetChildrenClassByClassIDAsync(classId);
+                var childrenClass = await _childrenClassRepo.GetChildrenClassByClassIDAsync(classId);
                 if (!childrenClass.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given class ID.");
@@ -115,7 +146,7 @@ namespace MCC.DAL.Service.Implements
 
             try
             {
-                var childrenClass = await _childrendClassRepo.GetChildrenClassByClassNameAsync(className);
+                var childrenClass = await _childrenClassRepo.GetChildrenClassByClassNameAsync(className);
                 if (!childrenClass.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given class name.");
@@ -139,7 +170,7 @@ namespace MCC.DAL.Service.Implements
 
             try
             {
-                var childrenClass = await _childrendClassRepo.GetChildrensClassByChildrenNameAsync(childrenName);
+                var childrenClass = await _childrenClassRepo.GetChildrensClassByChildrenNameAsync(childrenName);
                 if (childrenClass == null || !childrenClass.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given children name.");

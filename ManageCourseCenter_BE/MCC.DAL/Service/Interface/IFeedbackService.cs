@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.FeedbackDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> GetFeedbackByClassNameAsync(string className);
         Task<AppActionResult> GetFeedbackByCourseIDAsync(int courseId);
         Task<AppActionResult> GetFeedbackByCourseNameAsync(string courseName);
+        Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto);
     }
 }

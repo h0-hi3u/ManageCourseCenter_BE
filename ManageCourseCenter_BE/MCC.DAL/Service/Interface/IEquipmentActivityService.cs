@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.EquipmentDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,4 +16,5 @@ public interface IEquipmentActivityService
     Task<AppActionResult> GetEquipmentByRoomId(int roomId);
     Task<AppActionResult> GetEquipmentByRoomNo(int roomNo);
     Task<AppActionResult> GetEquipmentByTimeRange(DateTime from, DateTime to);
+    Task<AppActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto);
 }

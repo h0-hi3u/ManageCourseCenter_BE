@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +95,23 @@ namespace MCC.DAL.Service.Implements
             else
             {
                 return actionResult.BuildError("Not found");
+            }
+        }
+
+        public async Task<AppActionResult> CreateEquipmentReportAsync(EquipmentReportCreateDto equipmentReportCreateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var equipReport = _mapper.Map<EquipmentReport>(equipmentReportCreateDto);
+                await _equiprpRepo.AddAsync(equipReport);
+                await _equiprpRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
             }
         }
     }

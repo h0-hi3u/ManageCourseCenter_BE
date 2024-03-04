@@ -23,8 +23,17 @@ public class MappingProfile : Profile
         CourseMappingProfile();
         EquipmentMappingProfile();
         ClassMappingProfile();
+        EquipmentActivityMappingProfile();
+        EquipmentReportMappingProfile();
     }
-
+    private void EquipmentReportMappingProfile()
+    {
+        CreateMap<EquipmentReportCreateDto, EquipmentReport>();
+    }
+    private void EquipmentActivityMappingProfile()
+    {
+        CreateMap<EquipmentActivityCreateDto, EquipmenntActivity>();
+    }
     private void ClassMappingProfile()
     {
         CreateMap<ClassCreateDto, Class>();

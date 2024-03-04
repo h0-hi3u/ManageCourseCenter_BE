@@ -1,4 +1,8 @@
-﻿using MCC.DAL.Common;
+﻿using AutoMapper;
+using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.AcademicTranscriptDto;
+using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
@@ -13,10 +17,29 @@ namespace MCC.DAL.Service.Implements
     public class AcademicTranscriptService : IAcademicTranscriptService
     {
         private readonly IAcademicTranscriptRepository _academicTranscriptRepo;
+        private IMapper _mapper;
 
-        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo)
+        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper)
         {
             _academicTranscriptRepo = academicTranscriptRepo;
+            _mapper = mapper;
+        }
+
+        public async Task<AppActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var academicTranscript = _mapper.Map<AcademicTranscript>(academicTranscriptCreateDto);
+                await _academicTranscriptRepo.AddAsync(academicTranscript);
+                await _academicTranscriptRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
         }
 
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)

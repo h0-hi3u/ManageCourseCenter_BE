@@ -52,13 +52,14 @@ namespace MCC.API.Controllers
             var result = await _academicTranscriptService.getTranscriptByChildrenNameAndCourseNameAsync(childrenName, courseName);
             return Ok(result);
         }
-        
+
         [HttpPut("update-academicTranscript-by-Id")]
-        public async Task<IActionResult> UpdateAcademicTranscript(int transcriptId, AcademicUpdateDto academicUpdateDto)
+        public async Task<IActionResult> UpdateAcademicTranscript(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto)
         {
             var result = await _academicTranscriptService.UpdateAcademicTranscriptAsync(transcriptId, academicUpdateDto);
             return Ok(result);
-            
+        }
+
         [HttpPost("create-academic-transcript")]
         public async Task<IActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto)
         {

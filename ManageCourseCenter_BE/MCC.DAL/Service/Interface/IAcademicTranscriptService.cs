@@ -1,6 +1,5 @@
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
-using MCC.DAL.Dto.AcademicDto;
 using MCC.DAL.Dto.AcademicTranscriptDto;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId);
         Task<AppActionResult> getTranscriptByChildrenNameAsync(string childrenName);
         Task<AppActionResult> getTranscriptByChildrenNameAndCourseNameAsync(string childrenName, string courseName);
-        Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicUpdateDto academicUpdateDto);
+        Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto);
         Task<AppActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto);
     }
 }

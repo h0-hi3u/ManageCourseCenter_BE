@@ -2,6 +2,8 @@
 using MCC.DAL.Common;
 using MCC.DAL.DB.Context;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.AcademicTranscriptDto;
+using MCC.DAL.Dto.FeedbackDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +18,29 @@ namespace MCC.DAL.Service.Implements
     public class FeedbackService : IFeedbackService
     {
         private readonly IFeedbackRepository _feedbackRepo;
+        private IMapper _mapper;
 
-        public FeedbackService(IFeedbackRepository feedbackRepo)
+        public FeedbackService(IFeedbackRepository feedbackRepo, IMapper mapper)
         {
             _feedbackRepo = feedbackRepo;
+            _mapper = mapper;
+        }
+
+        public async Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var feedBack = _mapper.Map<Feedback>(feedbackCreateDto);
+                await _feedbackRepo.AddAsync(feedBack);
+                await _feedbackRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
         }
 
         public async Task<AppActionResult> GetFeedbackByChildrenIDAsync(int childrenId)

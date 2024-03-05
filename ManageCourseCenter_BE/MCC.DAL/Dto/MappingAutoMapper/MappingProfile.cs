@@ -6,6 +6,7 @@ using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Dto.ClassDto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Dto.FeedbackDto;
 using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Dto.RoomDto;
@@ -29,6 +30,11 @@ public class MappingProfile : Profile
         EquipmentReportMappingProfile();
         AcademicTranscriptMappingProfile();
         ChildrenClassMappingProfile();
+        FeedbackMappingProfile();
+    }
+    private void FeedbackMappingProfile()
+    {
+        CreateMap<FeedbackCreateDto, Feedback>();
     }
     private void AcademicTranscriptMappingProfile()
     {

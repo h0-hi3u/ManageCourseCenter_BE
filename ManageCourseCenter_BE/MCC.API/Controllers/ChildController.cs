@@ -40,4 +40,10 @@ public class ChildController : ControllerBase
         var result = await _childService.CreateChildAsync(childCreatDto);
         return Ok(result);
     }
+    [HttpPut("update-child")]
+    public async Task<IActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto)
+    {
+        var result = await _childService.UpdateChildAsync(childUpdateDto);
+        return Ok(result);
+    }
 }

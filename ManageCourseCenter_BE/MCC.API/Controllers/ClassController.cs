@@ -55,4 +55,10 @@ public class ClassController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("update-class-by-Id")]
+    public async Task<IActionResult> UpdateClass(int classId, ClassUpdateDto classUpdateDto)
+    {
+        var result = await _classService.UpdateClassAsync(classId, classUpdateDto);
+        return Ok(result);
+    }
 }

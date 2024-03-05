@@ -103,4 +103,31 @@ public class ClassService : IClassService
         var data = await _classRepo.GetCourseByNameAsync(name);
         return actionResult.BuildResult(data);
     }
+
+    public async Task<AppActionResult> UpdateClassAsync(int classId, ClassUpdateDto classUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var _class = await _classRepo.GetByIdAsync(classId);
+        if (_class == null)
+        {
+            return actionResult.BuildError("Class not found.");
+        }
+
+        if (!string.IsNullOrEmpty(classUpdateDto.Name) &&
+            _class.Name != classUpdateDto.Name &&
+            !(await _classRepo.IsNameUniqueAsync(classUpdateDto.Name, classId)))
+        {
+            return actionResult.BuildError("Class name already in use.");
+        }
+
+        _mapper.Map(classUpdateDto, _class);
+
+        var success = await _classRepo.UpdateClassAsync(_class);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to update class.");
+        }
+        return actionResult.BuildResult("Class updated successfully.");
+    }
 }

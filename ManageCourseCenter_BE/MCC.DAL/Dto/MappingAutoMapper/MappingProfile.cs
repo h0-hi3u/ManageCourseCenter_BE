@@ -53,6 +53,7 @@ public class MappingProfile : Profile
     private void ClassMappingProfile()
     {
         CreateMap<ClassCreateDto, Class>();
+        CreateMap<ClassUpdateDto, Class>();
     }
     private void EquipmentMappingProfile()
     {

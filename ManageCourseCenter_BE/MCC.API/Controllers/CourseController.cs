@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.TeacherDto;
 using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
@@ -40,6 +41,13 @@ public class CourseController : ControllerBase
     public async Task<IActionResult> CreateCourseAsync(CourseCreateDto courseCreateDto)
     {
         var result = await _courseService.CreateCourseAsync(courseCreateDto);
+        return Ok(result);
+    }
+
+    [HttpPut("update-course-by-Id")]
+    public async Task<IActionResult> UpdateCourse(int courseId, CourseUpdateDto courseUpdateDto)
+    {
+        var result = await _courseService.UpdateCourseAsync(courseId, courseUpdateDto);
         return Ok(result);
     }
 }

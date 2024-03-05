@@ -33,4 +33,23 @@ public class ClassRepositoy : RepositoryGeneric<Class>, IClassReposotory
             return false;
         }
     }
+
+    public async Task<bool> UpdateClassAsync(Class _class)
+    {
+        try
+        {
+            _context.Classes.Update(_class);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> IsNameUniqueAsync(string name, int classId)
+    {
+        return !await _dbSet.AnyAsync(e => e.Name == name && e.Id != classId);
+    }
 }

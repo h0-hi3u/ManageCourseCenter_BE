@@ -11,4 +11,5 @@ public interface IClassService
     public Task<AppActionResult> GetClassByIdAsync(int id);
     public Task<AppActionResult> GetClassByNameAsync(string name);
     Task<AppActionResult> CreateClassAsync(ClassCreateDto classCreateDto);
+    public Task<AppActionResult> UpdateClassAsync(int classId, ClassUpdateDto classUpdateDto);
 }

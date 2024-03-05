@@ -80,4 +80,44 @@ public class ClassTimeService : IClassTimeService
         var data = await _classTimeRepo.GetClassTimeByClassNameAsync(className);
         return actionResult.BuildResult(data);
     }
+
+    public async Task<AppActionResult> UpdateClassTimeAsync(ClassTimeUpdateDto classTimeUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var existingClass = await _classRepo.Entities().Include(c => c.ClassTimes).SingleOrDefaultAsync(c => c.Id == classTimeUpdateDto.ClassId);
+        if (existingClass == null)
+        {
+            return actionResult.BuildError("Not found class");
+        }
+
+        bool isValidClassTime = true;
+        foreach (var lt in existingClass.ClassTimes)
+        {
+            if (lt.Id != classTimeUpdateDto.Id && lt.DayInWeek == classTimeUpdateDto.DayInWeek && lt.StarTime == classTimeUpdateDto.StarTime)
+            {
+                isValidClassTime = false;
+                break;
+            }
+        }
+        if (!isValidClassTime)
+        {
+            return actionResult.BuildError("Invalid time");
+        }
+        try
+        {
+            var classTime = await _classTimeRepo.GetByIdAsync(classTimeUpdateDto.Id);
+            classTime.ClassId = classTimeUpdateDto.ClassId;
+            classTime.DayInWeek = classTimeUpdateDto.DayInWeek;
+            classTime.StarTime = classTimeUpdateDto.StarTime;
+            classTime.EndTime = classTimeUpdateDto.EndTime;
+            _classTimeRepo.Update(classTime);
+            await _classTimeRepo.SaveChangesAsync();
+            return actionResult.BuildResult("Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Update fail");
+        }
+    }
 }

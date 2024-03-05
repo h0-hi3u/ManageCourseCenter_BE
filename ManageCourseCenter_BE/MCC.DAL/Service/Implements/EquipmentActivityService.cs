@@ -25,7 +25,7 @@ public class EquipmentActivityService : IEquipmentActivityService
 
         try
         {
-            var equipActivity = _mapper.Map<EquipmenntActivity>(equipActivityCreateDto);
+            var equipActivity = _mapper.Map<EquipmentActivity>(equipActivityCreateDto);
             await _equipmentActivityRepo.AddAsync(equipActivity);
             await _equipmentActivityRepo.SaveChangesAsync();
             return actionResult.SetInfo(true, "Add success");

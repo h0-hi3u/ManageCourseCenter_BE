@@ -12,6 +12,7 @@ public class EquipmentActivityCreateDto
     public int EquipmentId { get; set; }
     public int RoomId { get; set; }
     public DateTime OperateTime { get; set; }
+    public DateTime? FinishedTime { get; set; }
     public string Description { get; set; }
     public int Action { get; set; }
 }

@@ -83,4 +83,32 @@ public class RoomService : IRoomService
            return actionResult.BuildError("Not found");
         }
     }
+
+    public async Task<AppActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var room = await _roomRepo.GetByIdAsync(roomId);
+        if (room == null)
+        {
+            return actionResult.BuildError("Room not found.");
+        }
+
+        if (room.RoomNo != roomUpdateDto.RoomNo && !(await _roomRepo.IsRoomNoUniqueAsync(roomUpdateDto.RoomNo, roomId)))
+        {
+            return actionResult.BuildError("Duplicate room no");
+        }
+
+        try
+        {
+            _mapper.Map(roomUpdateDto, room);
+
+            await _roomRepo.UpdateRoomAsync(room);
+            return actionResult.BuildResult("Update success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"Update fail: {ex.Message}");
+        }
+    }
 }

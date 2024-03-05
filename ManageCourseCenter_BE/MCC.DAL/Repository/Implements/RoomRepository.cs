@@ -33,4 +33,23 @@ public class RoomRepository : RepositoryGeneric<Room>, IRoomRepository
     {
         return await _dbSet.SingleOrDefaultAsync(r => r.RoomNo == no);
     }
+
+    public async Task<bool> IsRoomNoUniqueAsync(int roomNo, int? roomId = null)
+    {
+        return !await _dbSet.AnyAsync(r => r.RoomNo == roomNo && r.Id != roomId);
+    }
+
+    public async Task<bool> UpdateRoomAsync(Room room)
+    {
+        try
+        {
+            _dbSet.Update(room);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

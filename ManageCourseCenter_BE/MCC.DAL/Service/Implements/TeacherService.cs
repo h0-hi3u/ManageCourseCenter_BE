@@ -84,4 +84,40 @@ public class TeacherService : ITeacherService
             return actionResult.BuildResult(data);
         }
     }
+
+    public async Task<AppActionResult> UpdateTeacherAsync(int teacherId, TeacherUpdateDto teacherUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var teacher = await _teacherRepo.GetByIdAsync(teacherId);
+        if (teacher == null)
+        {
+            return actionResult.BuildError("Teacher not found.");
+        }
+
+        if (!string.IsNullOrEmpty(teacherUpdateDto.Email) &&
+            teacher.Email != teacherUpdateDto.Email &&
+            !(await _teacherRepo.IsEmailUniqueAsync(teacherUpdateDto.Email, teacherId)))
+        {
+            return actionResult.BuildError("Email already in use by another teacher.");
+        }
+
+        if (!string.IsNullOrEmpty(teacherUpdateDto.Phone) &&
+            teacher.Phone != teacherUpdateDto.Phone &&
+            !(await _teacherRepo.IsPhoneUniqueAsync(teacherUpdateDto.Phone, teacherId)))
+        {
+            return actionResult.BuildError("Phone already in use by another teacher.");
+        }
+
+        _mapper.Map(teacherUpdateDto, teacher);
+
+        bool success = await _teacherRepo.UpdateTeacherAsync(teacher);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to update teacher information.");
+        }
+
+        return actionResult.BuildResult("Teacher updated successfully.");
+    }
 }
+

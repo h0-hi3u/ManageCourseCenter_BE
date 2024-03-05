@@ -49,4 +49,18 @@ public class AcademicTranscriptRepository : RepositoryGeneric<AcademicTranscript
             .Where(t => t.Teacher.FullName == teacherName)
             .ToListAsync();
     }
+
+    public async Task<bool> UpdateAcademicTranscriptAsync(AcademicTranscript academicTranscript)
+    {
+        try
+        {
+            _context.AcademicTranscripts.Update(academicTranscript);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

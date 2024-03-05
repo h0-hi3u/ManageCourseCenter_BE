@@ -45,4 +45,10 @@ public class TeacherController : ControllerBase
         var result = await _teacherService.GetTeacherByEmailAndPasswordAsync(email, password);
         return Ok(result);
     }
+    [HttpPut("update-teacher-by-Id")]
+    public async Task<IActionResult> UpdateTeacher(int teacherId, TeacherUpdateDto teacherUpdateDto)
+    {
+        var result = await _teacherService.UpdateTeacherAsync(teacherId, teacherUpdateDto);
+        return Ok(result.Detail);
+    }
 }

@@ -2,6 +2,7 @@
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -67,5 +68,32 @@ public class CourseService : ICourseService
         {
             return actionResult.BuildError("Add fail");
         }
+    }
+
+    public async Task<AppActionResult> UpdateCourseAsync(int courseId, CourseUpdateDto courseUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var course = await _courseRepo.GetByIdAsync(courseId);
+        if (course == null)
+        {
+            return actionResult.BuildError("Course not found.");
+        }
+
+        if (!string.IsNullOrEmpty(courseUpdateDto.Name) &&
+            course.Name != courseUpdateDto.Name &&
+            !(await _courseRepo.IsNameUniqueAsync(courseUpdateDto.Name, courseId)))
+        {
+            return actionResult.BuildError("Course name already in use.");
+        }
+
+        _mapper.Map(courseUpdateDto, course);
+
+        var success = await _courseRepo.UpdateCourseAsync(course);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to update course.");
+        }
+        return actionResult.BuildResult("Course updated successfully.");
     }
 }

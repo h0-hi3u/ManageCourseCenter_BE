@@ -15,4 +15,5 @@ public interface ICourseService
     Task<AppActionResult> GetCourseByNameAsync(string name);
     Task<AppActionResult> GetCourseByIdAsync(int id);
     Task<AppActionResult> CreateCourseAsync(CourseCreateDto courseCreateDto);
+    Task<AppActionResult> UpdateCourseAsync(int courseId, CourseUpdateDto courseUpdateDto);
 }

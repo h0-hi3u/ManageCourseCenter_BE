@@ -86,6 +86,7 @@ public class MappingProfile : Profile
     private void CourseMappingProfile()
     {
         CreateMap<CourseCreateDto, Course>();
+        CreateMap<CourseUpdateDto, Course>();
     }
     private void ChildrenClassMappingProfile()
     {

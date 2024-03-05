@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MCC.DAL.Dto.AcademicDto
+namespace MCC.DAL.Dto.AcademicTranscriptDto
 {
-    public class AcademicUpdateDto
+    public class AcademicTranscriptUpdateDto
     {
         public decimal Quiz1 { get; set; }
         public decimal Quiz2 { get; set; }

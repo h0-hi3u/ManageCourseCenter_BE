@@ -1,6 +1,5 @@
 using AutoMapper;
 using MCC.DAL.Common;
-using MCC.DAL.Dto.AcademicDto;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.CourceDto;
@@ -42,6 +41,7 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError("Add fail");
             }
+        }
 
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)
         {
@@ -163,7 +163,7 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
-        public async Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicUpdateDto academicUpdateDto)
+        public async Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto)
         {
             var actionResult = new AppActionResult();
 

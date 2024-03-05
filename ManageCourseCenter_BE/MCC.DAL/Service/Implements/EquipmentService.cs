@@ -87,7 +87,33 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError("Not found");
             }
+        }
 
+        public async Task<AppActionResult> UpdateEquipmentAsync(int equipmentId, EquipmentUpdateDto equipmentUpdateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            var equipment = await _equipRepo.GetByIdAsync(equipmentId);
+            if (equipment == null)
+            {
+                return actionResult.BuildError("Equipment not found.");
+            }
+
+            if (!string.IsNullOrEmpty(equipmentUpdateDto.Name) &&
+                equipment.Name != equipmentUpdateDto.Name &&
+                !(await _equipRepo.IsNameUniqueAsync(equipmentUpdateDto.Name, equipmentId)))
+            {
+                return actionResult.BuildError("Equipment name already in use.");
+            }
+
+            _mapper.Map(equipmentUpdateDto, equipment);
+
+            var success = await _equipRepo.UpdateEquipmentAsync(equipment);
+            if (!success)
+            {
+                return actionResult.BuildError("Failed to update equipment.");
+            }
+            return actionResult.BuildResult("Equipment updated successfully.");
         }
     }
 }

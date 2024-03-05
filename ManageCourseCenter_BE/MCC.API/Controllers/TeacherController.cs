@@ -49,6 +49,6 @@ public class TeacherController : ControllerBase
     public async Task<IActionResult> UpdateTeacher(int teacherId, TeacherUpdateDto teacherUpdateDto)
     {
         var result = await _teacherService.UpdateTeacherAsync(teacherId, teacherUpdateDto);
-        return Ok(result.Detail);
+        return Ok(result);
     }
 }

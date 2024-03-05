@@ -42,6 +42,7 @@ public class MappingProfile : Profile
     private void TeacherMappingProfile()
     {
         CreateMap<TeacherCreateDto, Teacher>();
+        CreateMap<TeacherUpdateDto, Teacher>();
     }
     private void ParentMappingProfile()
     {

@@ -47,7 +47,7 @@ public class MappingProfile : Profile
     }
     private void EquipmentActivityMappingProfile()
     {
-        CreateMap<EquipmentActivityCreateDto, EquipmenntActivity>();
+        CreateMap<EquipmentActivityCreateDto, EquipmentActivity>();
     }
     
     private void ClassMappingProfile()

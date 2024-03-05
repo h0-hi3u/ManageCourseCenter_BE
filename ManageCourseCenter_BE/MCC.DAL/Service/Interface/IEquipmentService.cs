@@ -10,5 +10,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> GetEquipmentByNameAsync(string name);
         Task<AppActionResult> GetEquipmentByTypeAsync(int type);
         Task<AppActionResult> CreateEquipmentAsync(EquipmentCreateDto equipmentCreateDto);
+        Task<AppActionResult> UpdateEquipmentAsync(int equipmentId, EquipmentUpdateDto equipmentUpdateDto);
     }
 }

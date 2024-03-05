@@ -51,4 +51,11 @@ public class EquipmentController : ControllerBase
         var result = await _equipService.CreateEquipmentAsync(equipmentCreateDto);
         return Ok(result);
     }
+
+    [HttpPut("update-equipment-by-Id")]
+    public async Task<IActionResult> UpdateEquipment(int equipmentId, EquipmentUpdateDto equipmentUpdateDto)
+    {
+        var result = await _equipService.UpdateEquipmentAsync(equipmentId, equipmentUpdateDto);
+        return Ok(result);
+    }
 }

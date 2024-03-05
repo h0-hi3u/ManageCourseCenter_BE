@@ -57,6 +57,7 @@ public class MappingProfile : Profile
     private void EquipmentMappingProfile()
     {
         CreateMap<EquipmentCreateDto, Equipment>();
+        CreateMap<EquipmentUpdateDto, Equipment>();
     }
 
     private void ManagerMappingProfile()

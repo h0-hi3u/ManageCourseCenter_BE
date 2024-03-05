@@ -23,4 +23,23 @@ public class EquipmentRepository : RepositoryGeneric<Equipment>, IEquipmentRepos
             return false;
         }
     }
+
+    public async Task<bool> UpdateEquipmentAsync(Equipment equipment)
+    {
+        try
+        {
+            _context.Equipment.Update(equipment);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> IsNameUniqueAsync(string name, int equipmentId)
+    {
+        return !await _dbSet.AnyAsync(e => e.Name == name && e.Id != equipmentId);
+    }
 }

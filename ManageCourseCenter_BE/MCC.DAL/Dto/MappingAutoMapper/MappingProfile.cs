@@ -54,6 +54,7 @@ public class MappingProfile : Profile
     private void RoomMappingProfile()
     {
         CreateMap<RoomCreateDto, Room>();
+        CreateMap<RoomUpdateDto, Room>();
     }
     private void CourseMappingProfile()
     {

@@ -88,6 +88,7 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 #endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

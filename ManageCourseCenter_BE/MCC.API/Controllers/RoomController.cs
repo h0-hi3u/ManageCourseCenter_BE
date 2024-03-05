@@ -45,4 +45,10 @@ public class RoomController : ControllerBase
         var result = await _roomService.CreateRoomAsync(roomCreateDto);
         return Ok(result);
     }
+    [HttpPut("update-room-by-id")]
+    public async Task<IActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto)
+    {
+        var result = await _roomService.UpdateRoomAsync(roomId, roomUpdateDto);
+        return Ok(result);
+    }
 }

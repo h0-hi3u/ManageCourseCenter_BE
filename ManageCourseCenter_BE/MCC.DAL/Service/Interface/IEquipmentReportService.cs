@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MCC.DAL.Common;
+using MCC.DAL.Dto.EquipmentDto;
 
 namespace MCC.DAL.Service.Interface
 {
@@ -15,5 +16,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> GetEquipmentReportByRoomIdAsync(int roomid);
         Task<AppActionResult> GetEquipmentReportByRoomNoAsync(int roomno);
         Task<AppActionResult> GetEquipmentReportByEquipmentNameAsync(string equipmentname);
+        Task<AppActionResult> CreateEquipmentReportAsync(EquipmentReportCreateDto equipmentReportCreateDto);
     }
 }

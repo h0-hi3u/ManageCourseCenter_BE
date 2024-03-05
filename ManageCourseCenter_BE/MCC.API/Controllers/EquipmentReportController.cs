@@ -1,4 +1,6 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
 
@@ -48,10 +50,18 @@ public class EquipmentReportController : ControllerBase
         var result = await _equiprpService.GetEquipmentReportByRoomNoAsync(roomno);
         return Ok(result);
     }
+
     [HttpGet("get-equipm-report-by-equip-name")]
     public async Task<IActionResult> GetEquipmentReportByEquipmentNameAsync(string equipmentname)
     {
         var result = await _equiprpService.GetEquipmentReportByEquipmentNameAsync(equipmentname);
+        return Ok(result);
+    }
+
+    [HttpPost("create-equipment-report")]
+    public async Task<IActionResult> CreateEquipmentReportAsync(EquipmentReportCreateDto equipReportCreateDto)
+    {
+        var result = await _equiprpService.CreateEquipmentReportAsync(equipReportCreateDto);
         return Ok(result);
     }
 }

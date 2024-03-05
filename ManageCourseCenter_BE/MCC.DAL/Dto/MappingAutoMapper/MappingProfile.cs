@@ -1,10 +1,12 @@
-﻿using AutoMapper;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicDto;
+using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.ChildDto;
+using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Dto.ClassDto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Dto.FeedbackDto;
 using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Dto.RoomDto;
@@ -25,12 +27,34 @@ public class MappingProfile : Profile
         CourseMappingProfile();
         EquipmentMappingProfile();
         ClassMappingProfile();
+        EquipmentActivityMappingProfile();
+        EquipmentReportMappingProfile();
+        AcademicTranscriptMappingProfile();
+        ChildrenClassMappingProfile();
+        FeedbackMappingProfile();
+    }
+    private void FeedbackMappingProfile()
+    {
+        CreateMap<FeedbackCreateDto, Feedback>();
+    }
+    private void AcademicTranscriptMappingProfile()
+    {
+        CreateMap<AcademicTranscriptCreateDto, AcademicTranscript>();
+    }
+    private void EquipmentReportMappingProfile()
+    {
+        CreateMap<EquipmentReportCreateDto, EquipmentReport>();
+    }
+    private void EquipmentActivityMappingProfile()
+    {
+        CreateMap<EquipmentActivityCreateDto, EquipmenntActivity>();
     }
 
     private void AcademicTranscriptMappingProfile()
     {
         CreateMap<AcademicUpdateDto, AcademicTranscript>();
     }
+    
     private void ClassMappingProfile()
     {
         CreateMap<ClassCreateDto, Class>();
@@ -66,5 +90,9 @@ public class MappingProfile : Profile
     private void CourseMappingProfile()
     {
         CreateMap<CourseCreateDto, Course>();
+    }
+    private void ChildrenClassMappingProfile()
+    {
+        CreateMap<ChildrenClassCreateDto, ChildrenClass>();
     }
 }

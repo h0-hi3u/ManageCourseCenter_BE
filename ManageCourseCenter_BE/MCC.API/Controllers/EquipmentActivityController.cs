@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,6 +51,13 @@ public class EquipmentActivityController : ControllerBase
     public async Task<IActionResult> GetByTimeRange(DateTime from, DateTime to)
     {
         var result = await _equipmentActivityService.GetEquipmentByTimeRange(from, to);
+        return Ok(result);
+    }
+
+    [HttpPost("create-equipment-activity")]
+    public async Task<IActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto)
+    {
+        var result = await _equipmentActivityService.CreateEquipmentActivityAsync(equipActivityCreateDto);
         return Ok(result);
     }
 }

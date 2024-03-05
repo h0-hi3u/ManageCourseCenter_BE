@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MCC.DAL.Service.Interface;
 using System.Threading.Tasks;
-using MCC.DAL.Dto.AcademicDto;
+using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Dto.AcademicTranscriptDto;
 
 namespace MCC.API.Controllers
 {
@@ -50,11 +52,17 @@ namespace MCC.API.Controllers
             var result = await _academicTranscriptService.getTranscriptByChildrenNameAndCourseNameAsync(childrenName, courseName);
             return Ok(result);
         }
-
+        
         [HttpPut("update-academicTranscript-by-Id")]
         public async Task<IActionResult> UpdateAcademicTranscript(int transcriptId, AcademicUpdateDto academicUpdateDto)
         {
             var result = await _academicTranscriptService.UpdateAcademicTranscriptAsync(transcriptId, academicUpdateDto);
+            return Ok(result);
+            
+        [HttpPost("create-academic-transcript")]
+        public async Task<IActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto)
+        {
+            var result = await _academicTranscriptService.CreateAcademicTranscriptAsync(academicTranscriptCreateDto);
             return Ok(result);
         }
     }

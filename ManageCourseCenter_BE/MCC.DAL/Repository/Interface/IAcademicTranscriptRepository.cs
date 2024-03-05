@@ -9,4 +9,5 @@ public interface IAcademicTranscriptRepository : IRepositoryGeneric<AcademicTran
     Task<IEnumerable<AcademicTranscript>> getTranscriptByChildrenIDAsync(int childrenId);
     Task<IEnumerable<AcademicTranscript>> getTranscriptByChildrenNameAsync(string childrenName);
     Task<IEnumerable<AcademicTranscript>> getTranscriptByChildrenNameAndCourseNameAsync(string childrenName, string courseName);
+    Task<bool> UpdateAcademicTranscriptAsync(AcademicTranscript academicTranscript);
 }

@@ -45,7 +45,7 @@ public class RoomController : ControllerBase
         var result = await _roomService.CreateRoomAsync(roomCreateDto);
         return Ok(result);
     }
-    [HttpPut("update-room-by-id")]
+    [HttpPut("update-room-by-Id")]
     public async Task<IActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto)
     {
         var result = await _roomService.UpdateRoomAsync(roomId, roomUpdateDto);

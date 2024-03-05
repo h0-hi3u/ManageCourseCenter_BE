@@ -1,4 +1,6 @@
-﻿using MCC.DAL.Common;
+﻿using AutoMapper;
+using MCC.DAL.Common;
+using MCC.DAL.Dto.AcademicDto;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
@@ -13,10 +15,12 @@ namespace MCC.DAL.Service.Implements
     public class AcademicTranscriptService : IAcademicTranscriptService
     {
         private readonly IAcademicTranscriptRepository _academicTranscriptRepo;
+        private readonly IMapper _mapper;
 
-        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo)
+        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper)
         {
             _academicTranscriptRepo = academicTranscriptRepo;
+            _mapper = mapper;
         }
 
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)
@@ -137,6 +141,27 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError($"An error occurred: {ex.Message}");
             }
+        }
+
+        public async Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicUpdateDto academicUpdateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            var academicTranscript = await _academicTranscriptRepo.GetByIdAsync(transcriptId);
+            if (academicTranscript == null)
+            {
+                return actionResult.BuildError("Academic Transcript not found.");
+            }
+
+            _mapper.Map(academicUpdateDto, academicTranscript);
+
+            bool success = await _academicTranscriptRepo.UpdateAcademicTranscriptAsync(academicTranscript);
+            if (!success)
+            {
+                return actionResult.BuildError("Failed to update academic transcript.");
+            }
+
+            return actionResult.BuildResult("Academic Transcript updated successfully.");
         }
     }
 }

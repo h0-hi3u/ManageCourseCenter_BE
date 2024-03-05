@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.AcademicDto;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ClassDto;
 using MCC.DAL.Dto.CourceDto;
@@ -15,6 +16,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile() 
     {
+        AcademicTranscriptMappingProfile();
         ManagerMappingProfile();
         TeacherMappingProfile();
         ParentMappingProfile();
@@ -25,6 +27,10 @@ public class MappingProfile : Profile
         ClassMappingProfile();
     }
 
+    private void AcademicTranscriptMappingProfile()
+    {
+        CreateMap<AcademicUpdateDto, AcademicTranscript>();
+    }
     private void ClassMappingProfile()
     {
         CreateMap<ClassCreateDto, Class>();

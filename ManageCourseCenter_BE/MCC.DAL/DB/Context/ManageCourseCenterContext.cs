@@ -25,8 +25,8 @@ namespace MCC.DAL.DB.Context
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<ClassTime> ClassTimes { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<EquipmenntActivity> EquipmenntActivities { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EquipmentActivity> EquipmentActivities { get; set; }
         public virtual DbSet<EquipmentReport> EquipmentReports { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Manager> Managers { get; set; }
@@ -171,11 +171,25 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
+
                 entity.Property(e => e.ParentId).HasColumnName("parent_id");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnName("password");
 
                 entity.Property(e => e.Role).HasColumnName("role");
 
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.Parent)
                     .WithMany(p => p.Children)
@@ -280,6 +294,10 @@ namespace MCC.DAL.DB.Context
                     .HasColumnType("date")
                     .HasColumnName("end_date");
 
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
+
                 entity.Property(e => e.Level).HasColumnName("level");
 
                 entity.Property(e => e.Name)
@@ -302,45 +320,6 @@ namespace MCC.DAL.DB.Context
                 entity.Property(e => e.TotalSlot).HasColumnName("total_slot");
             });
 
-            modelBuilder.Entity<EquipmenntActivity>(entity =>
-            {
-                entity.ToTable("EquipmenntActivity");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Action).HasColumnName("action");
-
-                entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
-
-                entity.Property(e => e.ManagerId).HasColumnName("manager_id");
-
-                entity.Property(e => e.OperateTime)
-                    .HasColumnType("datetime")
-                    .HasColumnName("operate_time");
-
-                entity.Property(e => e.RoomId).HasColumnName("room_id");
-
-                entity.HasOne(d => d.Equipment)
-                    .WithMany(p => p.EquipmenntActivities)
-                    .HasForeignKey(d => d.EquipmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__equip__4BAC3F29");
-
-                entity.HasOne(d => d.Manager)
-                    .WithMany(p => p.EquipmenntActivities)
-                    .HasForeignKey(d => d.ManagerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__manag__4AB81AF0");
-
-                entity.HasOne(d => d.Room)
-                    .WithMany(p => p.EquipmenntActivities)
-                    .HasForeignKey(d => d.RoomId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipmenn__room___4CA06362");
-            });
-
             modelBuilder.Entity<Equipment>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -355,6 +334,49 @@ namespace MCC.DAL.DB.Context
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.Type).HasColumnName("type");
+            });
+
+            modelBuilder.Entity<EquipmentActivity>(entity =>
+            {
+                entity.ToTable("EquipmentActivity");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Action).HasColumnName("action");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
+
+                entity.Property(e => e.FinishedTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("finished_time");
+
+                entity.Property(e => e.ManagerId).HasColumnName("manager_id");
+
+                entity.Property(e => e.OperateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("operate_time");
+
+                entity.Property(e => e.RoomId).HasColumnName("room_id");
+
+                entity.HasOne(d => d.Equipment)
+                    .WithMany(p => p.EquipmentActivities)
+                    .HasForeignKey(d => d.EquipmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Equipment__equip__4BAC3F29");
+
+                entity.HasOne(d => d.Manager)
+                    .WithMany(p => p.EquipmentActivities)
+                    .HasForeignKey(d => d.ManagerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Equipment__manag__4AB81AF0");
+
+                entity.HasOne(d => d.Room)
+                    .WithMany(p => p.EquipmentActivities)
+                    .HasForeignKey(d => d.RoomId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Equipment__room___4CA06362");
             });
 
             modelBuilder.Entity<EquipmentReport>(entity =>

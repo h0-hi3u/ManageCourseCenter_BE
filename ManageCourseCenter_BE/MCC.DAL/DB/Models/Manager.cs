@@ -7,7 +7,7 @@ namespace MCC.DAL.DB.Models
     {
         public Manager()
         {
-            EquipmenntActivities = new HashSet<EquipmenntActivity>();
+            EquipmentActivities = new HashSet<EquipmentActivity>();
         }
 
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace MCC.DAL.DB.Models
         public int Role { get; set; }
         public int Status { get; set; }
 
-        public virtual ICollection<EquipmenntActivity> EquipmenntActivities { get; set; }
+        public virtual ICollection<EquipmentActivity> EquipmentActivities { get; set; }
     }
 }

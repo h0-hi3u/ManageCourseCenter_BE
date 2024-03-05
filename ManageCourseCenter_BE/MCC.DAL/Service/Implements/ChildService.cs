@@ -30,18 +30,33 @@ public class ChildService : IChildService
         {
             return actionResult.BuildError("Not found parent");
         }
-        bool isExistingChildren = false;
+        // Check duplicate children full name of parent
+        bool isExistingChildrenFullName = false;
         foreach(var child in parent.Children)
         {
             if(child.FullName == childCreatDto.FullName)
             {
-                isExistingChildren = true;
+                isExistingChildrenFullName = true;
                 break;
             }
         }
-        if(isExistingChildren)
+        if(isExistingChildrenFullName)
         {
-            return actionResult.BuildError("Children existing");
+            return actionResult.BuildError("Children full name existing");
+        }
+        // Check duplicate children username of parent
+        bool isExistingChildrenUserName = false;
+        foreach (var child in parent.Children)
+        {
+            if (child.Username == childCreatDto.Username)
+            {
+                isExistingChildrenUserName = true;
+                break;
+            }
+        }
+        if (isExistingChildrenUserName)
+        {
+            return actionResult.BuildError("Children user name existing");
         }
         try
         {

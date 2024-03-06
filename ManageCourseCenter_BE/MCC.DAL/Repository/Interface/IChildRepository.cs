@@ -5,5 +5,5 @@ namespace MCC.DAL.Repository.Interfacep;
 
 public interface IChildRepository : IRepositoryGeneric<Child>
 {
-
+    Task<Child> GetChildrenByUsernameAndPassword(string username, string password);
 }

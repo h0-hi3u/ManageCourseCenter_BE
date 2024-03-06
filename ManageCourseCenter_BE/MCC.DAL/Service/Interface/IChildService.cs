@@ -10,4 +10,5 @@ public interface IChildService
     Task<AppActionResult> GetChildByNameAsync(string name);
     Task<AppActionResult> CreateChildAsync(ChildCreatDto childCreatDto);
     Task<AppActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto);
+    Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password);
 }

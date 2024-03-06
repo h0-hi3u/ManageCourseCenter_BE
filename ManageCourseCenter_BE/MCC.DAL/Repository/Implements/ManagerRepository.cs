@@ -14,12 +14,20 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
     public async Task<bool> CheckExistingEmailAsync(string email)
     {
         var existing = await _dbSet.SingleOrDefaultAsync(m => m.Email == email);
-        if(existing == null)
+        if (existing == null)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
+    }
+
+    public async Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var manager = await _dbSet.Where(t => t.Email == email && t.Password == password).ToListAsync();
+
+        return manager;
     }
 }

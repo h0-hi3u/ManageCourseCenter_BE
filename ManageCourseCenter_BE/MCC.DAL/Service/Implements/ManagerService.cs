@@ -86,6 +86,20 @@ public class ManagerService : IManagerService
         return actionResult.BuildResult(data);
     }
 
+    public async Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _managerRepo.getManagerByEmailAndPasswordAsync(email, password);
+        if (data.Any())
+        {
+            return actionResult.BuildResult(data);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
     public async Task<AppActionResult> GetManagerByIdAsync(int id)
     {
         var actionResult = new AppActionResult();

@@ -5,4 +5,6 @@ namespace MCC.DAL.Repository.Interface;
 public interface IManagerRepository : IRepositoryGeneric<Manager>
 {
     Task<bool> CheckExistingEmailAsync(string email);
+    Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password);
+
 }

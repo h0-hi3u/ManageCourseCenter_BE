@@ -89,4 +89,11 @@ public class ManagerController : ControllerBase
         await _mangerService.DeleteAsync(id);
         return Ok();
     }
+
+    [HttpGet("get-manager-by-email-password")]
+    public async Task<IActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _mangerService.GetManagerByEmailAndPasswordAsync(email, password);
+        return Ok(result);
+    }
 }

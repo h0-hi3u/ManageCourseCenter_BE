@@ -17,4 +17,6 @@ public interface IManagerService
     Task UpdateAsync(Manager entity);
     Task DeleteAsync(int id);
     Task CreateAsync(Manager entity);
+    Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password);
+
 }

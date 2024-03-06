@@ -44,7 +44,7 @@ builder.Services.AddDbContext<ManageCourseCenterContext>(options =>
 // register Repository
 builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
-//builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 builder.Services.AddScoped<IChildrendClassRepository, ChildrenClassRepository>();
@@ -57,7 +57,7 @@ builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
-//builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -78,6 +78,8 @@ builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IChildrenClassService, ChildrenClassService>();
 builder.Services.AddScoped<IAcademicTranscriptService, AcademicTranscriptService>();
+builder.Services.AddScoped<ICartItemService, CartItemService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>

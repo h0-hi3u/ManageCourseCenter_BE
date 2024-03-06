@@ -98,6 +98,19 @@ public class ChildService : IChildService
         return actionResult.BuildResult(data);
     }
 
+    public async Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _childRepo.GetChildrenByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        } else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
     public async Task<AppActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto)
     {
         var actionResult = new AppActionResult();

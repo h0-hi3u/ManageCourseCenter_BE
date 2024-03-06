@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MCC.DAL.Service.Interface
+namespace MCC.DAL.Service.Interface;
+
+public interface IFeedbackService
 {
-    public interface IFeedbackService
-    {
-        Task<AppActionResult> GetFeedbackByChildrenIDAsync(int childrenId);
-        Task<AppActionResult> GetFeedbackByChildrenNameAsync(string childrenName);
-        Task<AppActionResult> GetFeedbackByClassIDAsync(int classId);
-        Task<AppActionResult> GetFeedbackByClassNameAsync(string className);
-        Task<AppActionResult> GetFeedbackByCourseIDAsync(int courseId);
-        Task<AppActionResult> GetFeedbackByCourseNameAsync(string courseName);
-        Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto);
-    }
+    Task<AppActionResult> GetFeedbackByChildrenIDAsync(int childrenId);
+    Task<AppActionResult> GetFeedbackByChildrenNameAsync(string childrenName);
+    Task<AppActionResult> GetFeedbackByClassIDAsync(int classId);
+    Task<AppActionResult> GetFeedbackByClassNameAsync(string className);
+    Task<AppActionResult> GetFeedbackByCourseIDAsync(int courseId);
+    Task<AppActionResult> GetFeedbackByCourseNameAsync(string courseName);
+    Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto);
+    Task<AppActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto);
 }

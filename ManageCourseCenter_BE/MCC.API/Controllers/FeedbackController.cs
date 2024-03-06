@@ -65,5 +65,11 @@ namespace MCC.API.Controllers
             var result = await _feedbackService.CreateFeedbackAsync(feedbackCreateDto);
             return Ok(result);
         }
+        [HttpPut("update-feedback")]
+        public async Task<IActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto)
+        {
+            var result = await _feedbackService.UpdateFeedbackAsync(feedbackUpdateDto);
+            return Ok(result);
+        }
     }
 }

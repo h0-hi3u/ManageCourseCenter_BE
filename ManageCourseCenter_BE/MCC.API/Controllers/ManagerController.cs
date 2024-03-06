@@ -79,10 +79,10 @@ public class ManagerController : ControllerBase
         return Ok(result);
     }
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateAsync(Manager manager)
+    public async Task<IActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        await _mangerService.UpdateAsync(manager);
-        return Ok();
+        var result = await _mangerService.UpdateAsync(managerUpdateDto);
+        return Ok(result);
     }
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteAsync(int id)

@@ -15,7 +15,7 @@ public interface IManagerService
     Task<AppActionResult> GetListStaffAsync();
     Task<AppActionResult> GetStaffByIdAsync(int id);
     Task<AppActionResult> GetStaffByNameAsync(string name);
-    Task UpdateAsync(Manager entity);
+    Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto);
     Task DeleteAsync(int id);
     Task<AppActionResult> CreateAsync(ManagerCreateDto entity);
 }

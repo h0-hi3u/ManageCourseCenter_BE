@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.RoomDto;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,18 @@ public class RoomController : ControllerBase
     public async Task<IActionResult> GetRoomByFloorAsync(int floor)
     {
         var result = await _roomService.GetRoomByFloorAsync(floor);
+        return Ok(result);
+    }
+    [HttpPost("create-room")]
+    public async Task<IActionResult> CreateRoomAsync(RoomCreateDto roomCreateDto)
+    {
+        var result = await _roomService.CreateRoomAsync(roomCreateDto);
+        return Ok(result);
+    }
+    [HttpPut("update-room-by-Id")]
+    public async Task<IActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto)
+    {
+        var result = await _roomService.UpdateRoomAsync(roomId, roomUpdateDto);
         return Ok(result);
     }
 }

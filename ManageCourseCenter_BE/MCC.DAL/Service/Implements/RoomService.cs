@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Common;
+﻿using AutoMapper;
+using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.RoomDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using System;
@@ -12,10 +15,32 @@ namespace MCC.DAL.Service.Implements;
 public class RoomService : IRoomService
 {
     private IRoomRepository _roomRepo;
+    private IMapper _mapper;
 
-    public RoomService(IRoomRepository roomRepo)
+    public RoomService(IRoomRepository roomRepo, IMapper mapper)
     {
         _roomRepo = roomRepo;
+        _mapper = mapper;
+    }
+
+    public async Task<AppActionResult> CreateRoomAsync(RoomCreateDto roomCreateDto)
+    {
+        var actionResult = new AppActionResult();
+        var checkRoomNo = await _roomRepo.CheckExistingRoomNoAsync(roomCreateDto.RoomNo);
+        if(!checkRoomNo)
+        {
+            return actionResult.BuildError("Duplicate room no");
+        }
+        try
+        {
+            var room = _mapper.Map<Room>(roomCreateDto);
+            await _roomRepo.AddAsync(room);
+            await _roomRepo.SaveChangesAsync();
+            return actionResult.BuildResult("Add success");
+        } catch
+        {
+            return actionResult.BuildError("Add fail");
+        }
     }
 
     public async Task<AppActionResult> GetAllRoomAsync()
@@ -56,6 +81,34 @@ public class RoomService : IRoomService
         } else
         {
            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var room = await _roomRepo.GetByIdAsync(roomId);
+        if (room == null)
+        {
+            return actionResult.BuildError("Room not found.");
+        }
+
+        if (room.RoomNo != roomUpdateDto.RoomNo && !(await _roomRepo.IsRoomNoUniqueAsync(roomUpdateDto.RoomNo, roomId)))
+        {
+            return actionResult.BuildError("Duplicate room no");
+        }
+
+        try
+        {
+            _mapper.Map(roomUpdateDto, room);
+
+            await _roomRepo.UpdateRoomAsync(room);
+            return actionResult.BuildResult("Update success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"Update fail: {ex.Message}");
         }
     }
 }

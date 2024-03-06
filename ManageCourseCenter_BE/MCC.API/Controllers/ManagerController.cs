@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -72,18 +73,18 @@ public class ManagerController : ControllerBase
         return Ok(result);
     }
     [HttpPost("create")]
-    public async Task<IActionResult> CreateAsync(Manager manager)
+    public async Task<IActionResult> CreateAsync(ManagerCreateDto manager)
     {
-        await _mangerService.CreateAsync(manager);
-        return Ok();
+        var result = await _mangerService.CreateAsync(manager);
+        return Ok(result);
     }
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateAsync(Manager manager)
+    public async Task<IActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        await _mangerService.UpdateAsync(manager);
-        return Ok();
+        var result = await _mangerService.UpdateAsync(managerUpdateDto);
+        return Ok(result);
     }
-    [HttpPost("delete")]
+    [HttpDelete("delete")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _mangerService.DeleteAsync(id);

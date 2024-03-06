@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.ClassTimeDto;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,18 @@ public class ClassTimeController : ControllerBase
     public async Task<IActionResult> GetClassTimeByClassNameAsync(string className)
     {
         var result = await _classTimeService.GetClassTimeByClassName(className);
+        return Ok(result);
+    }
+    [HttpPost("create-class-time")]
+    public async Task<IActionResult> CreateClassTimeAsync(ClassTimeCreateDto classTimeCreateDto)
+    {
+        var result = await _classTimeService.CreateClassTimeAsync(classTimeCreateDto);
+        return Ok(result);
+    }
+    [HttpPut("update-class-time")]
+    public async Task<IActionResult> UpdateClassTimeAsync(ClassTimeUpdateDto classTimeUpdateDto)
+    {
+        var result = await _classTimeService.UpdateClassTimeAsync(classTimeUpdateDto);
         return Ok(result);
     }
 }

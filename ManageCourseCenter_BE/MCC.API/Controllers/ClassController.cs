@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.ClassDto;
+using MCC.DAL.Dto.CourceDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +46,19 @@ public class ClassController : ControllerBase
     public async Task<IActionResult> GetClassByNameAsync(string name)
     {
         var result = await _classService.GetClassByNameAsync(name);
+        return Ok(result);
+    }
+    [HttpPost("create-class")]
+    public async Task<IActionResult> CreateClassAsync(ClassCreateDto classCreateDto)
+    {
+        var result = await _classService.CreateClassAsync(classCreateDto);
+        return Ok(result);
+    }
+
+    [HttpPut("update-class-by-Id")]
+    public async Task<IActionResult> UpdateClass(int classId, ClassUpdateDto classUpdateDto)
+    {
+        var result = await _classService.UpdateClassAsync(classId, classUpdateDto);
         return Ok(result);
     }
 }

@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.AcademicTranscriptDto;
+using MCC.DAL.Dto.FeedbackDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCC.API.Controllers
@@ -53,6 +56,19 @@ namespace MCC.API.Controllers
         public async Task<IActionResult> GetFeedbackByCourseName(string courseName)
         {
             var result = await _feedbackService.GetFeedbackByCourseNameAsync(courseName);
+            return Ok(result);
+        }
+
+        [HttpPost("create-feedback")]
+        public async Task<IActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto)
+        {
+            var result = await _feedbackService.CreateFeedbackAsync(feedbackCreateDto);
+            return Ok(result);
+        }
+        [HttpPut("update-feedback")]
+        public async Task<IActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto)
+        {
+            var result = await _feedbackService.UpdateFeedbackAsync(feedbackUpdateDto);
             return Ok(result);
         }
     }

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MCC.DAL.Service.Interface;
 using System.Threading.Tasks;
+using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Dto.AcademicTranscriptDto;
 
 namespace MCC.API.Controllers
 {
@@ -15,38 +18,52 @@ namespace MCC.API.Controllers
             _academicTranscriptService = academicTranscriptService;
         }
 
-        [HttpGet("ByChildrenId")]
+        [HttpGet("get-academicTranscript-by-childrenId")]
         public async Task<IActionResult> GetByChildrenId(int childrenId)
         {
             var result = await _academicTranscriptService.getTranscriptByChildrenIDAsync(childrenId);
             return Ok(result);
         }
 
-        [HttpGet("ByChildrenName")]
+        [HttpGet("get-academicTranscript-by-childrenName")]
         public async Task<IActionResult> GetByChildrenName(string childrenName)
         {
             var result = await _academicTranscriptService.getTranscriptByChildrenNameAsync(childrenName);
             return Ok(result);
         }
 
-        [HttpGet("ByTeacherId")]
+        [HttpGet("get-academicTranscript-by-teacherId")]
         public async Task<IActionResult> GetByTeacherId(int teacherId)
         {
             var result = await _academicTranscriptService.getTranscriptByTeacherIDAsync(teacherId);
             return Ok(result);
         }
 
-        [HttpGet("ByTeacherName")]
+        [HttpGet("get-academicTranscript-by-teacherName")]
         public async Task<IActionResult> GetByTeacherName(string teacherName)
         {
             var result = await _academicTranscriptService.getTranscriptByTeacherNameAsync(teacherName);
             return Ok(result);
         }
 
-        [HttpGet("ByChildrenNameAndCourseName")]
+        [HttpGet("get-academicTranscript-by-childrenNameandcourseName")]
         public async Task<IActionResult> GetByChildrenNameAndCourseName(string childrenName, string courseName)
         {
             var result = await _academicTranscriptService.getTranscriptByChildrenNameAndCourseNameAsync(childrenName, courseName);
+            return Ok(result);
+        }
+
+        [HttpPut("update-academicTranscript-by-Id")]
+        public async Task<IActionResult> UpdateAcademicTranscript(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto)
+        {
+            var result = await _academicTranscriptService.UpdateAcademicTranscriptAsync(transcriptId, academicUpdateDto);
+            return Ok(result);
+        }
+
+        [HttpPost("create-academic-transcript")]
+        public async Task<IActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto)
+        {
+            var result = await _academicTranscriptService.CreateAcademicTranscriptAsync(academicTranscriptCreateDto);
             return Ok(result);
         }
     }

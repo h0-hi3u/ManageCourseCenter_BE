@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.TeacherDto;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,24 @@ public class TeacherController : ControllerBase
     public async Task<IActionResult> GetTeacherByNameAsync(string name)
     {
         var result = await _teacherService.GetTeachByNameAsync(name);
+        return Ok(result);
+    }
+    [HttpPost("creat-teacher")]
+    public async Task<IActionResult> CreateTeacherAsync(TeacherCreateDto teacherCreateDto)
+    {
+        var result = await _teacherService.CreateTeacherAsync(teacherCreateDto);
+        return Ok(result);
+    }
+    [HttpGet("get-teacher-email-password")]
+    public async Task<IActionResult> GetTeacherByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _teacherService.GetTeacherByEmailAndPasswordAsync(email, password);
+        return Ok(result);
+    }
+    [HttpPut("update-teacher-by-Id")]
+    public async Task<IActionResult> UpdateTeacher(int teacherId, TeacherUpdateDto teacherUpdateDto)
+    {
+        var result = await _teacherService.UpdateTeacherAsync(teacherId, teacherUpdateDto);
         return Ok(result);
     }
 }

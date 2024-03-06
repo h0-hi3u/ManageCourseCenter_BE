@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
+using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ParentDto;
+using MCC.DAL.Dto.TeacherDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +18,33 @@ public class ParentService : IParentService
     {
         _parentRepo = parentRepo;
         _mapper = mapper;
+    }
+
+    public async Task<AppActionResult> CreateParentAsync(ParentCreateDto parentCreateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var checkEmail = await _parentRepo.CheckExistingEmailAsync(parentCreateDto.Email);
+        if (!checkEmail)
+        {
+            return actionResult.BuildError("Duplicate email");
+        }
+        var checkPhone = await _parentRepo.CheckExistingPhoneAsync(parentCreateDto.Phone);
+        if (!checkPhone)
+        {
+            return actionResult.BuildError("Duplicate phone");
+        }
+        try
+        {
+            var parent = _mapper.Map<Parent>(parentCreateDto);
+            await _parentRepo.AddAsync(parent);
+            await _parentRepo.SaveChangesAsync();
+            return actionResult.SetInfo(true, "Add success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Add fail");
+        }
     }
 
     public async Task<AppActionResult> GetAllParentAsync()
@@ -47,6 +77,19 @@ public class ParentService : IParentService
             return actionResult.BuildResult(data);
         }
         else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetParentByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _parentRepo.GetParentByEmailAndPasswordAsync(email, password);
+        if (data != null)
+        {
+            return actionResult.BuildResult(data);
+        } else
         {
             return actionResult.BuildError("Not found");
         }

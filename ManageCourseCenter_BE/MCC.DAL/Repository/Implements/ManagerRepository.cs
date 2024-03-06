@@ -24,6 +24,19 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
         }
     }
 
+    public async Task<bool> CheckExistingPhoneAsync(string phone)
+    {
+        var existing = await _dbSet.SingleOrDefaultAsync(m => m.Phone == phone);
+        if (existing == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public async Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password)
     {
         var manager = await _dbSet.Where(t => t.Email == email && t.Password == password).ToListAsync();

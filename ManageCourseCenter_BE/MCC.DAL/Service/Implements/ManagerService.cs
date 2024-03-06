@@ -46,6 +46,7 @@ public class ManagerService : IManagerService
         }
     }
 
+
     public async Task DeleteAsync(int id)
     {
         var exsiting = await _managerRepo.GetByIdAsync(id);

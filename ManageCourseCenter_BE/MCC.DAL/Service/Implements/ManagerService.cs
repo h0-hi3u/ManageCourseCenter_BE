@@ -24,7 +24,7 @@ public class ManagerService : IManagerService
         var actionResult = new AppActionResult();
 
         var checkEmail = await _managerRepo.CheckExistingEmailAsync(entity.Email);
-        if(!checkEmail)
+        if (!checkEmail)
         {
             return actionResult.BuildError("Duplicate email");
         }
@@ -39,7 +39,8 @@ public class ManagerService : IManagerService
             await _managerRepo.AddAsync(manager);
             await _managerRepo.SaveChangesAsync();
             return actionResult.SetInfo(true, "Add success");
-        } catch
+        }
+        catch
         {
             return actionResult.BuildError("Add fail");
         }
@@ -159,20 +160,46 @@ public class ManagerService : IManagerService
         }
     }
 
-    public async Task UpdateAsync(Manager entity)
+    public async Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        var existing = await _managerRepo.GetByIdAsync(entity.Id);
-        if (existing != null)
+        var actionResult = new AppActionResult();
+        // check manager is existing
+        var existing = await _managerRepo.GetByIdAsync(managerUpdateDto.Id);
+        if (existing == null)
         {
-            existing.FullName = entity.FullName;
-            existing.Email = entity.Email;
-            existing.Phone = entity.Phone;
-            existing.BirthDay = entity.BirthDay;
-            existing.Gender = entity.Gender;
-            existing.Role = entity.Role;
-            existing.Status = entity.Status;
+            return actionResult.BuildError("Not found");
+        }
+        var listManager = await _managerRepo.Entities().ToListAsync();
+        listManager.Remove(existing);
+        // check duplicate email
+        bool checkEmail = listManager.SingleOrDefault(m => m.Email == managerUpdateDto.Email) == null ? true : false;
+        if (!checkEmail)
+        {
+            return actionResult.BuildError("Duplicate email");
+        }
+        // check duplicate phone
+        bool checkPhone = listManager.SingleOrDefault(m => m.Phone == managerUpdateDto.Phone) == null ? true : false;
+        if (!checkPhone)
+        {
+            return actionResult.BuildError("Duplicate phone");
+        }
+
+        try
+        {
+            existing.FullName = managerUpdateDto.FullName;
+            existing.Email = managerUpdateDto.Email;
+            existing.Phone = managerUpdateDto.Phone;
+            existing.BirthDay = managerUpdateDto.BirthDay;
+            existing.Gender = managerUpdateDto.Gender;
+            existing.Role = managerUpdateDto.Role;
+            existing.Status = managerUpdateDto.Status;
             _managerRepo.Update(existing);
             await _managerRepo.SaveChangesAsync();
+            return actionResult.BuildResult("Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Add fail");
         }
 
     }

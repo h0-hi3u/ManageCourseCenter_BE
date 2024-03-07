@@ -1,6 +1,7 @@
 using AutoMapper;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicTranscriptDto;
+using MCC.DAL.Dto.CartDto;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Dto.ClassDto;
@@ -31,6 +32,10 @@ public class MappingProfile : Profile
         EquipmentReportMappingProfile();
         ChildrenClassMappingProfile();
         FeedbackMappingProfile();
+    }
+    private void CartMappingProfile()
+    {
+        CreateMap<CartCreateDto, Cart>();
     }
     private void FeedbackMappingProfile()
     {

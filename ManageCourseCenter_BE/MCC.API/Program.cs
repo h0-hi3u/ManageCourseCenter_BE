@@ -46,6 +46,8 @@ builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneri
 builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartRepository, CartRepository>();
+//builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 builder.Services.AddScoped<IChildrenClassRepository, ChildrenClassRepository>();
 builder.Services.AddScoped<IClassReposotory, ClassRepositoy>();
@@ -80,6 +82,7 @@ builder.Services.AddScoped<IChildrenClassService, ChildrenClassService>();
 builder.Services.AddScoped<IAcademicTranscriptService, AcademicTranscriptService>();
 builder.Services.AddScoped<ICartItemService, CartItemService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 // Add automapper
 var mapperConfig = new MapperConfiguration(mc =>
@@ -107,4 +110,3 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
-

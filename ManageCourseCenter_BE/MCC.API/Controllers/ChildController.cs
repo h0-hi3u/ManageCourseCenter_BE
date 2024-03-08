@@ -46,4 +46,10 @@ public class ChildController : ControllerBase
         var result = await _childService.UpdateChildAsync(childUpdateDto);
         return Ok(result);
     }
+    [HttpGet("get-child-username-password")]
+    public async Task<IActionResult> GetChildrenByUsernameAndPassword(string username, string password)
+    {
+        var result = await _childService.GetChildrenByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
 }

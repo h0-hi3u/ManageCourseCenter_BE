@@ -46,6 +46,7 @@ public class ManagerService : IManagerService
         }
     }
 
+
     public async Task DeleteAsync(int id)
     {
         var exsiting = await _managerRepo.GetByIdAsync(id);
@@ -102,6 +103,20 @@ public class ManagerService : IManagerService
         var actionResult = new AppActionResult();
         var data = await _managerRepo.Entities().Where(m => m.Role == CoreConstants.ROLE_STAFF).ToListAsync();
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _managerRepo.getManagerByEmailAndPasswordAsync(email, password);
+        if (data.Any())
+        {
+            return actionResult.BuildResult(data);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 
     public async Task<AppActionResult> GetManagerByIdAsync(int id)

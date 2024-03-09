@@ -1,5 +1,6 @@
 ﻿using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ManagerDto;
+using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -89,5 +90,23 @@ public class ManagerController : ControllerBase
     {
         await _mangerService.DeleteAsync(id);
         return Ok();
+    }
+    [HttpGet("get-manager-username-password")]
+    public async Task<IActionResult> GetManagerByUsernameAndPassword(string username, string password)
+    {
+        var result = await _mangerService.GetManagerByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
+    [HttpGet("get-admin-username-password")]
+    public async Task<IActionResult> GetAdminByUsernameAndPassword(string username, string password)
+    {
+        var result = await _mangerService.GetAdminByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
+    [HttpGet("get-staff-username-password")]
+    public async Task<IActionResult> GetStaffByUsernameAndPassword(string username, string password)
+    {
+        var result = await _mangerService.GetStaffByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
     }
 }

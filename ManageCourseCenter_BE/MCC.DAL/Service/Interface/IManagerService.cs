@@ -18,4 +18,7 @@ public interface IManagerService
     Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto);
     Task DeleteAsync(int id);
     Task<AppActionResult> CreateAsync(ManagerCreateDto entity);
+    Task<AppActionResult> GetAdminByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password);
 }

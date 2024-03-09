@@ -6,7 +6,6 @@ using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MCC.DAL.Dto.MappingAutoMapper;
-using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interfacep;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,8 +44,8 @@ builder.Services.AddDbContext<ManageCourseCenterContext>(options =>
 builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 builder.Services.AddScoped<IAcademicTranscriptRepository, AcademicTranscriptRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-//builder.Services.AddScoped<ICartRepository, CartRepository>();
-//builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 builder.Services.AddScoped<IChildrenClassRepository, ChildrenClassRepository>();

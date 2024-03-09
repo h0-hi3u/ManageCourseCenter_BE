@@ -20,4 +20,7 @@ public interface IManagerService
     Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password);
 
     Task<AppActionResult> CreateAsync(ManagerCreateDto entity);
+    Task<AppActionResult> GetAdminByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password);
 }

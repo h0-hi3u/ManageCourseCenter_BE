@@ -84,6 +84,7 @@ public class ManagerService : IManagerService
         }
     }
 
+
     public async Task<AppActionResult> GetListAdminAsync()
     {
         var actionResult = new AppActionResult();
@@ -147,6 +148,8 @@ public class ManagerService : IManagerService
         }
     }
 
+
+
     public async Task<AppActionResult> GetStaffByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
@@ -174,6 +177,7 @@ public class ManagerService : IManagerService
             return actionResult.BuildError("Not found");
         }
     }
+
 
     public async Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
@@ -217,5 +221,59 @@ public class ManagerService : IManagerService
             return actionResult.BuildError("Add fail");
         }
 
+    }
+    //public async Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password)
+    //{
+    //    var actionResult = new AppActionResult();
+    //    var existing = await _childRepo.GetChildrenByUsernameAndPassword(username, password);
+    //    if (existing != null)
+    //    {
+    //        return actionResult.BuildResult(existing);
+    //    }
+    //    else
+    //    {
+    //        return actionResult.BuildError("Not found");
+    //    }
+    //}
+    public async Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.GetManagerByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.GetStaffByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetAdminByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.GetAdminByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 }

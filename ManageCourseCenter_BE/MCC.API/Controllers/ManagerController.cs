@@ -91,12 +91,6 @@ public class ManagerController : ControllerBase
         await _mangerService.DeleteAsync(id);
         return Ok();
     }
-    [HttpGet("get-manager-username-password")]
-    public async Task<IActionResult> GetManagerByUsernameAndPassword(string username, string password)
-    {
-        var result = await _mangerService.GetManagerByUsernameAndPasswordAsync(username, password);
-        return Ok(result);
-    }
     [HttpGet("get-admin-username-password")]
     public async Task<IActionResult> GetAdminByUsernameAndPassword(string username, string password)
     {
@@ -107,6 +101,10 @@ public class ManagerController : ControllerBase
     public async Task<IActionResult> GetStaffByUsernameAndPassword(string username, string password)
     {
         var result = await _mangerService.GetStaffByUsernameAndPasswordAsync(username, password);
+    [HttpGet("get-manager-by-email-password")]
+    public async Task<IActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _mangerService.GetManagerByEmailAndPasswordAsync(email, password);
         return Ok(result);
     }
 }

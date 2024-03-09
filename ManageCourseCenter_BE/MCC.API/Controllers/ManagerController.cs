@@ -101,6 +101,8 @@ public class ManagerController : ControllerBase
     public async Task<IActionResult> GetStaffByUsernameAndPassword(string username, string password)
     {
         var result = await _mangerService.GetStaffByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
     [HttpGet("get-manager-by-email-password")]
     public async Task<IActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
     {

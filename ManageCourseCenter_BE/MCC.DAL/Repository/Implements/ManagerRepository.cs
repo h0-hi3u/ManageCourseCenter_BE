@@ -44,6 +44,7 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
     public async Task<Manager> GetAdminByUsernameAndPassword(string username, string password)
     {
         return await _dbSet.SingleOrDefaultAsync(c => c.Email == username && c.Password == password && c.Role == CoreConstants.ROLE_ADMIN);
+    }
     public async Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password)
     {
         var manager = await _dbSet.Where(t => t.Email == email && t.Password == password).ToListAsync();

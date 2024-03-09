@@ -238,7 +238,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password)
     {
         var actionResult = new AppActionResult();
-        var existing = await _managerRepo.GetManagerByUsernameAndPassword(username, password);
+        var existing = await _managerRepo.getManagerByEmailAndPasswordAsync(username, password);
         if (existing != null)
         {
             return actionResult.BuildResult(existing);

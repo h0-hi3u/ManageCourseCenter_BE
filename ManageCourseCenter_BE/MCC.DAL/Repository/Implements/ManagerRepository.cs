@@ -2,6 +2,7 @@
 using MCC.DAL.DB.Context;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using MCC.DAL.Constants;
 
 namespace MCC.DAL.Repository.Implements;
 
@@ -14,10 +15,11 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
     public async Task<bool> CheckExistingEmailAsync(string email)
     {
         var existing = await _dbSet.SingleOrDefaultAsync(m => m.Email == email);
-        if(existing == null)
+        if (existing == null)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -34,5 +36,19 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
         {
             return false;
         }
+    }
+    public async Task<Manager> GetStaffByUsernameAndPassword(string username, string password)
+    {
+        return await _dbSet.SingleOrDefaultAsync(c => c.Email == username && c.Password == password && c.Role == CoreConstants.ROLE_STAFF);
+    }
+    public async Task<Manager> GetAdminByUsernameAndPassword(string username, string password)
+    {
+        return await _dbSet.SingleOrDefaultAsync(c => c.Email == username && c.Password == password && c.Role == CoreConstants.ROLE_ADMIN);
+    }
+    public async Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var manager = await _dbSet.Where(t => t.Email == email && t.Password == password).ToListAsync();
+
+        return manager;
     }
 }

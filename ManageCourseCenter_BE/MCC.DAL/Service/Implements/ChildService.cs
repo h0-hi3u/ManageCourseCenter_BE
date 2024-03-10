@@ -97,4 +97,76 @@ public class ChildService : IChildService
         var data = await _childRepo.Entities().Where(c => c.FullName.Contains(name)).ToListAsync();
         return actionResult.BuildResult(data);
     }
+
+    public async Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _childRepo.GetChildrenByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        } else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+        var parent = await _parentRepo.Entities().Include(p => p.Children).SingleOrDefaultAsync(p => p.Id == childUpdateDto.ParentId);
+        if (parent == null)
+        {
+            return actionResult.BuildError("Not found parent");
+        }
+        // Check duplicate children full name of parent
+        bool isExistingChildrenFullName = false;
+        foreach (var child in parent.Children)
+        {
+            if (child.FullName == childUpdateDto.FullName && child.Id != childUpdateDto.Id)
+            {
+                isExistingChildrenFullName = true;
+                break;
+            }
+        }
+        if (isExistingChildrenFullName)
+        {
+            return actionResult.BuildError("Children full name existing");
+        }
+        // Check duplicate children username of parent
+        bool isExistingChildrenUserName = false;
+        foreach (var child in parent.Children)
+        {
+            if (child.Username == childUpdateDto.Username && child.Id != childUpdateDto.Id)
+            {
+                isExistingChildrenUserName = true;
+                break;
+            }
+        }
+        if (isExistingChildrenUserName)
+        {
+            return actionResult.BuildError("Children user name existing");
+        }
+        try
+        {
+            var child = await _childRepo.GetByIdAsync(childUpdateDto.Id);
+            child.Id = childUpdateDto.Id;
+            child.ParentId = childUpdateDto.ParentId;
+            child.FullName = childUpdateDto.FullName;
+            child.Username = childUpdateDto.Username;
+            child.Password = childUpdateDto.Password;
+            child.ImgUrl = childUpdateDto.ImgUrl;
+            child.BirthDay = childUpdateDto.BirthDay;
+            child.Gender = childUpdateDto.Gender;
+            child.Role = childUpdateDto.Role;
+            child.Status = childUpdateDto.Status;
+            _childRepo.Update(child);
+            await _childRepo.SaveChangesAsync();
+            return actionResult.BuildResult("Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Update fail");
+        }
+    }
 }

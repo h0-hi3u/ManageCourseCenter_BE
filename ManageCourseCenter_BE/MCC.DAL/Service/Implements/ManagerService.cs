@@ -24,7 +24,7 @@ public class ManagerService : IManagerService
         var actionResult = new AppActionResult();
 
         var checkEmail = await _managerRepo.CheckExistingEmailAsync(entity.Email);
-        if(!checkEmail)
+        if (!checkEmail)
         {
             return actionResult.BuildError("Duplicate email");
         }
@@ -39,11 +39,13 @@ public class ManagerService : IManagerService
             await _managerRepo.AddAsync(manager);
             await _managerRepo.SaveChangesAsync();
             return actionResult.SetInfo(true, "Add success");
-        } catch
+        }
+        catch
         {
             return actionResult.BuildError("Add fail");
         }
     }
+
 
     public async Task DeleteAsync(int id)
     {
@@ -82,6 +84,7 @@ public class ManagerService : IManagerService
         }
     }
 
+
     public async Task<AppActionResult> GetListAdminAsync()
     {
         var actionResult = new AppActionResult();
@@ -101,6 +104,20 @@ public class ManagerService : IManagerService
         var actionResult = new AppActionResult();
         var data = await _managerRepo.Entities().Where(m => m.Role == CoreConstants.ROLE_STAFF).ToListAsync();
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _managerRepo.getManagerByEmailAndPasswordAsync(email, password);
+        if (data.Any())
+        {
+            return actionResult.BuildResult(data);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 
     public async Task<AppActionResult> GetManagerByIdAsync(int id)
@@ -131,6 +148,8 @@ public class ManagerService : IManagerService
         }
     }
 
+
+
     public async Task<AppActionResult> GetStaffByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
@@ -159,21 +178,102 @@ public class ManagerService : IManagerService
         }
     }
 
-    public async Task UpdateAsync(Manager entity)
+
+    public async Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        var existing = await _managerRepo.GetByIdAsync(entity.Id);
-        if (existing != null)
+        var actionResult = new AppActionResult();
+        // check manager is existing
+        var existing = await _managerRepo.GetByIdAsync(managerUpdateDto.Id);
+        if (existing == null)
         {
-            existing.FullName = entity.FullName;
-            existing.Email = entity.Email;
-            existing.Phone = entity.Phone;
-            existing.BirthDay = entity.BirthDay;
-            existing.Gender = entity.Gender;
-            existing.Role = entity.Role;
-            existing.Status = entity.Status;
-            _managerRepo.Update(existing);
-            await _managerRepo.SaveChangesAsync();
+            return actionResult.BuildError("Not found");
+        }
+        var listManager = await _managerRepo.Entities().ToListAsync();
+        listManager.Remove(existing);
+        // check duplicate email
+        bool checkEmail = listManager.SingleOrDefault(m => m.Email == managerUpdateDto.Email) == null ? true : false;
+        if (!checkEmail)
+        {
+            return actionResult.BuildError("Duplicate email");
+        }
+        // check duplicate phone
+        bool checkPhone = listManager.SingleOrDefault(m => m.Phone == managerUpdateDto.Phone) == null ? true : false;
+        if (!checkPhone)
+        {
+            return actionResult.BuildError("Duplicate phone");
         }
 
+        try
+        {
+            existing.FullName = managerUpdateDto.FullName;
+            existing.Email = managerUpdateDto.Email;
+            existing.Phone = managerUpdateDto.Phone;
+            existing.BirthDay = managerUpdateDto.BirthDay;
+            existing.Gender = managerUpdateDto.Gender;
+            existing.Role = managerUpdateDto.Role;
+            existing.Status = managerUpdateDto.Status;
+            _managerRepo.Update(existing);
+            await _managerRepo.SaveChangesAsync();
+            return actionResult.BuildResult("Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Add fail");
+        }
+
+    }
+    //public async Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password)
+    //{
+    //    var actionResult = new AppActionResult();
+    //    var existing = await _childRepo.GetChildrenByUsernameAndPassword(username, password);
+    //    if (existing != null)
+    //    {
+    //        return actionResult.BuildResult(existing);
+    //    }
+    //    else
+    //    {
+    //        return actionResult.BuildError("Not found");
+    //    }
+    //}
+    public async Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.getManagerByEmailAndPasswordAsync(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.GetStaffByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetAdminByUsernameAndPasswordAsync(string username, string password)
+    {
+        var actionResult = new AppActionResult();
+        var existing = await _managerRepo.GetAdminByUsernameAndPassword(username, password);
+        if (existing != null)
+        {
+            return actionResult.BuildResult(existing);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 }

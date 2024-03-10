@@ -1,5 +1,6 @@
 ﻿using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ManagerDto;
+using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -79,15 +80,33 @@ public class ManagerController : ControllerBase
         return Ok(result);
     }
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateAsync(Manager manager)
+    public async Task<IActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        await _mangerService.UpdateAsync(manager);
-        return Ok();
+        var result = await _mangerService.UpdateAsync(managerUpdateDto);
+        return Ok(result);
     }
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _mangerService.DeleteAsync(id);
         return Ok();
+    }
+    [HttpGet("get-admin-username-password")]
+    public async Task<IActionResult> GetAdminByUsernameAndPassword(string username, string password)
+    {
+        var result = await _mangerService.GetAdminByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
+    [HttpGet("get-staff-username-password")]
+    public async Task<IActionResult> GetStaffByUsernameAndPassword(string username, string password)
+    {
+        var result = await _mangerService.GetStaffByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
+    [HttpGet("get-manager-by-email-password")]
+    public async Task<IActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _mangerService.GetManagerByEmailAndPasswordAsync(email, password);
+        return Ok(result);
     }
 }

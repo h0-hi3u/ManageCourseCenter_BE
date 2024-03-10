@@ -87,6 +87,19 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
+        public async Task<AppActionResult> DeleteChildrenClassAsync(int childrenClassId)
+        {
+            var actionResult = new AppActionResult();
+            var childrenClass = await _childrenClassRepo.GetChildrenClassByClassIDAsync(childrenClassId);
+
+            if (childrenClass == null)
+            {
+                return actionResult.BuildError("ChildrenClass not found or failed to delete.");
+            }
+
+            return actionResult.BuildResult("ChildrenClass deleted successfully.");
+        }
+
         public async Task<AppActionResult> GetChildrenClassByChildrenIDAsync(int childrenId)
         {
             var actionResult = new AppActionResult();

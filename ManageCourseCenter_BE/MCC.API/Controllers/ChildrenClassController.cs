@@ -51,5 +51,12 @@ namespace MCC.API.Controllers
             var result = await _childrenClassService.CreateChildClassAsync(childrenClassCreateDto);
             return Ok(result);
         }
+
+        [HttpDelete("delete-children-class")]
+        public async Task<IActionResult> DeleteChildrenClass(int childrenClassId)
+        {
+            var result = await _childrenClassService.DeleteChildrenClassAsync(childrenClassId);
+            return Ok(result);
+        }
     }
 }

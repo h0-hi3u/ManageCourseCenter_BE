@@ -45,4 +45,21 @@ public class ChildrenClassRepository : RepositoryGeneric<ChildrenClass>, IChildr
             .Where(c => c.Children.FullName == childrenName)
             .ToListAsync();
     }
+
+    public async Task<bool> DeleteChildrenClassAsync(int childrenClassId)
+    {
+        var childrenClass = await _context.ChildrenClasses
+            .Include(cc => cc.Feedbacks)
+            .Include(cc => cc.Schedules)
+            .FirstOrDefaultAsync(cc => cc.Id == childrenClassId);
+
+        if (childrenClass == null) return false;
+
+        _context.Feedbacks.RemoveRange(childrenClass.Feedbacks);
+        _context.Schedules.RemoveRange(childrenClass.Schedules);
+        _context.ChildrenClasses.Remove(childrenClass);
+
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

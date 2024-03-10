@@ -28,7 +28,7 @@ namespace MCC.DAL.Service.Implements
         public async Task<AppActionResult> GetAllEquipmentReportAsync()
         {
             var actionReult = new AppActionResult();
-            var data = await _equiprpRepo.GetAllAsync();
+            var data = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er =>  er.Equipment.EquipmentActivities).ToListAsync();
             return actionReult.BuildResult(data);
         }
 

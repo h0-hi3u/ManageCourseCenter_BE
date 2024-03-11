@@ -35,7 +35,7 @@ public class ClassTimeService : IClassTimeService
         bool isValidClassTime = true;
         foreach(var lt in existingClass.ClassTimes)
         {
-            if(lt.DayInWeek == classTimeCreateDto.DayInWeek && lt.StarTime == classTimeCreateDto.StarTime)
+            if(lt.DayInWeek == classTimeCreateDto.DayInWeek && lt.StarTime.Equals(classTimeCreateDto.StarTime))
             {
                 isValidClassTime = false;
                 break;

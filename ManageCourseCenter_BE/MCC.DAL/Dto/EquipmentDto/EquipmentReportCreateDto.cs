@@ -11,5 +11,7 @@ public class EquipmentReportCreateDto
     public int RoomId { get; set; }
     public int EquipmentId { get; set; }
     public string Description { get; set; }
+    public DateTime SendTime { get; set; }
+    public DateTime? CloseTime { get; set; }
     public int Status { get; set; }
 }

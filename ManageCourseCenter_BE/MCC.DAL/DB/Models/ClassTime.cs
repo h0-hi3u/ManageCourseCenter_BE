@@ -8,8 +8,8 @@ namespace MCC.DAL.DB.Models
         public int Id { get; set; }
         public int ClassId { get; set; }
         public string DayInWeek { get; set; }
-        public TimeSpan StarTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public string StarTime { get; set; }
+        public string EndTime { get; set; }
 
         public virtual Class Class { get; set; }
     }

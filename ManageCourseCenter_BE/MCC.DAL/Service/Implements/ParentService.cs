@@ -108,4 +108,11 @@ public class ParentService : IParentService
         var data = await _parentRepo.Entities().Where(p => p.FullName.Contains(name)).ToListAsync();
         return actionResult.BuildResult(data);
     }
+    public async Task<AppActionResult> CountNumberParent()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _parentRepo.GetAllAsync();
+        int result = data.Count();
+        return actionResult.BuildResult("Number Of Parent = " + result);
+    }
 }

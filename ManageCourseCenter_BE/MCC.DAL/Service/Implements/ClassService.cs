@@ -148,4 +148,11 @@ public class ClassService : IClassService
         }
         return actionResult.BuildResult("Class updated successfully.");
     }
+    public async Task<AppActionResult> CountNumberClass()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _classRepo.GetAllAsync();
+        int result = data.Count();
+        return actionResult.BuildResult("Number Of Class = " + result);
+    }
 }

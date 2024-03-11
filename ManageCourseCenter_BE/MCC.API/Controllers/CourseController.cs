@@ -57,4 +57,10 @@ public class CourseController : ControllerBase
         var result = await _courseService.SearchCourseByNameAsync(name);
         return Ok(result);
     }
+    [HttpGet("count-number-course")]
+    public async Task<IActionResult> CountNumberCourse()
+    {
+        var count = await _courseService.CountNumberCourse();
+        return Ok(count);
+    }
 }

@@ -52,4 +52,10 @@ public class ChildController : ControllerBase
         var result = await _childService.GetChildrenByUsernameAndPasswordAsync(username, password);
         return Ok(result);
     }
+    [HttpGet("cout-number-childrent")]
+    public async Task<IActionResult> CountNumberChildrentAsync()
+    {
+        var count = await _childService.CountNumberChildrent();
+        return Ok(count);
+    }
 }

@@ -61,4 +61,11 @@ public class ClassController : ControllerBase
         var result = await _classService.UpdateClassAsync(classId, classUpdateDto);
         return Ok(result);
     }
+
+    [HttpGet("get-class-teacher-by-id")]
+    public async Task<IActionResult> GetClassByTeacherIdAsync(int teacherId, int page = 1)
+    {
+        var result = await _classService.GetClassByTeacherIdAsync(teacherId, page);
+        return Ok(result);
+    }
 }

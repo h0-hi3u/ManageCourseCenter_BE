@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MCC.API.Controllers
 {
-    [Route("api/Controller")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class FeedbackController : Controller
     {
@@ -69,6 +69,13 @@ namespace MCC.API.Controllers
         public async Task<IActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto)
         {
             var result = await _feedbackService.UpdateFeedbackAsync(feedbackUpdateDto);
+            return Ok(result);
+        }
+
+        [HttpGet("get-feedback-by-teacher-id")]
+        public async Task<IActionResult> GetFeedbackByTeacherId(int teacherId, int pageSize, int pageIndex)
+        {
+            var result = await _feedbackService.GetFeedbackByTeacherIdAsync(teacherId, pageSize, pageIndex);
             return Ok(result);
         }
     }

@@ -12,5 +12,6 @@ namespace MCC.DAL.Service.Interface
     public interface ICartService
     {
         Task<AppActionResult> CreateCartAsync(CartCreateDto cartCreateDto);
+        Task<AppActionResult> UpdateStatusCartAsync(UpdateStatusCartDto updateStatusCartDto);
     }
 }

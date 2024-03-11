@@ -2,6 +2,7 @@ using AutoMapper;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.CartDto;
+using MCC.DAL.Dto.CartItemDto;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Dto.ClassDto;
@@ -10,6 +11,7 @@ using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.FeedbackDto;
 using MCC.DAL.Dto.ManagerDto;
 using MCC.DAL.Dto.ParentDto;
+using MCC.DAL.Dto.PaymentDto;
 using MCC.DAL.Dto.RoomDto;
 using MCC.DAL.Dto.TeacherDto;
 
@@ -32,10 +34,18 @@ public class MappingProfile : Profile
         EquipmentReportMappingProfile();
         ChildrenClassMappingProfile();
         FeedbackMappingProfile();
+        CartMappingProfile();
+        PaymentMappingProfile();
+        CartItemMappingProfile();
     }
     private void CartMappingProfile()
     {
         CreateMap<CartCreateDto, Cart>();
+        CreateMap<UpdateStatusCartDto, Cart>();
+    } 
+    private void CartItemMappingProfile()
+    {
+        CreateMap<UpdateCartItemDto, CartItem>();
     }
     private void FeedbackMappingProfile()
     {
@@ -64,6 +74,7 @@ public class MappingProfile : Profile
     {
         CreateMap<EquipmentCreateDto, Equipment>();
         CreateMap<EquipmentUpdateDto, Equipment>();
+        CreateMap<EquipmentReportUpdateDto, Equipment>();
     }
 
     private void ManagerMappingProfile()
@@ -79,6 +90,12 @@ public class MappingProfile : Profile
     private void ParentMappingProfile()
     {
         CreateMap<ParentCreateDto, Parent>();
+        CreateMap<ParentUpdateDto, Parent>();
+    }
+    
+    private void PaymentMappingProfile()
+    {
+        CreateMap<UpdatePaymentStatusDto, Payment>();
     }
     private void ChildMappingProfile()
     {

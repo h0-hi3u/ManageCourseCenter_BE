@@ -1,4 +1,7 @@
-﻿using MCC.DAL.Service.Interface;
+﻿using MCC.DAL.Dto.CartDto;
+using MCC.DAL.Dto.PaymentDto;
+using MCC.DAL.Service.Implements;
+using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCC.API.Controllers
@@ -23,6 +26,14 @@ namespace MCC.API.Controllers
         public async Task<IActionResult> GetPaymentByParentEmailAsync(string parentEmail)
         {
             var result = await _paymentService.getPaymentByParentEmailAsync(parentEmail);
+            return Ok(result);
+        }
+
+        [HttpPut("update-payment-status")]
+        public async Task<IActionResult> UpdatePaymentStatusAsync(UpdatePaymentStatusDto updatePaymentStatusDto)
+        {
+            var result = await _paymentService.UpdatePaymentStatusAsync(updatePaymentStatusDto);
+
             return Ok(result);
         }
     }

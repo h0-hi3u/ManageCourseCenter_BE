@@ -10,5 +10,6 @@ namespace MCC.DAL.Service.Interface
     public interface ICartItemService
     {
         public Task<AppActionResult> getCartItemByParentIDAsync(int parentId);
+        Task<AppActionResult> DeleteCartItemAsync(int cartItemId);
     }
 }

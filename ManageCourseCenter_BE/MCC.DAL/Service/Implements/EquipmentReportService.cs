@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
@@ -113,6 +114,26 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError("Add fail");
             }
+        }
+
+        public async Task<AppActionResult> GetReptortByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
+        {
+            var actionResult = new AppActionResult();
+            PagingDto pagingDto = new PagingDto();
+
+            var totalRecords = await _equiprpRepo.Entities().Where(r => r.SenderId == teacherId).CountAsync();
+            int skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
+            var result = await _equiprpRepo.Entities()
+                    .Include(r => r.Equipment)
+                    .Include(r => r.Room)
+                    .Where(r => r.SenderId == teacherId)
+                    .Skip(skip)
+                    .Take(pageSize)
+                    .ToListAsync();
+            pagingDto.TotalRecords = totalRecords;
+            pagingDto.Data = result;
+            return actionResult.BuildResult(pagingDto);
+
         }
     }
 }

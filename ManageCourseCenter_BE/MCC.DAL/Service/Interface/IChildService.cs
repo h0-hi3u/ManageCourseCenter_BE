@@ -11,4 +11,5 @@ public interface IChildService
     Task<AppActionResult> CreateChildAsync(ChildCreatDto childCreatDto);
     Task<AppActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto);
     Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> CountNumberChildrent();
 }

@@ -111,4 +111,11 @@ public class CourseService : ICourseService
         var data = await _courseRepo.Entities().OrderByDescending(c => c.OpenFormTime).Take(pageSize).ToListAsync();
         return actionResult.BuildResult(data);
     }
+    public async Task<AppActionResult> CountNumberCourse()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _courseRepo.GetAllAsync();
+        int result = data.Count();
+        return actionResult.BuildResult("Number Of Course = " + result);
+    }
 }

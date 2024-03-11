@@ -18,4 +18,5 @@ public interface ICourseService
     Task<AppActionResult> UpdateCourseAsync(int courseId, CourseUpdateDto courseUpdateDto);
     Task<AppActionResult> SearchCourseByNameAsync(string name);
     Task<AppActionResult> GetNewCourseAsync(int pageSize);
+    Task<AppActionResult> CountNumberCourse();
 }

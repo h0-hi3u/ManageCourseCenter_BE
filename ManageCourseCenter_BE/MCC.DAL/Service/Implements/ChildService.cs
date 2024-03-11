@@ -169,4 +169,18 @@ public class ChildService : IChildService
             return actionResult.BuildError("Update fail");
         }
     }
+    public async Task<AppActionResult> CountNumberChildrent()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _childRepo.GetAllAsync();
+        int result = data.Count();
+        if (result > 0)
+        {
+            return actionResult.BuildResult("Number Of Childrent = " + result);
+        }
+        else
+        {
+            return actionResult.BuildError("No Childrent");
+        }
+    }
 }

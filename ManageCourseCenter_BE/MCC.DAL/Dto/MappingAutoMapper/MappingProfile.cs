@@ -37,6 +37,7 @@ public class MappingProfile : Profile
         CartMappingProfile();
         PaymentMappingProfile();
         CartItemMappingProfile();
+        CartMappingProfile();
     }
     private void CartMappingProfile()
     {
@@ -50,6 +51,7 @@ public class MappingProfile : Profile
     private void FeedbackMappingProfile()
     {
         CreateMap<FeedbackCreateDto, Feedback>();
+        CreateMap<Feedback, FeedbackShowDto>();
     }
     private void AcademicTranscriptMappingProfile()
     {

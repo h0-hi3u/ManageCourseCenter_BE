@@ -127,6 +127,7 @@ namespace MCC.DAL.Service.Implements
                     .Include(r => r.Equipment)
                     .Include(r => r.Room)
                     .Where(r => r.SenderId == teacherId)
+                    .OrderByDescending(r => r.SendTime)
                     .Skip(skip)
                     .Take(pageSize)
                     .ToListAsync();

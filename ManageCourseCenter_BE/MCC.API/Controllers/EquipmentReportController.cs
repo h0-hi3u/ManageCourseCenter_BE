@@ -64,4 +64,10 @@ public class EquipmentReportController : ControllerBase
         var result = await _equiprpService.CreateEquipmentReportAsync(equipReportCreateDto);
         return Ok(result);
     }
+    [HttpGet("get-report-by-teacher-id")]
+    public async Task<IActionResult> GetReportByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
+    {
+        var result = await _equiprpService.GetReptortByTeacherIdAsync(teacherId, pageSize, pageIndex);
+        return Ok(result);
+    }
 }

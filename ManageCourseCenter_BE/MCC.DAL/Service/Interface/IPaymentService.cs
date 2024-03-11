@@ -1,4 +1,6 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.CartDto;
+using MCC.DAL.Dto.PaymentDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +13,7 @@ namespace MCC.DAL.Service.Interface
     {
         public Task<AppActionResult> getPaymentByParentIDAsync(int parentId);
         public Task<AppActionResult> getPaymentByParentEmailAsync(string parentEmail);
+        Task<AppActionResult> UpdatePaymentStatusAsync(UpdatePaymentStatusDto updatePaymentStatusDto);
+
     }
 }

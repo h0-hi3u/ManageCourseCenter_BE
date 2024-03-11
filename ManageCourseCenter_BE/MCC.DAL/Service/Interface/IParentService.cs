@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ParentDto;
 
 namespace MCC.DAL.Service.Interface;
@@ -13,4 +14,5 @@ public interface IParentService
     Task<AppActionResult> CreateParentAsync(ParentCreateDto parentCreateDto);
     Task<AppActionResult> GetParentByEmailAndPasswordAsync(string email, string password);
     Task<AppActionResult> CountNumberParent();
+    Task<AppActionResult> UpdateParentInformationAsync(ParentUpdateDto parentUpdateDto);
 }

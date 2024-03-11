@@ -56,6 +56,13 @@ public class ParentController : ControllerBase
     {
         var result = await _parentService.GetParentByEmailAndPasswordAsync(email, password);
         return Ok(result);
+    } 
+    
+    [HttpPut("update-parent-information")]
+    public async Task<IActionResult> UpdateParentInformationAsync(ParentUpdateDto parentUpdateDto)
+    {
+        var result = await _parentService.UpdateParentInformationAsync(parentUpdateDto);
+        return Ok(result);
     }
     [HttpGet("count-number-parent")]
     public async Task<IActionResult> CountNumberParent()

@@ -16,13 +16,14 @@ namespace MCC.DAL.Service.Implements
     public class CartService : ICartService
     {
         private readonly ICartRepository _cartRepo;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly IParentRepository _parentRepository;
 
-        public CartService(ICartRepository cartRepo, IMapper mapper)
+        public CartService(ICartRepository cartRepo, IMapper mapper, IParentRepository parentRepository)
         {
             _cartRepo = cartRepo;
             _mapper = mapper;
-
+            _parentRepository = parentRepository;
         }
         public async Task<AppActionResult> CreateCartAsync(CartCreateDto cartCreateDto)
         {
@@ -40,5 +41,40 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError("Add fail");
             }
         }
+
+        public enum CartStatus
+        {
+            STORING = 1,
+            PAID = 2
+        }
+
+        public async Task<AppActionResult> UpdateStatusCartAsync(UpdateStatusCartDto updateStatusCartDto)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var cart = await _cartRepo.GetByIdAsync(updateStatusCartDto.Id);
+                if (cart == null)
+                {
+                    return actionResult.BuildError("Cart not found");
+                }
+
+                if (!Enum.IsDefined(typeof(CartStatus), updateStatusCartDto.Status))
+                {
+                    return actionResult.BuildError("Invalid cart status");
+                }
+
+                cart.Status = (int)(CartStatus)updateStatusCartDto.Status;
+                await _cartRepo.SaveChangesAsync();
+
+                return actionResult.SetInfo(true, "Update success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Update fail");
+            }
+        }
+
     }
 }

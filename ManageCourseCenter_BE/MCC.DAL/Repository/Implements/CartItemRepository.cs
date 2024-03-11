@@ -33,4 +33,18 @@ public class CartItemRepository : RepositoryGeneric<CartItem>, ICartItemReposito
 
         return cartItems;
     }
+
+    public async Task<bool> UpdateCartItemAsync(CartItem cartItem)
+    {
+        try
+        {
+            _dbSet.Update(cartItem);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

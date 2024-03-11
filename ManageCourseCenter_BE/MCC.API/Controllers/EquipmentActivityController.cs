@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Dto.CourceDto;
+﻿using MCC.DAL.Dto.CartDto;
+using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
@@ -58,6 +59,22 @@ public class EquipmentActivityController : ControllerBase
     public async Task<IActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto)
     {
         var result = await _equipmentActivityService.CreateEquipmentActivityAsync(equipActivityCreateDto);
+        return Ok(result);
+    }
+
+    [HttpPut("update-equipment-activity-finished-time")]
+    public async Task<IActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto)
+    {
+        var result = await _equipmentActivityService.UpdateEquipmentActivityFinishedTimeAsync(equipmentActivityUpdateFinishedTimeDto);
+
+        return Ok(result);
+    }
+    
+    [HttpPut("update-equipment-activity-description")]
+    public async Task<IActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto)
+    {
+        var result = await _equipmentActivityService.UpdateEquipmentActivityDescriptionAsync(equipmentActivityUpdateDescriptiomDto);
+
         return Ok(result);
     }
 }

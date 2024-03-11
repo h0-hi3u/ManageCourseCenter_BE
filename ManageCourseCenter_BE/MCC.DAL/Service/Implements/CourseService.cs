@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
@@ -101,6 +102,13 @@ public class CourseService : ICourseService
     {
         var actionResult = new AppActionResult();
         var data = await _courseRepo.GetCourseByNameAsync(name);
+        return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetNewCourseAsync(int pageSize)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _courseRepo.Entities().OrderByDescending(c => c.OpenFormTime).Take(pageSize).ToListAsync();
         return actionResult.BuildResult(data);
     }
 }

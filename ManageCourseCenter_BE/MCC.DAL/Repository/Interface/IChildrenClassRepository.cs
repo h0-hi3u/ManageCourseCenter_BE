@@ -14,4 +14,5 @@ public interface IChildrenClassRepository : IRepositoryGeneric<ChildrenClass>
     Task <IEnumerable<ChildrenClass>> GetChildrenClassByClassIDAsync(int classId);
     Task <IEnumerable<ChildrenClass>> GetChildrenClassByClassNameAsync(string className);
     Task<bool> DeleteChildrenClassAsync(int childrenClassId);
+    Task<ChildrenClass> GetChildrenClassWithClassByIdAsync(int childrenClassId);
 }

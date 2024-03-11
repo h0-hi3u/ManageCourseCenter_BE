@@ -62,4 +62,9 @@ public class ChildrenClassRepository : RepositoryGeneric<ChildrenClass>, IChildr
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<ChildrenClass> GetChildrenClassWithClassByIdAsync(int childrenClassId)
+    {
+        return await _context.ChildrenClasses.Include(cc => cc.Class).FirstOrDefaultAsync(cc => cc.Id == childrenClassId);
+    }
 }

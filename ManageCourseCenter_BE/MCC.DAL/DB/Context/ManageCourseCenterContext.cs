@@ -229,10 +229,18 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasColumnName("end_date");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("name");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("start_date");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -267,9 +275,15 @@ namespace MCC.DAL.DB.Context
                     .IsUnicode(false)
                     .HasColumnName("day_in_week");
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
+                entity.Property(e => e.EndTime)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("end_time");
 
-                entity.Property(e => e.StarTime).HasColumnName("star_time");
+                entity.Property(e => e.StarTime)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("star_time");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.ClassTimes)
@@ -290,10 +304,6 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
-                entity.Property(e => e.EndDate)
-                    .HasColumnType("date")
-                    .HasColumnName("end_date");
-
                 entity.Property(e => e.ImgUrl)
                     .IsRequired()
                     .HasColumnName("img_url");
@@ -310,10 +320,6 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("open_form_time");
 
                 entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.StartDate)
-                    .HasColumnType("date")
-                    .HasColumnName("start_date");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -385,11 +391,19 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.CloseTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("close_time");
+
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.RoomId).HasColumnName("room_id");
+
+                entity.Property(e => e.SendTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("send_time");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -451,6 +465,10 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -489,6 +507,8 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
+                entity.Property(e => e.ImgUrl).HasColumnName("img_url");
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -514,6 +534,10 @@ namespace MCC.DAL.DB.Context
                 entity.Property(e => e.CartId).HasColumnName("cart_id");
 
                 entity.Property(e => e.Method).HasColumnName("method");
+
+                entity.Property(e => e.ProcessTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("process_time");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -599,6 +623,10 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("full_name");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
+
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
 
                 entity.Property(e => e.Password)
                     .IsRequired()

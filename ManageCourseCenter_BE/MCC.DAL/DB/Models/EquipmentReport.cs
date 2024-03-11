@@ -9,6 +9,8 @@ namespace MCC.DAL.DB.Models
         public int RoomId { get; set; }
         public int EquipmentId { get; set; }
         public string Description { get; set; }
+        public DateTime SendTime { get; set; }
+        public DateTime? CloseTime { get; set; }
         public int Status { get; set; }
 
         public virtual Equipment Equipment { get; set; }

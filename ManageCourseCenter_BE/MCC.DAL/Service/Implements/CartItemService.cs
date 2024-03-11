@@ -36,6 +36,20 @@ namespace MCC.DAL.Service.Implements
             _cartRepository = cartRepository;
             _mapper = mapper;
         }
+
+        public async Task<AppActionResult> DeleteCartItemAsync(int cartItemId)
+        {
+            var result = new AppActionResult();
+            var success = await _cartItemRepository.DeleteCartItemAsync(cartItemId);
+
+            if (!success)
+            {
+                return result.BuildError("CartItem not found or failed to delete.");
+            }
+
+            return result.BuildResult("CartItem deleted successfully.");
+        }
+
         public async Task<AppActionResult> getCartItemByParentIDAsync(int parentId)
         {
             var actionResult = new AppActionResult();

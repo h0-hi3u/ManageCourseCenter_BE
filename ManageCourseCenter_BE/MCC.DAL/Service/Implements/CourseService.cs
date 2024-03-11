@@ -6,6 +6,7 @@ using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace MCC.DAL.Service.Implements;
 
@@ -95,5 +96,18 @@ public class CourseService : ICourseService
             return actionResult.BuildError("Failed to update course.");
         }
         return actionResult.BuildResult("Course updated successfully.");
+    }
+    public async Task<AppActionResult> SearchCourseByNameAsync(string name)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _courseRepo.GetCourseByNameAsync(name);
+        return actionResult.BuildResult(data);
+    }
+    public async Task<AppActionResult> CountNumberCourse()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _courseRepo.GetAllAsync();
+        int result = data.Count();
+        return actionResult.BuildResult("Number Of Course = " + result);
     }
 }

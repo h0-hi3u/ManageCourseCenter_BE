@@ -9,6 +9,7 @@ namespace MCC.DAL.DB.Models
         {
             AcademicTranscripts = new HashSet<AcademicTranscript>();
             Classes = new HashSet<Class>();
+            EquipmentReports = new HashSet<EquipmentReport>();
             Schedules = new HashSet<Schedule>();
         }
 
@@ -16,6 +17,7 @@ namespace MCC.DAL.DB.Models
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ImgUrl { get; set; }
         public string Phone { get; set; }
         public DateTime BirthDay { get; set; }
         public int Gender { get; set; }
@@ -24,6 +26,7 @@ namespace MCC.DAL.DB.Models
 
         public virtual ICollection<AcademicTranscript> AcademicTranscripts { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
+        public virtual ICollection<EquipmentReport> EquipmentReports { get; set; }
         public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

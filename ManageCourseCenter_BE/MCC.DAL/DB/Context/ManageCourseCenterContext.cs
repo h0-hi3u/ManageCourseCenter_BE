@@ -212,13 +212,13 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.ChildrenClasses)
                     .HasForeignKey(d => d.ChildrenId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChildrenC__child__5441852A");
+                    .HasConstraintName("FK__ChildrenC__child__5535A963");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.ChildrenClasses)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChildrenC__class__534D60F1");
+                    .HasConstraintName("FK__ChildrenC__class__5441852A");
             });
 
             modelBuilder.Entity<Class>(entity =>
@@ -229,10 +229,18 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasColumnName("end_date");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("name");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("start_date");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -267,9 +275,15 @@ namespace MCC.DAL.DB.Context
                     .IsUnicode(false)
                     .HasColumnName("day_in_week");
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
+                entity.Property(e => e.EndTime)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("end_time");
 
-                entity.Property(e => e.StarTime).HasColumnName("star_time");
+                entity.Property(e => e.StarTime)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("star_time");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.ClassTimes)
@@ -290,10 +304,6 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
-                entity.Property(e => e.EndDate)
-                    .HasColumnType("date")
-                    .HasColumnName("end_date");
-
                 entity.Property(e => e.ImgUrl)
                     .IsRequired()
                     .HasColumnName("img_url");
@@ -310,10 +320,6 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("open_form_time");
 
                 entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.StartDate)
-                    .HasColumnType("date")
-                    .HasColumnName("start_date");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -385,11 +391,21 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.CloseTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("close_time");
+
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.RoomId).HasColumnName("room_id");
+
+                entity.Property(e => e.SendTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("send_time");
+
+                entity.Property(e => e.SenderId).HasColumnName("sender_id");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -397,13 +413,19 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.EquipmentReports)
                     .HasForeignKey(d => d.EquipmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipment__equip__5070F446");
+                    .HasConstraintName("FK__Equipment__equip__5165187F");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.EquipmentReports)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Equipment__room___4F7CD00D");
+                    .HasConstraintName("FK__Equipment__room___5070F446");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.EquipmentReports)
+                    .HasForeignKey(d => d.SenderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Equipment__sende__4F7CD00D");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -426,7 +448,7 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.ChildrenClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Feedback__childr__571DF1D5");
+                    .HasConstraintName("FK__Feedback__childr__5812160E");
             });
 
             modelBuilder.Entity<Manager>(entity =>
@@ -450,6 +472,10 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("full_name");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
+
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -489,6 +515,8 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
+                entity.Property(e => e.ImgUrl).HasColumnName("img_url");
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -515,13 +543,17 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Method).HasColumnName("method");
 
+                entity.Property(e => e.ProcessTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("process_time");
+
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__cart_id__5CD6CB2B");
+                    .HasConstraintName("FK__Payment__cart_id__5DCAEF64");
             });
 
             modelBuilder.Entity<Room>(entity =>
@@ -563,19 +595,19 @@ namespace MCC.DAL.DB.Context
                     .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.ChildrenClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__childr__60A75C0F");
+                    .HasConstraintName("FK__Schedule__childr__619B8048");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__room_i__619B8048");
+                    .HasConstraintName("FK__Schedule__room_i__628FA481");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__teache__5FB337D6");
+                    .HasConstraintName("FK__Schedule__teache__60A75C0F");
             });
 
             modelBuilder.Entity<Teacher>(entity =>
@@ -599,6 +631,10 @@ namespace MCC.DAL.DB.Context
                     .HasColumnName("full_name");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
+
+                entity.Property(e => e.ImgUrl)
+                    .IsRequired()
+                    .HasColumnName("img_url");
 
                 entity.Property(e => e.Password)
                     .IsRequired()

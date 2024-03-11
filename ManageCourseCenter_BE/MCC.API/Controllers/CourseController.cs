@@ -50,4 +50,11 @@ public class CourseController : ControllerBase
         var result = await _courseService.UpdateCourseAsync(courseId, courseUpdateDto);
         return Ok(result);
     }
+
+    [HttpGet("search-course-by-name")]
+    public async Task<IActionResult> SearchCourseByName(string name)
+    {
+        var result = await _courseService.SearchCourseByNameAsync(name);
+        return Ok(result);
+    }
 }

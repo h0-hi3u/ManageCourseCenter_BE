@@ -28,6 +28,7 @@ namespace MCC.DAL.Authentication
             {
             new Claim(JwtRegisteredClaimNames.Sub, child.Username),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.NameId, child.Id.ToString()),
             // Add more claims as needed
         };
 

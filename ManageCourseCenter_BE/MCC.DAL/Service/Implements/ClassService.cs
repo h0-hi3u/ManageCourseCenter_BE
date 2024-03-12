@@ -82,10 +82,10 @@ public class ClassService : IClassService
         PagingDto pagingDto = new PagingDto();
 
         var skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
-        /*        var totalRecords = await _classRepo.Entities().Where(c => c.TeacherId == teacherId).CountAsync();*/
+        var totalRecords = await _classRepo.Entities().Where(c => c.TeacherId == teacherId).CountAsync();
 
         var result = await _classRepo.Entities().Include(c => c.Teacher).Where(c => c.TeacherId == teacherId).Skip(skip).Take(pageSize).ToListAsync();
-        var totalRecords = result.Count;
+        
         pagingDto.Data = result;
         pagingDto.TotalRecords = totalRecords;
         return actionResult.BuildResult(pagingDto);

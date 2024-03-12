@@ -63,9 +63,9 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet("get-class-teacher-by-id")]
-    public async Task<IActionResult> GetClassByTeacherIdAsync(int teacherId, int page = 1)
+    public async Task<IActionResult> GetClassByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
     {
-        var result = await _classService.GetClassByTeacherIdAsync(teacherId, page);
+        var result = await _classService.GetClassByTeacherIdAsync(teacherId, pageSize, pageIndex);
         return Ok(result);
     }
     [HttpGet("count-number-class")]

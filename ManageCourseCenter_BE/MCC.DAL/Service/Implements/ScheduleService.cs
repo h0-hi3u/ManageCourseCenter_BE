@@ -69,10 +69,10 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
-        public async Task<AppActionResult> GetScheduleByTeacherId(int roomNo)
+        public async Task<AppActionResult> GetScheduleByTeacherId(int teacherID)
         {
             var actionResult = new AppActionResult();
-            var data = await _scheduleRepository.GetScheduleByTeacherId(roomNo);
+            var data = await _scheduleRepository.GetScheduleByTeacherId(teacherID);
             if (data.Any())
             {
                 return actionResult.BuildResult(data);

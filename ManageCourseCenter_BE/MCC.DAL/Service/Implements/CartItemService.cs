@@ -82,9 +82,9 @@ namespace MCC.DAL.Service.Implements
             }
 
             var cart = await _cartRepository.GetByIdAsync(updateCartItemDto.CartId);
-            if (course == null)
+            if (cart == null)
             {
-                return actionResult.BuildError("Course not cart.");
+                return actionResult.BuildError("Cart not found.");
             }
 
             var classItem = await _classReposotory.GetByIdAsync(updateCartItemDto.ClassId);

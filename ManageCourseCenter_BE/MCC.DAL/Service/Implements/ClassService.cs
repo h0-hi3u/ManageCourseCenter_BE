@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using MCC.DAL.Dto;
+using Microsoft.VisualBasic;
 
 namespace MCC.DAL.Service.Implements;
 
@@ -74,18 +76,19 @@ public class ClassService : IClassService
         }
     }
 
-    public async Task<AppActionResult> GetClassByTeacherIdAsync(int teacherId, int page = 1)
+    public async Task<AppActionResult> GetClassByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
     {
         var actionResult = new AppActionResult();
-        var data = await _teacherRepo.Entities().Include(c => c.Classes).SingleOrDefaultAsync(c => c.Id == teacherId);
-        if(data != null)
-        {
-            return actionResult.BuildResult(data.Classes.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE));
-        }
-        else
-        {
-            return actionResult.BuildError("Not found");
-        }
+        PagingDto pagingDto = new PagingDto();
+
+        var skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
+        /*        var totalRecords = await _classRepo.Entities().Where(c => c.TeacherId == teacherId).CountAsync();*/
+
+        var result = await _classRepo.Entities().Include(c => c.Teacher).Where(c => c.TeacherId == teacherId).Skip(skip).Take(pageSize).ToListAsync();
+        var totalRecords = result.Count;
+        pagingDto.Data = result;
+        pagingDto.TotalRecords = totalRecords;
+        return actionResult.BuildResult(pagingDto);
     }
 
     public async Task<AppActionResult> GetClassByCourseNameAsync(string courseName)

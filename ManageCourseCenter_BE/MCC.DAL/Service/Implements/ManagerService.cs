@@ -109,8 +109,8 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
     {
         var actionResult = new AppActionResult();
-        var data = await _managerRepo.getManagerByEmailAndPasswordAsync(email, password);
-        if (data.Any())
+        var data = await _managerRepo.GetManagerByEmailAndPasswordAsync(email, password);
+        if (data != null)
         {
             return actionResult.BuildResult(data);
         }
@@ -238,7 +238,7 @@ public class ManagerService : IManagerService
     public async Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password)
     {
         var actionResult = new AppActionResult();
-        var existing = await _managerRepo.getManagerByEmailAndPasswordAsync(username, password);
+        var existing = await _managerRepo.GetManagerByEmailAndPasswordAsync(username, password);
         if (existing != null)
         {
             return actionResult.BuildResult(existing);

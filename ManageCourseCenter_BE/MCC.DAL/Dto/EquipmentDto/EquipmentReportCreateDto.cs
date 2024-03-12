@@ -8,6 +8,7 @@ namespace MCC.DAL.Dto.EquipmentDto;
 
 public class EquipmentReportCreateDto
 {
+    public int SenderId { get; set; }
     public int RoomId { get; set; }
     public int EquipmentId { get; set; }
     public string Description { get; set; }

@@ -9,5 +9,5 @@ public interface IManagerRepository : IRepositoryGeneric<Manager>
     Task<bool> CheckExistingPhoneAsync(string phone);
     Task<Manager> GetAdminByUsernameAndPassword(string username, string password);
     Task<Manager> GetStaffByUsernameAndPassword(string username, string password);
-    Task<IEnumerable<Manager>> getManagerByEmailAndPasswordAsync(string email, string password);
+    Task<Manager> GetManagerByEmailAndPasswordAsync(string email, string password);
 }

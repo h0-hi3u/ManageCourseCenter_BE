@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.CartDto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
+using static MCC.DAL.Service.Implements.CartService;
 
 namespace MCC.DAL.Service.Implements;
 
@@ -76,5 +78,51 @@ public class EquipmentActivityService : IEquipmentActivityService
         var actionResult = new AppActionResult();
         var data = await _equipmentActivityRepo.GetActivitiesByTimeRangeAsync(from, to);
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> UpdateEquipmentActivityDescriptionAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto)
+    {
+        var actionResult = new AppActionResult();
+
+        try
+        {
+            var equipmentActivity = await _equipmentActivityRepo.GetByIdAsync(equipmentActivityUpdateDescriptiomDto.Id);
+            if (equipmentActivity == null)
+            {
+                return actionResult.BuildError("Equipment Activity not found");
+            }
+
+            equipmentActivity.Description = equipmentActivityUpdateDescriptiomDto.Description;
+            await _equipmentActivityRepo.SaveChangesAsync();
+
+            return actionResult.SetInfo(true, "Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Update fail");
+        }
+    }
+
+    public async Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto)
+    {
+        var actionResult = new AppActionResult();
+
+        try
+        {
+            var equipmentActivity = await _equipmentActivityRepo.GetByIdAsync(equipmentActivityUpdateFinishedTimeDto.Id);
+            if (equipmentActivity == null)
+            {
+                return actionResult.BuildError("Equipment Activity not found");
+            }
+
+            equipmentActivity.FinishedTime = equipmentActivityUpdateFinishedTimeDto.FinishedTime;
+            await _equipmentActivityRepo.SaveChangesAsync();
+
+            return actionResult.SetInfo(true, "Update success");
+        }
+        catch
+        {
+            return actionResult.BuildError("Update fail");
+        }
     }
 }

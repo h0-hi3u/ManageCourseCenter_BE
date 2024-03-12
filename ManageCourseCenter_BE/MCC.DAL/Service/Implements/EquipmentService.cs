@@ -17,12 +17,14 @@ namespace MCC.DAL.Service.Implements
     public class EquipmentService : IEquipmentService
     {
         private IEquipmentRepository _equipRepo;
+        private IRoomRepository _roomRepo;
         private IMapper _mapper;
 
-        public EquipmentService(IEquipmentRepository equipRepo, IMapper mapper)
+        public EquipmentService(IEquipmentRepository equipRepo, IMapper mapper, IRoomRepository roomRepository)
         {
             _equipRepo = equipRepo;
             _mapper = mapper;
+            _roomRepo = roomRepository;
         }
 
         public async Task<AppActionResult> CreateEquipmentAsync(EquipmentCreateDto equipmentCreateDto)
@@ -74,6 +76,25 @@ namespace MCC.DAL.Service.Implements
             var actionResult = new AppActionResult();
             var data = await _equipRepo.Entities().Where(e => e.Name.Contains(name)).ToListAsync();
             return actionResult.BuildResult(data);        }
+
+        public async Task<AppActionResult> GetEquipmentByRoomId(int roomId)
+        {
+            var actionResult = new AppActionResult();
+            var room = await _roomRepo.Entities().Include(r => r.EquipmentActivities).SingleOrDefaultAsync(r => r.Id == roomId);
+
+            if (room == null)
+            {
+                return actionResult.BuildError("Not found roomId");
+            }
+            List<Equipment> listEquipment = new List<Equipment>();
+            foreach(var ea in room.EquipmentActivities)
+            {
+                var equipment = await _equipRepo.GetByIdAsync(ea.EquipmentId);
+                listEquipment.Add(equipment);
+            }
+            listEquipment.Distinct();
+            return actionResult.BuildResult(listEquipment);
+        }
 
         public async Task<AppActionResult> GetEquipmentByTypeAsync(int type)
         {

@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Dto.CourceDto;
+﻿using MCC.DAL.Common;
+using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.TeacherDto;
 using MCC.DAL.Service.Implements;
@@ -49,5 +50,24 @@ public class CourseController : ControllerBase
     {
         var result = await _courseService.UpdateCourseAsync(courseId, courseUpdateDto);
         return Ok(result);
+    }
+
+    [HttpGet("search-course-by-name")]
+    public async Task<IActionResult> SearchCourseByName(string name)
+    {
+        var result = await _courseService.SearchCourseByNameAsync(name);
+        return Ok(result);
+    }
+    [HttpGet("get-new-course")]
+    public async Task<IActionResult> GetNewCourse(int pageSize)
+    {
+        var result = await _courseService.GetNewCourseAsync(pageSize);
+        return Ok(result);
+     }
+    [HttpGet("count-number-course")]
+    public async Task<IActionResult> CountNumberCourse()
+    {
+        var count = await _courseService.CountNumberCourse();
+        return Ok(count);
     }
 }

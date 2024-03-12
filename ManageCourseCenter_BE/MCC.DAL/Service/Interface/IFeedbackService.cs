@@ -18,4 +18,5 @@ public interface IFeedbackService
     Task<AppActionResult> GetFeedbackByCourseNameAsync(string courseName);
     Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto);
     Task<AppActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto);
+    Task<AppActionResult> GetFeedbackByTeacherIdAsync(int teacherId, int pageSize, int pageIndex);
 }

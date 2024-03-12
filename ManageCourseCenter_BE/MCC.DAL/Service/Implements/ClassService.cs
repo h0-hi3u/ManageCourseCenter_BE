@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MCC.DAL.Service.Implements;
 
@@ -18,12 +19,15 @@ public class ClassService : IClassService
 {
     private IClassReposotory _classRepo;
     private ICourseRepository _courseRepo;
+    private ITeacherRepository _teacherRepo;
     private IMapper _mapper;
+    public static int PAGE_SIZE { get; set; } = 5;
 
-    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo, IMapper mapper)
+    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo, IMapper mapper, ITeacherRepository teacherRepo)
     {
         _classRepo = classRepo;
         _courseRepo = courseRepo;
+        _teacherRepo = teacherRepo;
         _mapper = mapper;
     }
 
@@ -65,6 +69,20 @@ public class ClassService : IClassService
         {
             return actionResult.BuildResult(data.Classes);
         } else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
+    public async Task<AppActionResult> GetClassByTeacherIdAsync(int teacherId, int page = 1)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _teacherRepo.Entities().Include(c => c.Classes).SingleOrDefaultAsync(c => c.Id == teacherId);
+        if(data != null)
+        {
+            return actionResult.BuildResult(data.Classes.Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE));
+        }
+        else
         {
             return actionResult.BuildError("Not found");
         }
@@ -129,5 +147,12 @@ public class ClassService : IClassService
             return actionResult.BuildError("Failed to update class.");
         }
         return actionResult.BuildResult("Class updated successfully.");
+    }
+    public async Task<AppActionResult> CountNumberClass()
+    {
+        var actionResult = new AppActionResult();
+        var data = await _classRepo.GetAllAsync();
+        int result = data.Count();
+        return actionResult.BuildResult("Number Of Class = " + result);
     }
 }

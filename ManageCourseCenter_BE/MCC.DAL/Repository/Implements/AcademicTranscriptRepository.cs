@@ -14,6 +14,7 @@ public class AcademicTranscriptRepository : RepositoryGeneric<AcademicTranscript
     public async Task<IEnumerable<AcademicTranscript>> getTranscriptByChildrenIDAsync(int childrenId)
     {
         return await _context.Set<AcademicTranscript>()
+            .Include(t => t.Course)
             .Where(t => t.ChildrenId == childrenId)
             .ToListAsync();
     }

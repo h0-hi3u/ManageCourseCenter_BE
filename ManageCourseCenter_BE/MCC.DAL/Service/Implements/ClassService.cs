@@ -22,15 +22,17 @@ public class ClassService : IClassService
     private IClassReposotory _classRepo;
     private ICourseRepository _courseRepo;
     private ITeacherRepository _teacherRepo;
+    private IChildrenClassRepository _childrenClassRepo;
     private IMapper _mapper;
     public static int PAGE_SIZE { get; set; } = 5;
 
-    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo, IMapper mapper, ITeacherRepository teacherRepo)
+    public ClassService(IClassReposotory classRepo, ICourseRepository courseRepo, IMapper mapper, ITeacherRepository teacherRepo, IChildrenClassRepository childrenClassRepository)
     {
         _classRepo = classRepo;
         _courseRepo = courseRepo;
         _teacherRepo = teacherRepo;
         _mapper = mapper;
+        _childrenClassRepo = childrenClassRepository;
     }
 
     public async Task<AppActionResult> CreateClassAsync(ClassCreateDto classCreateDto)
@@ -81,7 +83,7 @@ public class ClassService : IClassService
         var actionResult = new AppActionResult();
         PagingDto pagingDto = new PagingDto();
 
-        var skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
+        var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
         var totalRecords = await _classRepo.Entities().Where(c => c.TeacherId == teacherId).CountAsync();
 
         var result = await _classRepo.Entities().Include(c => c.Teacher).Include(c => c.Course).Where(c => c.TeacherId == teacherId).Skip(skip).Take(pageSize).ToListAsync();
@@ -157,5 +159,24 @@ public class ClassService : IClassService
         var data = await _classRepo.GetAllAsync();
         int result = data.Count();
         return actionResult.BuildResult("Number Of Class = " + result);
+    }
+
+    public async Task<AppActionResult> GetAllClassByChidlrenId(int childrenId, int pageSize, int pageIndex)
+    {
+        var actionResult = new AppActionResult();
+        PagingDto pagingDto = new PagingDto();
+
+        var allChildrenClass = await _childrenClassRepo.Entities().Include(cc => cc.Class).Include(cc => cc.Class.Teacher).Include(cc => cc.Class.Course).Where(cc => cc.ChildrenId == childrenId).ToListAsync();
+        List<Class> listClass = new List<Class>();
+        foreach (var cc in allChildrenClass)
+        {
+            listClass.Add(cc.Class);
+        }
+        var totalRecords = listClass.Count;
+        var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+        var data = listClass.Skip(skip).Take(pageSize).ToList();
+        pagingDto.TotalRecords = totalRecords;
+        pagingDto.Data = data;
+        return actionResult.BuildResult(pagingDto);
     }
 }

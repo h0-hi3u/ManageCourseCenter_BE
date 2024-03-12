@@ -14,4 +14,5 @@ public interface IClassService
     public Task<AppActionResult> UpdateClassAsync(int classId, ClassUpdateDto classUpdateDto);
     public Task<AppActionResult> GetClassByTeacherIdAsync(int teacherId, int pageSize, int pageIndex);
     Task<AppActionResult> CountNumberClass();
+    public Task<AppActionResult> GetAllClassByChidlrenId(int childrenId, int pageSize, int pageIndex);
 }

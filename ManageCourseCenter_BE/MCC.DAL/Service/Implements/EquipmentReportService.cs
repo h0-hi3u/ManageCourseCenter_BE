@@ -131,7 +131,7 @@ namespace MCC.DAL.Service.Implements
             PagingDto pagingDto = new PagingDto();
 
             var totalRecords = await _equiprpRepo.Entities().Where(r => r.SenderId == teacherId).CountAsync();
-            int skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
+            int skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
             var result = await _equiprpRepo.Entities()
                     .Include(r => r.Equipment)
                     .Include(r => r.Room)

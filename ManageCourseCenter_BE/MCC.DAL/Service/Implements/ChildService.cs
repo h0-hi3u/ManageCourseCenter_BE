@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MCC.DAL.Authentication;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ChildDto;
@@ -14,12 +15,27 @@ public class ChildService : IChildService
     private IChildRepository _childRepo;
     private IParentRepository _parentRepo;
     private IMapper _mapper;
+    private IAuthService _authService;
 
-    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper)
+    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService)
     {
         _childRepo = childRepo;
         _parentRepo = parentRepo;
         _mapper = mapper;
+        _authService = authService;
+    }
+
+    public async Task<AppActionResult> Authenticate(string username, string password)
+    {
+        var child = await _childRepo.GetChildrenByUsernameAndPassword(username, password);
+        if (child == null)
+        {
+            return new AppActionResult().BuildError("Authentication failed");
+        }
+
+        var token = _authService.GenerateJwtToken(child);
+
+        return new AppActionResult().BuildResult(token);
     }
 
     public async Task<AppActionResult> CreateChildAsync(ChildCreatDto childCreatDto)

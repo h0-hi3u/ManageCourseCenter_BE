@@ -6,6 +6,7 @@ using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
+using Microsoft.EntityFrameworkCore;
 using static MCC.DAL.Service.Implements.CartService;
 
 namespace MCC.DAL.Service.Implements;
@@ -41,7 +42,7 @@ public class EquipmentActivityService : IEquipmentActivityService
     public async Task<AppActionResult> GetAllEquipmentActivityAsync()
     {
         var actionResult = new AppActionResult();
-        var data = await _equipmentActivityRepo.GetAllAsync();
+        var data = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).ToListAsync();
         return actionResult.BuildResult(data);
     }
 

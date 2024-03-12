@@ -215,7 +215,7 @@ namespace MCC.DAL.Service.Implements
             }
 
             var totalRecords = listFeedback.Count;
-            var skip = CalculateHelper.CalculatePazing(pageSize, pageIndex);
+            var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
             var result = listFeedback.Skip(skip).Take(pageSize);
             //var data = _mapper.Map<IEnumerable<FeedbackShowDto>>(result);
             pagingDto.TotalRecords = totalRecords;

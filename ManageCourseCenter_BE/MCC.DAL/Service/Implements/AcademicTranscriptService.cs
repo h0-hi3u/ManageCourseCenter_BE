@@ -6,6 +6,7 @@ using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,17 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError("Add fail");
             }
+        }
+
+        public async Task<AppActionResult> GetAcademicTranscriptByIdAsync(int academicTranscriptId)
+        {
+            var actionResult = new AppActionResult();
+            var data = await _academicTranscriptRepo.Entities().Include(at => at.Course).SingleOrDefaultAsync(at => at.Id == academicTranscriptId);
+            if (data == null)
+            {
+                return actionResult.BuildError("Not found!");
+            }
+            return actionResult.BuildResult(data);
         }
 
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)

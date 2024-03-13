@@ -12,6 +12,6 @@ public interface ITeacherService
     Task<AppActionResult> CreateTeacherAsync(TeacherCreateDto teacherCreateDto);
     Task<AppActionResult> GetTeacherByEmailAndPasswordAsync(string email, string password);
     Task<AppActionResult> UpdateTeacherAsync(int teacherId, TeacherUpdateDto teacherUpdateDto);
-    Task<AppActionResult> ChangePasswordTeacherAsync(int teacherId, string currentPassword, string newPassword);
+    Task<AppActionResult> ChangePasswordTeacherAsync(int teacherId, TeacherChangePasswordDto teacherChangePasswordDto);
 
 }

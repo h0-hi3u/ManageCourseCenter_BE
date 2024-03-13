@@ -24,7 +24,7 @@ public class TeacherService : ITeacherService
         _mapper = mapper;
     }
 
-    public async Task<AppActionResult> ChangePasswordTeacherAsync(int teacherId, string currentPassword, string newPassword)
+    public async Task<AppActionResult> ChangePasswordTeacherAsync(int teacherId, TeacherChangePasswordDto teacherChangePasswordDto)
     {
         var actionResult = new AppActionResult();
         var teacher = await _teacherRepo.GetByIdAsync(teacherId);
@@ -34,12 +34,12 @@ public class TeacherService : ITeacherService
             return actionResult.BuildError("Teacher not found.");
         }
 
-        if (teacher.Password != currentPassword)
+        if (teacher.Password != teacherChangePasswordDto.CurrentPassword) 
         {
             return actionResult.BuildError("Current password is incorrect.");
         }
 
-        var success = await _teacherRepo.ChangePasswordAsync(teacherId, newPassword);
+        var success = await _teacherRepo.ChangePasswordAsync(teacherId, teacherChangePasswordDto.NewPassword);
         if (!success)
         {
             return actionResult.BuildError("Failed to change the password.");

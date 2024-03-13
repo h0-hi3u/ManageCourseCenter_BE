@@ -55,7 +55,7 @@ public class TeacherController : ControllerBase
     [HttpPost("changePassword")]
     public async Task<IActionResult> ChangePassword(int teacherId, TeacherChangePasswordDto teacherChangePasswordDto)
     {
-        var result = await _teacherService.ChangePasswordTeacherAsync(teacherId, teacherChangePasswordDto.CurrentPassword, teacherChangePasswordDto.NewPassword);
+        var result = await _teacherService.ChangePasswordTeacherAsync(teacherId, teacherChangePasswordDto);
         return Ok(result);
     }
 }

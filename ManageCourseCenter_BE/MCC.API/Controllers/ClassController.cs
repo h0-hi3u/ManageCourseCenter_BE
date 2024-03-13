@@ -74,4 +74,11 @@ public class ClassController : ControllerBase
         var count = await _classService.CountNumberClass();
         return Ok(count);
     }
+
+    [HttpGet("get-class-by-children-id")]
+    public async Task<IActionResult> GetClassByChildrenId(int childrenId, int pageSize, int pageIndex)
+    {
+        var result = await _classService.GetAllClassByChidlrenId(childrenId, pageSize, pageIndex);
+        return Ok(result);
+    }
 }

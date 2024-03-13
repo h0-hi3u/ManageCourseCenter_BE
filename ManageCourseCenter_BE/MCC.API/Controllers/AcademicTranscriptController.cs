@@ -66,5 +66,11 @@ namespace MCC.API.Controllers
             var result = await _academicTranscriptService.CreateAcademicTranscriptAsync(academicTranscriptCreateDto);
             return Ok(result);
         }
+        [HttpGet("get-by-id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _academicTranscriptService.GetAcademicTranscriptByIdAsync(id);
+            return Ok(result);
+        }
     }
 }

@@ -15,6 +15,9 @@ public class FeedbackRepository : RepositoryGeneric<Feedback>, IFeedbackReposito
     {
         return await _context.Set<Feedback>()
             .Include(f => f.ChildrenClass)
+            .Include(f => f.ChildrenClass.Class)
+            .Include(f => f.ChildrenClass.Class.Teacher)
+            .Include(f => f.ChildrenClass.Class.Course)
             .Where(f => f.ChildrenClass.ChildrenId == childrenId)
             .ToListAsync();
     }

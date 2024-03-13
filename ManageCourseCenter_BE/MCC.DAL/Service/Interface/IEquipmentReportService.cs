@@ -19,5 +19,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> CreateEquipmentReportAsync(EquipmentReportCreateDto equipmentReportCreateDto);
         Task<AppActionResult> GetReptortByTeacherIdAsync(int teacherId, int pageSize, int pageIndex);
         Task<AppActionResult> UpdateEquipmentReportAsync(int equipmentReportId, EquipmentReportUpdateDto equipmentReportUpdateDto);
+        Task<AppActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex);
     }
 }

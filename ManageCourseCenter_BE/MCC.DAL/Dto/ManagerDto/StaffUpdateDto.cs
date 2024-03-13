@@ -14,5 +14,6 @@ namespace MCC.DAL.Dto.ManagerDto
         public string ImgUrl { get; set; }
         public string Phone { get; set; }
         public DateTime BirthDay { get; set; }
+        public int Gender { get; set; }
     }
 }

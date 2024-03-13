@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +20,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> GetReptortByTeacherIdAsync(int teacherId, int pageSize, int pageIndex);
         Task<AppActionResult> UpdateEquipmentReportAsync(int equipmentReportId, EquipmentReportUpdateDto equipmentReportUpdateDto);
         Task<AppActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex);
+        Task<AppActionResult> SetEquipmentReportCloseByIdAsync(int reportId);
     }
 }

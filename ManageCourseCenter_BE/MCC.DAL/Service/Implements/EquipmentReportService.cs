@@ -240,5 +240,24 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError($"Update fail: {ex.Message}");
             }
         }
+
+        public async Task<AppActionResult> SetEquipmentReportCloseByIdAsync(int reportId)
+        {
+            var equipmentReport = await _equiprpRepo.GetByIdAsync(reportId);
+            var result = new AppActionResult();
+
+            if (equipmentReport == null)
+            {
+                return result.BuildError("Equipment Report not found.");
+            }
+
+            var closeDto = new EquipmentReportCloseDto { Status = CoreConstants.STT_EQUIPMENT_REPORT_CLOSED };
+            _mapper.Map(closeDto, equipmentReport);
+
+            _equiprpRepo.Update(equipmentReport);
+            await _equiprpRepo.SaveChangesAsync();
+
+            return result.BuildResult("Equipment report closed successfully.");
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -79,9 +79,17 @@ public class EquipmentReportController : ControllerBase
         return Ok(result);
     }
     [HttpGet("get-all-equipment-paging")]
+
     public async Task<IActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex)
     {
         var result = await _equiprpService.GetALlEquipmentReportPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
+
+    [HttpPatch("closeEquipmentReport")]
+    public async Task<IActionResult> CloseEquipmentReport(int reportId)
+    {
+        var result = await _equiprpService.SetEquipmentReportCloseByIdAsync(reportId);
         return Ok(result);
     }
 }

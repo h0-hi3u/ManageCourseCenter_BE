@@ -58,4 +58,10 @@ public class ChildController : ControllerBase
         var count = await _childService.CountNumberChildrent();
         return Ok(count);
     }
+    [HttpGet("get-all-room-paging")]
+    public async Task<IActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _childService.GetAllChildPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

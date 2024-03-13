@@ -2,6 +2,7 @@
 using MCC.DAL.Authentication;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Repository.Interfacep;
@@ -91,6 +92,24 @@ public class ChildService : IChildService
         var actionResult = new AppActionResult();
         var data = await _childRepo.GetAllAsync();
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex)
+    {
+        var actionResult = new AppActionResult();
+        PagingDto pagingDto = new PagingDto();
+        var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+        List<Child> listChild = new List<Child>();
+
+        var data = await _childRepo.GetAllAsync();
+        listChild.AddRange(data);
+
+        var totalRecords = listChild.Count;
+        var result = listChild.Skip(skip).Take(pageSize).ToList();
+
+        pagingDto.TotalRecords = totalRecords;
+        pagingDto.Data = result;
+        return actionResult.BuildResult(pagingDto);
     }
 
     public async Task<AppActionResult> GetChildByIdAsync(int id)

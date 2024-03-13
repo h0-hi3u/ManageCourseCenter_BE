@@ -10,6 +10,7 @@ using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,15 +50,31 @@ namespace MCC.DAL.Service.Implements
         public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
         {
             var actionResult = new AppActionResult();
+            PagingDto pagingDto = new PagingDto();
             try
             {
-                var feedbacks = await _feedbackRepo.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
+                //var feedbacks = await _feedbackRepo.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
+                var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+                var feedbacks = await _feedbackRepo.Entities()
+                    .Include(fb => fb.ChildrenClass)
+                    .Include(fb => fb.ChildrenClass.Children)
+                    .Include(fb => fb.ChildrenClass.Class)
+                    .Include(fb => fb.ChildrenClass.Class.Course)
+                    .Where(f => f.ChildrenClass.Children.ParentId == parentId)
+                    .Skip(skip)
+                    .Take(pageSize)
+                    .ToListAsync();
+                var totalRecord = await _feedbackRepo.Entities()
+                    .Where(f => f.ChildrenClass.Children.ParentId == parentId)
+                    .CountAsync();
                 if (feedbacks == null || !feedbacks.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given parent ID.");
                 }
+                pagingDto.TotalRecords = totalRecord;
+                pagingDto.Data = feedbacks;
 
-                return actionResult.BuildResult(feedbacks, "Feedback retrieved successfully.");
+                return actionResult.BuildResult(pagingDto, "Feedback retrieved successfully.");
             }
             catch (Exception ex)
             {

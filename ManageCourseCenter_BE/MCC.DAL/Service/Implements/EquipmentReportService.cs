@@ -253,7 +253,7 @@ namespace MCC.DAL.Service.Implements
 
             var closeDto = new EquipmentReportCloseDto { Status = CoreConstants.STT_EQUIPMENT_REPORT_CLOSED };
             _mapper.Map(closeDto, equipmentReport);
-
+            equipmentReport.CloseTime = DateTime.Now;
             _equiprpRepo.Update(equipmentReport);
             await _equiprpRepo.SaveChangesAsync();
 

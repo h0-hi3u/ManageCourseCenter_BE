@@ -110,7 +110,7 @@ public class ClassService : IClassService
     public async Task<AppActionResult> GetClassByIdAsync(int id)
     {
         var actionResult = new AppActionResult();
-        var data = await _classRepo.GetByIdAsync(id);
+        var data = await _classRepo.Entities().Include(c => c.Course).Include(c => c.Teacher).Include(c => c.ClassTimes.OrderByDescending(ct => ct.StarTime)).SingleOrDefaultAsync(c => c.Id == id);
         if (data != null)
         {
             return actionResult.BuildResult(data);

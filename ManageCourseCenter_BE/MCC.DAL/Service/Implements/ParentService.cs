@@ -147,10 +147,6 @@ public class ParentService : IParentService
             existingParent.FullName = parentUpdateDto.FullName;
         }
 
-        if (!string.IsNullOrEmpty(parentUpdateDto.Password))
-        {
-            existingParent.Password = parentUpdateDto.Password;
-        }
 
         if (!string.IsNullOrEmpty(parentUpdateDto.Phone))
         {
@@ -164,7 +160,18 @@ public class ParentService : IParentService
             }
             existingParent.Phone = parentUpdateDto.Phone;
         }
-
+        if (!string.IsNullOrEmpty(parentUpdateDto.Email))
+        {
+            if (parentUpdateDto.Email != existingParent.Email)
+            {
+                var checkEmail = await _parentRepo.CheckExistingEmailAsync(parentUpdateDto.Email);
+                if (!checkEmail)
+                {
+                    return actionResult.BuildError("Duplicate email");
+                }
+            }
+            existingParent.Email = parentUpdateDto.Email;
+        }
         if (parentUpdateDto.BirthDay != default)
         {
             existingParent.BirthDay = parentUpdateDto.BirthDay;
@@ -172,23 +179,8 @@ public class ParentService : IParentService
 
         if (parentUpdateDto.Gender != default)
         {
-            if (!Enum.IsDefined(typeof(ParentGender), parentUpdateDto.Status))
-            {
-                return actionResult.BuildError("Invalid parent gender");
-            }
             existingParent.Gender = parentUpdateDto.Gender;
         }
-
-
-        if (parentUpdateDto.Status != default)
-        {
-            if (!Enum.IsDefined(typeof(ParentStatus), parentUpdateDto.Status))
-            {
-                return actionResult.BuildError("Invalid parent status");
-            }
-            existingParent.Status = parentUpdateDto.Status;
-        }
-
         try
         {
             await _parentRepo.SaveChangesAsync();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Repository.Interface;
@@ -55,6 +56,25 @@ namespace MCC.DAL.Service.Implements
             var actionResult = new AppActionResult();
             var data = await _equipRepo.GetAllAsync();
             return actionResult.BuildResult(data);
+        }
+
+        public async Task<AppActionResult> GetAllEquipmentPagingAsync(int pageSize, int pageIndex)
+        {
+            var actionResult = new AppActionResult();
+            PagingDto pagingDto = new PagingDto();
+            var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+            List<Equipment> listEquip = new List<Equipment>();
+
+            var data = await _equipRepo.GetAllAsync();
+            listEquip.AddRange(data);
+
+            var totalRecords = listEquip.Count;
+            var result = listEquip.Skip(skip).Take(pageSize);
+
+            pagingDto.TotalRecords = totalRecords;
+            pagingDto.Data = result;
+            return actionResult.BuildResult(pagingDto);
+
         }
 
         public async Task<AppActionResult> GetEquipmentByIdAsync(int id)

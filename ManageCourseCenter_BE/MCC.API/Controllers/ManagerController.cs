@@ -116,4 +116,10 @@ public class ManagerController : ControllerBase
         var result = await _mangerService.ChangePasswordStaffAsync(staffId, changePasswordDto);
         return Ok(result);
     }
+    [HttpPut("updateStaffInformation")]
+    public async Task<IActionResult> UpdateStaffInformation(int staffId, StaffUpdateDto updateDto)
+    {
+        var result = await _mangerService.UpdateStaffInformationAsync(staffId, updateDto);
+        return Ok(result);
+    }
 }

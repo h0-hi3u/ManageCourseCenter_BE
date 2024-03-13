@@ -85,6 +85,7 @@ public class MappingProfile : Profile
         CreateMap<Manager, ManagerShowResponseDto>();
         CreateMap<ManagerCreateDto, Manager>();
         CreateMap<StaffChangePasswordDto, Manager>();
+        CreateMap<StaffUpdateDto, Manager>();
     }
     private void TeacherMappingProfile()
     {

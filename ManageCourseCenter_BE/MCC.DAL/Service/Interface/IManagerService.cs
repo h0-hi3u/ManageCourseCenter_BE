@@ -25,4 +25,5 @@ public interface IManagerService
     Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password);
     Task<AppActionResult> ChangePasswordStaffAsync(int staffId, StaffChangePasswordDto dto);
     Task<AppActionResult> UpdateStaffInformationAsync(int managerId, StaffUpdateDto dto);
+    Task<AppActionResult> SetStatusStaffAsync(int staffId, StaffSetStatusDto statusDto);
 }

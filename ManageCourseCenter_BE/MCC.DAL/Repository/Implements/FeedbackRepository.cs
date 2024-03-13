@@ -11,6 +11,13 @@ public class FeedbackRepository : RepositoryGeneric<Feedback>, IFeedbackReposito
     {
     }
 
+    public async Task<IEnumerable<Feedback>> GetAllFeedbackByParentIdAsync(int parentId)
+    {
+        return await _context.Set<Feedback>()
+            .Where(f => f.ChildrenClass.Children.ParentId == parentId)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Feedback>> GetFeedbackByChildrenIDAsync(int childrenId)
     {
         return await _context.Set<Feedback>()

@@ -78,4 +78,12 @@ public class EquipmentReportController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPatch("closeEquipmentReport")]
+    public async Task<IActionResult> CloseEquipmentReport(int reportId)
+    {
+        var result = await _equiprpService.SetEquipmentReportCloseByIdAsync(reportId);
+        return Ok(result);
+    }
+
 }

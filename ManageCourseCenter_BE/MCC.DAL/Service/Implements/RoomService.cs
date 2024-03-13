@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.RoomDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
@@ -48,6 +49,24 @@ public class RoomService : IRoomService
         var actionResult = new AppActionResult();
         var data = await _roomRepo.GetAllAsync();
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetAllRoomPagingAsync(int pageSize ,int pageIndex)
+    {
+        var actionResult = new AppActionResult();
+        PagingDto pagingDto = new PagingDto();
+        var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+        List<Room> listRoom = new List<Room>();
+
+        var data = await _roomRepo.GetAllAsync();
+        listRoom.AddRange(data);
+
+        var totalRecords = listRoom.Count;
+        var result = listRoom.Skip(skip).Take(pageSize).ToList();
+
+        pagingDto.Data = result;
+        pagingDto.TotalRecords = totalRecords;
+        return actionResult.BuildResult(pagingDto);
     }
 
     public async Task<AppActionResult> GetRoomByFloorAsync(int floor)

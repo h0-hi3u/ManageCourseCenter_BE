@@ -10,4 +10,6 @@ public interface ITeacherRepository : IRepositoryGeneric<Teacher>
     Task<bool> UpdateTeacherAsync(Teacher teacher);
     Task<bool> IsEmailUniqueAsync(string email, int? roomId = null);
     Task<bool> IsPhoneUniqueAsync(string phone, int? roomId = null);
+    Task<bool> ChangePasswordAsync(int teacherId, string newPassword);
+
 }

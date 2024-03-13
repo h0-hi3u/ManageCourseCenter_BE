@@ -88,6 +88,7 @@ public class MappingProfile : Profile
     {
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();
+        CreateMap<TeacherChangePasswordDto,  Teacher>();
     }
     private void ParentMappingProfile()
     {

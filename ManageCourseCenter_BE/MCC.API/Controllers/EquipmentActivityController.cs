@@ -77,4 +77,10 @@ public class EquipmentActivityController : ControllerBase
 
         return Ok(result);
     }
+    [HttpGet("get-all-equipment-paging")]
+    public async Task<IActionResult> GetAllEquipmentActivityPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _equipmentActivityService.GetAllEquipmentActivityPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

@@ -20,5 +20,5 @@ public interface IEquipmentActivityService
     Task<AppActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto);
     Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto);
     Task<AppActionResult> UpdateEquipmentActivityDescriptionAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto);
-
+    Task<AppActionResult> GetAllEquipmentActivityPagingAsync(int pageSize, int pageIndex);
 }

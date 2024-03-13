@@ -64,4 +64,10 @@ public class EquipmentController : ControllerBase
         var result = await _equipService.GetEquipmentByRoomId(roomId);
         return Ok(result);
     }
+    [HttpGet("get-equipment-all-paging")]
+    public async Task<IActionResult> GetAllEquipmentPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _equipService.GetAllEquipmentPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

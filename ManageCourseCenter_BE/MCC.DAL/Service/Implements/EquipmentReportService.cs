@@ -42,6 +42,20 @@ namespace MCC.DAL.Service.Implements
             return actionReult.BuildResult(data);
         }
 
+        public async Task<AppActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex)
+        {
+            var actionReult = new AppActionResult();
+            PagingDto pagingDto = new PagingDto();
+
+            var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+            var totalRecords = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er => er.Equipment.EquipmentActivities).ToListAsync();
+            var data = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er => er.Equipment.EquipmentActivities).Skip(skip).Take(pageSize).ToListAsync();
+
+            pagingDto.TotalRecords = totalRecords.Count;
+            pagingDto.Data = data;
+            return actionReult.BuildResult(pagingDto);
+        }
+
         public async Task<AppActionResult> GetEquipmentReportByIdAsync(int id)
         {
             var actionReult = new AppActionResult();

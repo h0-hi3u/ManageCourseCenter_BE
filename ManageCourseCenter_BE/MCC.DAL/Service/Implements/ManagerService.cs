@@ -306,26 +306,49 @@ public class ManagerService : IManagerService
         return actionResult.BuildResult("Password changed successfully.");
     }
 
-    public async Task<AppActionResult> UpdateStaffInformationAsync(int managerId, StaffUpdateDto dto)
+    public async Task<AppActionResult> UpdateStaffInformationAsync(int managerId, StaffUpdateDto staffUpdateDto)
     {
-        var manager = await _managerRepo.GetByIdAsync(managerId);
+        var staff = await _managerRepo.GetByIdAsync(managerId);
         var result = new AppActionResult();
 
-        if (manager == null)
+        if (staff == null)
         {
             return result.BuildError("Manager not found.");
         }
 
-        if (manager.Role != CoreConstants.ROLE_STAFF)
+        if (staff.Role != CoreConstants.ROLE_STAFF)
         {
             return result.BuildError("The specified ID does not belong to a staff member.");
         }
 
-        _mapper.Map(dto, manager);
+        _mapper.Map(staffUpdateDto, staff);
 
-        _managerRepo.Update(manager);
+        _managerRepo.Update(staff);
         await _managerRepo.SaveChangesAsync();
 
         return result.BuildResult("Staff information updated successfully.");
+    }
+
+    public async Task<AppActionResult> SetStatusStaffAsync(int staffId, StaffSetStatusDto statusDto)
+    {
+        var staff = await _managerRepo.GetByIdAsync(staffId);
+        var result = new AppActionResult();
+
+        if (staff == null)
+        {
+            return result.BuildError("Staff not found.");
+        }
+
+        if (staff.Role != CoreConstants.ROLE_STAFF)
+        {
+            return result.BuildError("The specified ID does not belong to a staff member.");
+        }
+
+        _mapper.Map(statusDto, staff);
+
+        _managerRepo.Update(staff);
+        await _managerRepo.SaveChangesAsync();
+
+        return result.BuildResult("Staff status updated successfully.");
     }
 }

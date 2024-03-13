@@ -117,9 +117,15 @@ public class ManagerController : ControllerBase
         return Ok(result);
     }
     [HttpPut("updateStaffInformation")]
-    public async Task<IActionResult> UpdateStaffInformation(int staffId, StaffUpdateDto updateDto)
+    public async Task<IActionResult> UpdateStaffInformation(int staffId, StaffUpdateDto staffUpdateDto)
     {
-        var result = await _mangerService.UpdateStaffInformationAsync(staffId, updateDto);
+        var result = await _mangerService.UpdateStaffInformationAsync(staffId, staffUpdateDto);
+        return Ok(result);
+    }
+    [HttpPatch("setStatusStaff")]
+    public async Task<IActionResult> SetStatusStaff(int staffId, StaffSetStatusDto statusDto)
+    {
+        var result = await _mangerService.SetStatusStaffAsync(staffId, statusDto);
         return Ok(result);
     }
 }

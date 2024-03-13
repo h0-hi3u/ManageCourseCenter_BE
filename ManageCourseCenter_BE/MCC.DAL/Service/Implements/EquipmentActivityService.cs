@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto;
 using MCC.DAL.Dto.CartDto;
 using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Dto.EquipmentDto;
@@ -44,6 +45,20 @@ public class EquipmentActivityService : IEquipmentActivityService
         var actionResult = new AppActionResult();
         var data = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).ToListAsync();
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetAllEquipmentActivityPagingAsync(int pageSize, int pageIndex)
+    {
+        var actionResult = new AppActionResult();
+        PagingDto pagingDto = new PagingDto();
+        var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+
+        var totalRecords = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).ToListAsync();
+        var data = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).Skip(skip).Take(pageSize).ToListAsync();
+
+        pagingDto.TotalRecords = totalRecords.Count;
+        pagingDto.Data = data;
+        return actionResult.BuildResult(pagingDto);
     }
 
     public async Task<AppActionResult> GetEquipmentByEquipmentId(int equipmentId)

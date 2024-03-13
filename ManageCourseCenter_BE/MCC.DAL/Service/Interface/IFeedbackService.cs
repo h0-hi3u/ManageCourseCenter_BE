@@ -19,5 +19,5 @@ public interface IFeedbackService
     Task<AppActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto);
     Task<AppActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto);
     Task<AppActionResult> GetFeedbackByTeacherIdAsync(int teacherId, int pageSize, int pageIndex);
-    Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId);
+    Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex);
 }

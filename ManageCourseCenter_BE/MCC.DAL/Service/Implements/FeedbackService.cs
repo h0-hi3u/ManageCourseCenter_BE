@@ -46,12 +46,12 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
-        public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId)
+        public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
         {
             var actionResult = new AppActionResult();
             try
             {
-                var feedbacks = await _feedbackRepo.GetAllFeedbackByParentIdAsync(parentId);
+                var feedbacks = await _feedbackRepo.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
                 if (feedbacks == null || !feedbacks.Any())
                 {
                     return actionResult.BuildError("No feedback found for the given parent ID.");

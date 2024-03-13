@@ -51,4 +51,10 @@ public class RoomController : ControllerBase
         var result = await _roomService.UpdateRoomAsync(roomId, roomUpdateDto);
         return Ok(result);
     }
+    [HttpGet("get-all-room-paging")]
+    public async Task<IActionResult> GetAllRoomPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _roomService.GetAllRoomPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

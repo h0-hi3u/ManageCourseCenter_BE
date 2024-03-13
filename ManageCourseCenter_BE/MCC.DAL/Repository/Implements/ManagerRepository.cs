@@ -3,6 +3,8 @@ using MCC.DAL.DB.Context;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using MCC.DAL.Constants;
+using MCC.DAL.Common;
+using MCC.DAL.Dto.ManagerDto;
 
 namespace MCC.DAL.Repository.Implements;
 
@@ -62,4 +64,5 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
         _context.Managers.Update(staff);
         return await _context.SaveChangesAsync() > 0;
     }
+
 }

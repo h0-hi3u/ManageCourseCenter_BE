@@ -305,4 +305,27 @@ public class ManagerService : IManagerService
 
         return actionResult.BuildResult("Password changed successfully.");
     }
+
+    public async Task<AppActionResult> UpdateStaffInformationAsync(int managerId, StaffUpdateDto dto)
+    {
+        var manager = await _managerRepo.GetByIdAsync(managerId);
+        var result = new AppActionResult();
+
+        if (manager == null)
+        {
+            return result.BuildError("Manager not found.");
+        }
+
+        if (manager.Role != CoreConstants.ROLE_STAFF)
+        {
+            return result.BuildError("The specified ID does not belong to a staff member.");
+        }
+
+        _mapper.Map(dto, manager);
+
+        _managerRepo.Update(manager);
+        await _managerRepo.SaveChangesAsync();
+
+        return result.BuildResult("Staff information updated successfully.");
+    }
 }

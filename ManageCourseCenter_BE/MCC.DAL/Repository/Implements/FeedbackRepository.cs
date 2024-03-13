@@ -1,4 +1,5 @@
-﻿using MCC.DAL.DB.Context;
+﻿using MCC.DAL.Common;
+using MCC.DAL.DB.Context;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,16 @@ public class FeedbackRepository : RepositoryGeneric<Feedback>, IFeedbackReposito
 {
     public FeedbackRepository(ManageCourseCenterContext context) : base(context)
     {
+    }
+
+    public async Task<IEnumerable<Feedback>> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
+    {
+        var skipAmount = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+        return await _context.Set<Feedback>()
+            .Where(f => f.ChildrenClass.Children.ParentId == parentId)
+            .Skip(skipAmount)
+            .Take(pageSize)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Feedback>> GetFeedbackByChildrenIDAsync(int childrenId)

@@ -46,6 +46,25 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
+        public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
+        {
+            var actionResult = new AppActionResult();
+            try
+            {
+                var feedbacks = await _feedbackRepo.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
+                if (feedbacks == null || !feedbacks.Any())
+                {
+                    return actionResult.BuildError("No feedback found for the given parent ID.");
+                }
+
+                return actionResult.BuildResult(feedbacks, "Feedback retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"An error occurred while retrieving feedback: {ex.Message}");
+            }
+        }
+
         public async Task<AppActionResult> GetFeedbackByChildrenIDAsync(int childrenId)
         {
             var actionResult = new AppActionResult();

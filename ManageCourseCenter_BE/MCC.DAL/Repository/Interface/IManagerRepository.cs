@@ -10,4 +10,6 @@ public interface IManagerRepository : IRepositoryGeneric<Manager>
     Task<Manager> GetAdminByUsernameAndPassword(string username, string password);
     Task<Manager> GetStaffByUsernameAndPassword(string username, string password);
     Task<Manager> GetManagerByEmailAndPasswordAsync(string email, string password);
+    Task<bool> ChangePasswordStaffAsync(int staffId, string newPassword);
+
 }

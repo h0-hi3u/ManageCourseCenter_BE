@@ -276,4 +276,33 @@ public class ManagerService : IManagerService
             return actionResult.BuildError("Not found");
         }
     }
+
+    public async Task<AppActionResult> ChangePasswordStaffAsync(int staffId, StaffChangePasswordDto dto)
+    {
+        var actionResult = new AppActionResult();
+        var staff = await _managerRepo.GetByIdAsync(staffId);
+
+        if (staff == null)
+        {
+            return actionResult.BuildError("Staff not found.");
+        }
+
+        if (staff.Role != CoreConstants.ROLE_STAFF)
+        {
+            return actionResult.BuildError("Not authorized.");
+        }
+
+        if (staff.Password != dto.CurrentPassword)
+        {
+            return actionResult.BuildError("Current password is incorrect.");
+        }
+
+        var success = await _managerRepo.ChangePasswordStaffAsync(staffId, dto.NewPassword);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to change the password.");
+        }
+
+        return actionResult.BuildResult("Password changed successfully.");
+    }
 }

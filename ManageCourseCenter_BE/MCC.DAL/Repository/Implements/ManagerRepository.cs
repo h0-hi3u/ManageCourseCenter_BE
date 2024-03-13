@@ -49,4 +49,17 @@ public class ManagerRepository : RepositoryGeneric<Manager>, IManagerRepository
     {
         return  await _dbSet.SingleOrDefaultAsync(t => t.Email == email && t.Password == password && t.Role == CoreConstants.ROLE_MANAGER);
     }
+
+    public async Task<bool> ChangePasswordStaffAsync(int managerId, string newPassword)
+    {
+        var staff = await _context.Managers.FindAsync(managerId);
+        if (staff == null || staff.Role != CoreConstants.ROLE_STAFF)
+        {
+            return false;
+        }
+
+        staff.Password = newPassword;
+        _context.Managers.Update(staff);
+        return await _context.SaveChangesAsync() > 0;
+    }
 }

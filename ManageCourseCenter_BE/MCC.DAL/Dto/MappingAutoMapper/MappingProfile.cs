@@ -84,11 +84,13 @@ public class MappingProfile : Profile
     {
         CreateMap<Manager, ManagerShowResponseDto>();
         CreateMap<ManagerCreateDto, Manager>();
+        CreateMap<StaffChangePasswordDto, Manager>();
     }
     private void TeacherMappingProfile()
     {
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();
+        CreateMap<TeacherChangePasswordDto,  Teacher>();
     }
     private void ParentMappingProfile()
     {

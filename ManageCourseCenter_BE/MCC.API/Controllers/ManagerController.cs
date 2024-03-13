@@ -110,4 +110,10 @@ public class ManagerController : ControllerBase
         var result = await _mangerService.GetManagerByEmailAndPasswordAsync(email, password);
         return Ok(result);
     }
+    [HttpPost("changePasswordStaff")]
+    public async Task<IActionResult> ChangePasswordStaff(int staffId,StaffChangePasswordDto changePasswordDto)
+    {
+        var result = await _mangerService.ChangePasswordStaffAsync(staffId, changePasswordDto);
+        return Ok(result);
+    }
 }

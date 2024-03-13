@@ -65,4 +65,16 @@ public class TeacherRepository : RepositoryGeneric<Teacher>, ITeacherRepository
         return !await _context.Teachers.AnyAsync(t => t.Phone == phone && t.Id != teacherId);
     }
 
+    public async Task<bool> ChangePasswordAsync(int teacherId, string newPassword)
+    {
+        var teacher = await _context.Teachers.FindAsync(teacherId);
+        if (teacher == null)
+        {
+            return false;
+        }
+
+        teacher.Password = newPassword;
+        _context.Teachers.Update(teacher);
+        return await _context.SaveChangesAsync() > 0;
+    }
 }

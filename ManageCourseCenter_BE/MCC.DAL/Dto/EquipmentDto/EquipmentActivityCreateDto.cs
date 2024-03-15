@@ -15,4 +15,6 @@ public class EquipmentActivityCreateDto
     public DateTime? FinishedTime { get; set; }
     public string Description { get; set; }
     public int Action { get; set; }
+    public int Status { get; set; }
+
 }

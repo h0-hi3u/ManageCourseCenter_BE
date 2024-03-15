@@ -51,4 +51,11 @@ public class RoomController : ControllerBase
         var result = await _roomService.UpdateRoomAsync(roomId, roomUpdateDto);
         return Ok(result);
     }
+    [HttpPost("update-status")]
+    public async Task<IActionResult> UpdateRoomStatus(RoomStatusUpdateDto statusUpdateDto)
+    {
+        var result = await _roomService.UpdateRoomStatusAsync(statusUpdateDto);
+        return Ok(result);
+    }
+
 }

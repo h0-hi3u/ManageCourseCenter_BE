@@ -11,4 +11,5 @@ public interface IRoomService
     Task<AppActionResult> GetRoomByFloorAsync(int floor);
     Task<AppActionResult> CreateRoomAsync(RoomCreateDto roomCreateDto);
     Task<AppActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto);
+    Task<AppActionResult> UpdateRoomStatusAsync(RoomStatusUpdateDto updateDto);
 }

@@ -111,4 +111,27 @@ public class RoomService : IRoomService
             return actionResult.BuildError($"Update fail: {ex.Message}");
         }
     }
+
+    public async Task<AppActionResult> UpdateRoomStatusAsync(RoomStatusUpdateDto updateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var room = await _roomRepo.GetByIdAsync(updateDto.Id);
+        if (room == null)
+        {
+            return actionResult.BuildError("Room not found.");
+        }
+
+        _mapper.Map(updateDto, room);
+
+        try
+        {
+            await _roomRepo.UpdateRoomAsync(room);
+            return actionResult.BuildResult("Status update success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"Status update fail: {ex.Message}");
+        }
+    }
 }

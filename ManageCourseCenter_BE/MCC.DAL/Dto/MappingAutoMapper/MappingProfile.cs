@@ -112,6 +112,7 @@ public class MappingProfile : Profile
     {
         CreateMap<RoomCreateDto, Room>();
         CreateMap<RoomUpdateDto, Room>();
+        CreateMap<RoomStatusUpdateDto, Room>();
     }
     private void CourseMappingProfile()
     {

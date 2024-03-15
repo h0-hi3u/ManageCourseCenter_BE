@@ -13,6 +13,7 @@ namespace MCC.DAL.DB.Models
         public DateTime? FinishedTime { get; set; }
         public string Description { get; set; }
         public int Action { get; set; }
+        public int Status { get; set; }
 
         public virtual Equipment Equipment { get; set; }
         public virtual Manager Manager { get; set; }

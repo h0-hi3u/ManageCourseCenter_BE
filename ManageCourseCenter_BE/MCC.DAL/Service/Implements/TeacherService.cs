@@ -109,6 +109,29 @@ public class TeacherService : ITeacherService
         }
     }
 
+    public async Task<AppActionResult> SetTeacherStatusAsync(TeacherStatusSetDto teacherStatusSetDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var teacher = await _teacherRepo.GetByIdAsync(teacherStatusSetDto.Id);
+        if (teacher == null)
+        {
+            return actionResult.BuildError("Teacher not found.");
+        }
+
+        _mapper.Map(teacherStatusSetDto, teacher);
+
+        try
+        {
+            await _teacherRepo.UpdateTeacherAsync(teacher);
+            return actionResult.BuildResult("Status update success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"Status update fail: {ex.Message}");
+        }
+    }
+
     public async Task<AppActionResult> UpdateTeacherAsync(int teacherId, TeacherUpdateDto teacherUpdateDto)
     {
         var actionResult = new AppActionResult();

@@ -93,6 +93,7 @@ public class MappingProfile : Profile
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();
         CreateMap<TeacherChangePasswordDto,  Teacher>();
+        CreateMap<TeacherStatusSetDto, Teacher>();
     }
     private void ParentMappingProfile()
     {
@@ -112,6 +113,7 @@ public class MappingProfile : Profile
     {
         CreateMap<RoomCreateDto, Room>();
         CreateMap<RoomUpdateDto, Room>();
+        CreateMap<RoomStatusUpdateDto, Room>();
     }
     private void CourseMappingProfile()
     {

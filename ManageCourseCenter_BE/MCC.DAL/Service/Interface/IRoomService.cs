@@ -1,4 +1,4 @@
-﻿using MCC.DAL.Common;
+using MCC.DAL.Common;
 using MCC.DAL.Dto.RoomDto;
 
 namespace MCC.DAL.Service.Interface;
@@ -11,5 +11,6 @@ public interface IRoomService
     Task<AppActionResult> GetRoomByFloorAsync(int floor);
     Task<AppActionResult> CreateRoomAsync(RoomCreateDto roomCreateDto);
     Task<AppActionResult> UpdateRoomAsync(int roomId, RoomUpdateDto roomUpdateDto);
+    Task<AppActionResult> UpdateRoomStatusAsync(RoomStatusUpdateDto updateDto);
     Task<AppActionResult> GetAllRoomPagingAsync(int pageSize, int pageIndex);
 }

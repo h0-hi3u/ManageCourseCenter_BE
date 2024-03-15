@@ -1,4 +1,4 @@
-﻿using MCC.DAL.Dto.RoomDto;
+using MCC.DAL.Dto.RoomDto;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,5 +57,10 @@ public class RoomController : ControllerBase
         var result = await _roomService.UpdateRoomStatusAsync(statusUpdateDto);
         return Ok(result);
     }
-
+    [HttpGet("get-all-room-paging")]
+    public async Task<IActionResult> GetAllRoomPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _roomService.GetAllRoomPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

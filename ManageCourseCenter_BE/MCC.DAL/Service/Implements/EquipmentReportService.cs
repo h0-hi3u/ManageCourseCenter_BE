@@ -49,7 +49,7 @@ namespace MCC.DAL.Service.Implements
 
             var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
             var totalRecords = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er => er.Equipment.EquipmentActivities).ToListAsync();
-            var data = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er => er.Equipment.EquipmentActivities).Skip(skip).Take(pageSize).ToListAsync();
+            var data = await _equiprpRepo.Entities().Include(er => er.Equipment).Include(er => er.Equipment.EquipmentActivities).OrderByDescending(er => er.SendTime).Skip(skip).Take(pageSize).ToListAsync();
 
             pagingDto.TotalRecords = totalRecords.Count;
             pagingDto.Data = data;
@@ -253,7 +253,7 @@ namespace MCC.DAL.Service.Implements
 
             var closeDto = new EquipmentReportCloseDto { Status = CoreConstants.STT_EQUIPMENT_REPORT_CLOSED };
             _mapper.Map(closeDto, equipmentReport);
-
+            equipmentReport.CloseTime = DateTime.Now;
             _equiprpRepo.Update(equipmentReport);
             await _equiprpRepo.SaveChangesAsync();
 

@@ -1,0 +1,7 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "./MCC.API/Dockerfile"
+
+[deploy]
+startCommand = "dotnet MCC.API.dll"
+restartPolicyType = "never"

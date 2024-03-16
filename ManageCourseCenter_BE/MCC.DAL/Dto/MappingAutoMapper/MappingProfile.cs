@@ -63,6 +63,7 @@ public class MappingProfile : Profile
         CreateMap<EquipmentReportCreateDto, EquipmentReport>();
         CreateMap<EquipmentReportUpdateDto, EquipmentReport>();
         CreateMap<EquipmentReportCloseDto, EquipmentReport>();
+        CreateMap<EquipmentReport, EquipmentReportOrderStatusOpenDto>();
     }
     private void EquipmentActivityMappingProfile()
     {

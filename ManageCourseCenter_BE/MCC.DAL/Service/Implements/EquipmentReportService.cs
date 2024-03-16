@@ -259,5 +259,30 @@ namespace MCC.DAL.Service.Implements
 
             return result.BuildResult("Equipment report closed successfully.");
         }
+
+        public async Task<AppActionResult> GetAllReportOrderByStatusOpenAsync()
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var openReportsQuery = _equiprpRepo.GetAllReportsByStatusAsync(CoreConstants.STT_EQUIPMENT_REPORT_OPENING);
+
+                var reportDtos = await _mapper.ProjectTo<EquipmentReportOrderStatusOpenDto>(openReportsQuery)
+                                               .OrderBy(r => r.SendTime)
+                                               .ToListAsync();
+
+                if (!reportDtos.Any())
+                {
+                    return actionResult.BuildError("No open equipment reports found.");
+                }
+
+                return actionResult.BuildResult(reportDtos, "Open equipment reports fetched successfully.");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"Failed to fetch open equipment reports: {ex.Message}");
+            }
+        }
     }
 }

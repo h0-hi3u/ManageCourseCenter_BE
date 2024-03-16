@@ -1,6 +1,7 @@
 ﻿using MCC.DAL.DB.Context;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace MCC.DAL.Repository.Implements;
 
@@ -8,5 +9,11 @@ public class EquipmentReportRepository : RepositoryGeneric<EquipmentReport>, IEq
 {
     public EquipmentReportRepository(ManageCourseCenterContext context) : base(context)
     {
+    }
+
+    public IQueryable<EquipmentReport> GetAllReportsByStatusAsync(int status)
+    {
+        return _context.EquipmentReports
+                       .Where(r => r.Status == status);
     }
 }

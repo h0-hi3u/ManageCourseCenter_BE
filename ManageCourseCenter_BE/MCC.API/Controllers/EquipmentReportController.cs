@@ -92,4 +92,11 @@ public class EquipmentReportController : ControllerBase
         var result = await _equiprpService.SetEquipmentReportCloseByIdAsync(reportId);
         return Ok(result);
     }
+
+    [HttpGet("reportsStatusOpen")]
+    public async Task<IActionResult> GetAllReportOrderByStatusOpen()
+    {
+        var result = await _equiprpService.GetAllReportOrderByStatusOpenAsync();
+        return Ok(result);
+    }
 }

@@ -14,6 +14,6 @@ namespace MCC.DAL.Service.Interface
         public Task<AppActionResult> getCartItemByParentIDAsync(int parentId);
         Task<AppActionResult> DeleteCartItemAsync(int cartItemId);
         Task<AppActionResult> UpdateCartItemAsync(int cartItemId,UpdateCartItemDto updateCartItemDto);
-
+        Task<AppActionResult> CreateCartItemAsync(CreateCartItemDto createCartItemDto);
     }
 }

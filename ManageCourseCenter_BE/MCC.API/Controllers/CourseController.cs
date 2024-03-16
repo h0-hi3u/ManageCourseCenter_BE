@@ -70,4 +70,16 @@ public class CourseController : ControllerBase
         var count = await _courseService.CountNumberCourse();
         return Ok(count);
     }
+    [HttpGet("get-course-list")]
+    public async Task<IActionResult> GetAllCourseAsync(int pageSize = 5, int pageIndex = 1)
+    {
+        var result = await _courseService.GetAllCourseAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
+    [HttpGet("get-course-by-course-id")]
+    public async Task<IActionResult> GetCourseByCourseIdAsync(int courseId)
+    {
+        var result = await _courseService.GetCourseByIdAsync(courseId);
+        return Ok(result);
+    }
 }

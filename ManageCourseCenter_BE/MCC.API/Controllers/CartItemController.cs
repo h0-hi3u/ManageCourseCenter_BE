@@ -30,6 +30,14 @@ namespace MCC.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("create-cart-item")]
+        public async Task<IActionResult> CreateCartItemAsync([FromBody] CreateCartItemDto createCartItemDto)
+        {
+            var result = await _cartItemService.CreateCartItemAsync(createCartItemDto);
+
+            return Ok(result);
+        }
+
         [HttpDelete("delete-cart-item")]
         public async Task<IActionResult> DeleteCartItem(int cartItemId)
         {

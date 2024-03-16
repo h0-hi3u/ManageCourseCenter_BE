@@ -33,10 +33,11 @@ public class CourseService : ICourseService
     {
         var actionResult = new AppActionResult();
         var data = await _courseRepo.GetByIdAsync(id);
-        if(data != null)
+        if (data != null)
         {
             return actionResult.BuildResult(data);
-        } else
+        }
+        else
         {
             return actionResult.BuildError("Not found");
         }
@@ -58,7 +59,7 @@ public class CourseService : ICourseService
         {
             return actionResult.BuildError("Duplicate name");
         }
-        
+
         try
         {
             var course = _mapper.Map<Course>(courseCreateDto);
@@ -117,5 +118,46 @@ public class CourseService : ICourseService
         var data = await _courseRepo.GetAllAsync();
         int result = data.Count();
         return actionResult.BuildResult("Number Of Course = " + result);
+    }
+
+    public async Task<AppActionResult> GetAllCourseAsync(int pageSize, int pageIndex)
+    {
+        var actionResult = new AppActionResult();
+        PagingDto pagingDto = new PagingDto();
+        try
+        {
+            var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
+            var courses = await _courseRepo.Entities()
+                .Skip(skip)
+                .Take(pageSize)
+                .ToListAsync();
+            var totalRecord = await _courseRepo.Entities().CountAsync();
+            if (courses == null || !courses.Any())
+            {
+                return actionResult.BuildError("No course found.");
+            }
+            pagingDto.TotalRecords = totalRecord;
+            pagingDto.Data = courses;
+
+            return actionResult.BuildResult(pagingDto, "Course list retrieved successfully.");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"An error occurred while retrieving Course: {ex.Message}");
+        }
+    }
+
+    public async Task<AppActionResult> GetCourseByCourseIdAsync(int courseId)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _courseRepo.GetCourseByCourseIdAsync(courseId);
+        if (data != null)
+        {
+            return actionResult.BuildResult(data);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 }

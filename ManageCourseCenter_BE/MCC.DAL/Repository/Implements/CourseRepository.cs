@@ -24,6 +24,13 @@ public class CourseRepository : RepositoryGeneric<Course>, ICourseRepository
         }    
     }
 
+
+
+    public async Task<Course> GetCourseByCourseIdAsync(int courseId)
+    {
+        return await _dbSet.SingleOrDefaultAsync(c => c.Id == courseId);
+    }
+
     public async Task<IEnumerable<Course>> GetCourseByNameAsync(string name)
     {
         return await _dbSet.Where(c => c.Name.Contains(name)).ToListAsync();

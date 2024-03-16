@@ -284,5 +284,30 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError("Update fail");
             }
         }
+
+        public async Task<AppActionResult> UpdateFeedbackByChildrenClassId(FeedbackUpdateByChildrenClassIdDto feedbackUpdateDto)
+        {
+            var actionResult = new AppActionResult();
+            var existing = await _feedbackRepo.GetByIdAsync(feedbackUpdateDto.ChildrenClassId);
+            if (existing == null)
+            {
+                return actionResult.BuildError("Not found feedback");
+            }
+            try
+            {
+                existing.CourseRating = feedbackUpdateDto.CourseRating;
+                existing.TeacherRating = feedbackUpdateDto.TeacherRating;
+                existing.EquipmentRating = feedbackUpdateDto.EquipmentRating;
+                existing.Description = feedbackUpdateDto.Description;
+                _feedbackRepo.Update(existing);
+                await _feedbackRepo.SaveChangesAsync();
+                return actionResult.BuildResult("Update success");
+            }
+            catch (Exception ex)
+            {
+                var e = ex.Message;
+                return actionResult.BuildError("Update fail");
+            }
+        }
     }
 }

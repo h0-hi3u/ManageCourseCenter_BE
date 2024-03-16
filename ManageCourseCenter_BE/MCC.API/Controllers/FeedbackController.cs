@@ -85,5 +85,11 @@ namespace MCC.API.Controllers
             var result = await _feedbackService.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
             return Ok(result);
         }
+        [HttpPut("update-feedback-by-children-class-id")]
+        public async Task<IActionResult> UpdateFeedbackByChildrenclassId(FeedbackUpdateByChildrenClassIdDto feedbackUpdateDto)
+        {
+            var result = await _feedbackService.UpdateFeedbackByChildrenClassId(feedbackUpdateDto);
+            return Ok(result);
+        }
     }
 }

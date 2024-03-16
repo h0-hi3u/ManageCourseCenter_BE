@@ -35,4 +35,19 @@ public class EquipmentActivityRepository : RepositoryGeneric<EquipmentActivity>,
     {
         return await _dbSet.Where(ea => ea.OperateTime >= from && ea.OperateTime <= to).ToListAsync();
     }
+
+    public async Task<bool> UpdateAsync(EquipmentActivity equipmentActivity)
+    {
+        try
+        {
+            _context.EquipmentActivities.Update(equipmentActivity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 }

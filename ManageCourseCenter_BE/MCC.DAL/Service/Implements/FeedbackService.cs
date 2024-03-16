@@ -47,6 +47,21 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
+        public async Task<AppActionResult> CreateFeedbackByChildrenClassId(FeedbackCreateDto feedbackCreateDto)
+        {
+            var actionResult = new AppActionResult();
+            try
+            {
+                var feedBack = _mapper.Map<Feedback>(feedbackCreateDto);
+                await _feedbackRepo.AddAsync(feedBack);
+                await _feedbackRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
+        }
         public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
         {
             var actionResult = new AppActionResult();

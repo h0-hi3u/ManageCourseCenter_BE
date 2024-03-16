@@ -8,6 +8,7 @@ using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Dto.PaymentDto;
 using MCC.DAL.Dto.RoomDto;
+using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -58,17 +59,16 @@ namespace MCC.DAL.Service.Implements
 
         public async Task<AppActionResult> GetEquipmentReportByIdAsync(int id)
         {
-            var actionReult = new AppActionResult();
-            var data = await _equiprpRepo.GetByIdAsync(id);
-            if (data != null)
+            var actionResult = new AppActionResult();
+            var report = await _equiprpRepo.GetReportByIdAsync(id);
+            if (report == null)
             {
-                return actionReult.BuildResult(data);
+                return actionResult.BuildError("Report not found.");
             }
-            else
-            {
-                return actionReult.BuildError("Not found");
-            }
+
+            return actionResult.BuildResult(report, "Report fetched successfully.");
         }
+
         public async Task<AppActionResult> GetEquipmentReportByEquipmentIdAsync(int equipmentid)
         {
             var actionReult = new AppActionResult();

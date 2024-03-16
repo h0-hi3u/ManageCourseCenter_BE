@@ -81,4 +81,10 @@ public class ClassController : ControllerBase
         var result = await _classService.GetAllClassByChidlrenId(childrenId, pageSize, pageIndex);
         return Ok(result);
     }
+    [HttpPost("updateStatus")]
+    public async Task<IActionResult> UpdateClassStatus(ClassStatusUpdateDto classStatusUpdateDto)
+    {
+        var result = await _classService.UpdateClassStatusToEnded(classStatusUpdateDto);
+        return Ok(result);
+    }
 }

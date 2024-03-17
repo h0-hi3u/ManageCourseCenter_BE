@@ -21,4 +21,10 @@ public class EquipmentReportRepository : RepositoryGeneric<EquipmentReport>, IEq
     {
         return await _context.EquipmentReports.FirstOrDefaultAsync(r => r.Id == reportId);
     }
+
+    public async Task UpdateAsync(EquipmentReport equipmentReport)
+    {
+        _context.EquipmentReports.Update(equipmentReport);
+        await _context.SaveChangesAsync();
+    }
 }

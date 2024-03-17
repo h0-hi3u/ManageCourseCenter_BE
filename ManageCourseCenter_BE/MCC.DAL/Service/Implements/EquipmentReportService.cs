@@ -284,5 +284,27 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError($"Failed to fetch open equipment reports: {ex.Message}");
             }
         }
+
+        public async Task<AppActionResult> UpdateReportStatusAsync(EquipmentReportUpdateStatusDto updateStatusDto)
+        {
+            var actionResult = new AppActionResult();
+            var report = await _equiprpRepo.GetByIdAsync(updateStatusDto.Id);
+            if (report == null)
+            {
+                return actionResult.BuildError("Report not found.");
+            }
+
+            // Update the status of the report
+            report.Status = updateStatusDto.Status;
+            try
+            {
+                await _equiprpRepo.UpdateAsync(report);
+                return actionResult.BuildResult("Report status updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"An error occurred while updating the report status: {ex.Message}");
+            }
+        }
     }
 }

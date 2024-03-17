@@ -99,4 +99,11 @@ public class EquipmentReportController : ControllerBase
         var result = await _equiprpService.GetAllReportOrderByStatusOpenAsync();
         return Ok(result);
     }
+
+    [HttpPut("update-status")]
+    public async Task<IActionResult> UpdateReportStatus(EquipmentReportUpdateStatusDto equipmentReportUpdateStatusDto)
+    {
+        var result = await _equiprpService.UpdateReportStatusAsync(equipmentReportUpdateStatusDto);
+        return Ok(result);
+    }
 }

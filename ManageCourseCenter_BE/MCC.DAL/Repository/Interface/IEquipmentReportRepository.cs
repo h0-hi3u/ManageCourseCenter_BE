@@ -6,5 +6,5 @@ public interface IEquipmentReportRepository : IRepositoryGeneric<EquipmentReport
 {
     IQueryable<EquipmentReport> GetAllReportsByStatusAsync(int status);
     Task<EquipmentReport> GetReportByIdAsync(int reportId);
-
+    Task UpdateAsync(EquipmentReport equipmentReport);
 }

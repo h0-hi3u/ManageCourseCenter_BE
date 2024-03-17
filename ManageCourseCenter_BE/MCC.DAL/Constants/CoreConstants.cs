@@ -26,4 +26,6 @@ public static class CoreConstants
     public static int STT_Payment_PROCESSING = 1;
     public static int STT_Payment_SUCCESS = 2;
     public static int STT_Payment_FAIL = 3;
+
+    public static int STT_Payment_Method_Banking = 1;
 }

@@ -47,6 +47,21 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
+        public async Task<AppActionResult> CreateFeedbackByChildrenClassId(FeedbackCreateDto feedbackCreateDto)
+        {
+            var actionResult = new AppActionResult();
+            try
+            {
+                var feedBack = _mapper.Map<Feedback>(feedbackCreateDto);
+                await _feedbackRepo.AddAsync(feedBack);
+                await _feedbackRepo.SaveChangesAsync();
+                return actionResult.SetInfo(true, "Add success");
+            }
+            catch
+            {
+                return actionResult.BuildError("Add fail");
+            }
+        }
         public async Task<AppActionResult> GetAllFeedbackByParentIdAsync(int parentId, int pageSize, int pageIndex)
         {
             var actionResult = new AppActionResult();
@@ -279,6 +294,31 @@ namespace MCC.DAL.Service.Implements
                 await _feedbackRepo.SaveChangesAsync();
                 return actionResult.BuildResult("Update success");
             } catch (Exception ex)
+            {
+                var e = ex.Message;
+                return actionResult.BuildError("Update fail");
+            }
+        }
+
+        public async Task<AppActionResult> UpdateFeedbackByChildrenClassId(FeedbackUpdateByChildrenClassIdDto feedbackUpdateDto)
+        {
+            var actionResult = new AppActionResult();
+            var existing = await _feedbackRepo.GetByIdAsync(feedbackUpdateDto.ChildrenClassId);
+            if (existing == null)
+            {
+                return actionResult.BuildError("Not found feedback");
+            }
+            try
+            {
+                existing.CourseRating = feedbackUpdateDto.CourseRating;
+                existing.TeacherRating = feedbackUpdateDto.TeacherRating;
+                existing.EquipmentRating = feedbackUpdateDto.EquipmentRating;
+                existing.Description = feedbackUpdateDto.Description;
+                _feedbackRepo.Update(existing);
+                await _feedbackRepo.SaveChangesAsync();
+                return actionResult.BuildResult("Update success");
+            }
+            catch (Exception ex)
             {
                 var e = ex.Message;
                 return actionResult.BuildError("Update fail");

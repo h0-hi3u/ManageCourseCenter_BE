@@ -52,6 +52,7 @@ public class MappingProfile : Profile
     {
         CreateMap<FeedbackCreateDto, Feedback>();
         CreateMap<Feedback, FeedbackShowDto>();
+        CreateMap<FeedbackUpdateByChildrenClassIdDto, FeedbackUpdateByChildrenClassIdDto>();
     }
     private void AcademicTranscriptMappingProfile()
     {
@@ -75,6 +76,7 @@ public class MappingProfile : Profile
     {
         CreateMap<ClassCreateDto, Class>();
         CreateMap<ClassUpdateDto, Class>();
+        CreateMap<ClassStatusUpdateDto, Class>();
     }
     private void EquipmentMappingProfile()
     {

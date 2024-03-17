@@ -116,6 +116,56 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError($"Update fail: {ex.Message}");
             }
         }
+        public async Task<AppActionResult> CreateCartItemAsync(CreateCartItemDto createCartItemDto)
+        {
+            var actionResult = new AppActionResult();
 
+            var course = await _courseRepository.GetByIdAsync(createCartItemDto.CourseId);
+            if (course == null)
+            {
+                return actionResult.BuildError("Course not found.");
+            }
+
+            var cart = await _cartRepository.GetByIdAsync(createCartItemDto.CartId);
+            if (cart == null)
+            {
+                return actionResult.BuildError("Cart not found.");
+            }
+
+            var classItem = await _classReposotory.GetByIdAsync(createCartItemDto.ClassId);
+            if (classItem == null)
+            {
+                return actionResult.BuildError("Class not found.");
+            }
+
+            // check class has course
+            if (classItem.CourseId != createCartItemDto.CourseId)
+            {
+                return actionResult.BuildError("Class does not belong to the specified Course.");
+            }
+
+            var child = await _childRepository.GetByIdAsync(createCartItemDto.ChildrenId);
+            if (child == null)
+            {
+                return actionResult.BuildError("Child not found.");
+            }
+            try
+            {
+                var cartItem = new CartItem
+                {
+                    CourseId = createCartItemDto.CourseId,
+                    CartId = createCartItemDto.CartId,
+                    ClassId = createCartItemDto.ClassId,
+                    ChildrenId = createCartItemDto.ChildrenId,
+                };
+
+                await _cartItemRepository.CreateCartItemAsync(cartItem);
+                return actionResult.BuildResult("Create success");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"Update fail: {ex.Message}");
+            }
+        }
     }
 }

@@ -19,4 +19,6 @@ public interface ICourseService
     Task<AppActionResult> SearchCourseByNameAsync(string name);
     Task<AppActionResult> GetNewCourseAsync(int pageSize);
     Task<AppActionResult> CountNumberCourse();
+    Task<AppActionResult> GetAllCourseAsync(int pageSize, int pageIndex);
+    Task<AppActionResult> GetCourseByCourseIdAsync(int courseId);
 }

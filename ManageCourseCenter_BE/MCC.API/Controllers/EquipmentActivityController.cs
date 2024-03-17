@@ -63,10 +63,9 @@ public class EquipmentActivityController : ControllerBase
     }
 
     [HttpPut("update-equipment-activity-finished-time")]
-    public async Task<IActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto)
+    public async Task<IActionResult> UpdateEquipmentActivityFinishedTimeAsync(int id)
     {
-        var result = await _equipmentActivityService.UpdateEquipmentActivityFinishedTimeAsync(equipmentActivityUpdateFinishedTimeDto);
-
+        var result = await _equipmentActivityService.UpdateEquipmentActivityFinishedTimeAsync(id);
         return Ok(result);
     }
     

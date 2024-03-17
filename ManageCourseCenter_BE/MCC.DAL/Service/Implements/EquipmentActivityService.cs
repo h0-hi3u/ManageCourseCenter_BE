@@ -119,26 +119,29 @@ public class EquipmentActivityService : IEquipmentActivityService
         }
     }
 
-    public async Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto)
+    public async Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(int id)
     {
         var actionResult = new AppActionResult();
+        var equipmentActivity = await _equipmentActivityRepo.GetByIdAsync(id);
 
-        try
+        if (equipmentActivity == null)
         {
-            var equipmentActivity = await _equipmentActivityRepo.GetByIdAsync(equipmentActivityUpdateFinishedTimeDto.Id);
-            if (equipmentActivity == null)
-            {
-                return actionResult.BuildError("Equipment Activity not found");
-            }
-
-            equipmentActivity.FinishedTime = equipmentActivityUpdateFinishedTimeDto.FinishedTime;
-            await _equipmentActivityRepo.SaveChangesAsync();
-
-            return actionResult.SetInfo(true, "Update success");
+            return actionResult.BuildError("Equipment activity not found.");
         }
-        catch
+
+        var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+        var localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneInfo);
+
+        equipmentActivity.FinishedTime = localTime;
+
+        var updateSuccess = await _equipmentActivityRepo.UpdateAsync(equipmentActivity);
+
+        if (!updateSuccess)
         {
-            return actionResult.BuildError("Update fail");
+            return actionResult.BuildError("Failed to update the finished time.");
         }
+
+        return actionResult.BuildResult("Finished time updated successfully.");
     }
 }

@@ -19,9 +19,11 @@ namespace MCC.DAL.Service.Implements
     {
         private readonly IAcademicTranscriptRepository _academicTranscriptRepo;
         private readonly IMapper _mapper;
+        private readonly IClassReposotory _classRepo;
 
-        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper)
+        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper, IClassReposotory classReposotory)
         {
+            _classRepo = classReposotory;
             _academicTranscriptRepo = academicTranscriptRepo;
             _mapper = mapper;
 
@@ -55,6 +57,33 @@ namespace MCC.DAL.Service.Implements
             return actionResult.BuildResult(data);
         }
 
+        public async Task<AppActionResult> GetTransByClassId(int classId)
+        {
+            var actionResult = new AppActionResult();
+            var listClass = await _classRepo
+                .Entities()
+                .Include(c => c.Course)
+                .Where(c => c.Id == classId)
+                .ToListAsync();
+            List<int> listId = new List<int>();
+            foreach (var item in listClass)
+            {
+                var temp = item.Course.Id;
+                listId.Add(temp);
+            }
+            listId.Distinct();
+            List<AcademicTranscript> listtrans = new List<AcademicTranscript>();
+            foreach(var id in listId)
+            {
+                var temp = await _academicTranscriptRepo
+                    .Entities().Include(at => at.Course)
+                    .Where(at => at.CourseId == id)
+                    .ToListAsync();
+                listtrans.AddRange(temp);
+            }
+
+            return actionResult.BuildResult(listtrans);
+        }
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)
         {
             var actionResult = new AppActionResult();

@@ -72,5 +72,11 @@ namespace MCC.API.Controllers
             var result = await _academicTranscriptService.GetAcademicTranscriptByIdAsync(id);
             return Ok(result);
         }
+        [HttpGet("get-all-trans-by-class-id")]
+        public async Task<IActionResult> GetTransByClassId(int classId)
+        {
+            var result = await _academicTranscriptService.GetTransByClassId(classId);
+            return Ok(result);
+        }
     }
 }

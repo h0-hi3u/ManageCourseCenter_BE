@@ -63,6 +63,21 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
         }
     }
 
+    // Validation method to check if BirthDay is older than 18 years old
+    public async Task<bool> IsOlderThan18(DateTime birthday)
+    {
+        // Calculate age by subtracting BirthDay from current date
+        int age = DateTime.Today.Year - birthday.Year;
+
+        // Check if the birthday has occurred this year already
+        if (birthday.Date > DateTime.Today.AddYears(-age)) 
+            age--;
+
+        // Return true if the person is older than 18
+        return age >= 18;
+
+    }
+
     public async Task<bool> CheckExistingPhoneAsync(string phone)
     {
         var existing = await _dbSet.SingleOrDefaultAsync(m => m.Phone == phone);

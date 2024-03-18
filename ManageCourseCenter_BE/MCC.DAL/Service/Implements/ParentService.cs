@@ -38,6 +38,13 @@ public class ParentService : IParentService
         {
             return actionResult.BuildError("Duplicate phone");
         }
+        var validDate = await _parentRepo
+            .IsOlderThan18(parentCreateDto.BirthDay);
+
+        if (!validDate)
+        {
+            return actionResult.BuildError("You must have older than 18 years old");
+        }
         try
         {
             var parent = _mapper.Map<Parent>(parentCreateDto);
@@ -109,6 +116,7 @@ public class ParentService : IParentService
         {
             return actionResult.BuildError("Children user name existing");
         }
+
         try
         {
             // Tạo đối tượng Child mới và thêm thông tin của Parent
@@ -249,6 +257,19 @@ public class ParentService : IParentService
             }
             existingParent.Email = parentUpdateDto.Email;
         }
+
+        if(parentUpdateDto.BirthDay != existingParent.BirthDay)
+        {
+            var checkDay = await _parentRepo
+                .IsOlderThan18(parentUpdateDto.BirthDay);
+
+            if (!checkDay)
+            {
+                return actionResult.BuildError("You must have older than 18 years old");
+            }
+
+            existingParent.BirthDay = parentUpdateDto.BirthDay;
+        }
         if (parentUpdateDto.BirthDay != default)
         {
             existingParent.BirthDay = parentUpdateDto.BirthDay;
@@ -258,6 +279,8 @@ public class ParentService : IParentService
         {
             existingParent.Gender = parentUpdateDto.Gender;
         }
+
+      
         try
         {
             await _parentRepo.SaveChangesAsync();

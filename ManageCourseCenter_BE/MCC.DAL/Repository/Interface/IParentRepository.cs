@@ -16,6 +16,6 @@ public interface IParentRepository : IRepositoryGeneric<Parent>
     Task AddChildAsync(Child child);
     Task UpdateChildrenAsync(int parentId, IEnumerable<ChildUpdateDto> childUpdates);
 
-
+    Task<bool> IsOlderThan18(DateTime birthday);
 
 }

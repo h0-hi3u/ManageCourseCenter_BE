@@ -76,7 +76,9 @@ namespace MCC.DAL.Service.Implements
             foreach(var id in listId)
             {
                 var temp = await _academicTranscriptRepo
-                    .Entities().Include(at => at.Course)
+                    .Entities()
+                    .Include(at => at.Course)
+                    .Include(at => at.Children)
                     .Where(at => at.CourseId == id)
                     .ToListAsync();
                 listtrans.AddRange(temp);

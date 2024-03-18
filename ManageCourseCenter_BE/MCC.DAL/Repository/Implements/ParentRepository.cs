@@ -88,4 +88,8 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
             .AsQueryable();
     }
 
+    public Task AddChildAsync(Child child)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -16,6 +16,8 @@ public interface IParentService
     Task<AppActionResult> GetAllChildrenByParentId(int id, int pageIndex, int pageSize);
     Task<AppActionResult> CountNumberParent();
     Task<AppActionResult> UpdateParentInformationAsync(ParentUpdateDto parentUpdateDto);
+    Task<AppActionResult> CreateChildrenWithParentID(int parentId, ChildCreatDto childCreateDto);
+
 
 
 }

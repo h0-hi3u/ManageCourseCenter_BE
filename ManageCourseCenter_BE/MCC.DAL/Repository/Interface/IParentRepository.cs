@@ -12,5 +12,7 @@ public interface IParentRepository : IRepositoryGeneric<Parent>
     Task<bool> CheckExistingPhoneAsync(string phone);
     Task<Parent> GetParentByEmailAndPasswordAsync(string email, string password);
     Task<IQueryable<Child>> GetAllChildFromParentIdAsync(int id);
+    Task AddChildAsync(Child child);
+
 
 }

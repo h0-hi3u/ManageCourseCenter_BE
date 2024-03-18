@@ -15,6 +15,6 @@ public class AcademicTranscriptCreateDto
     public decimal Quiz2 { get; set; }
     public decimal Midterm { get; set; }
     public decimal Final { get; set; }
-    public decimal Average { get; set; }
+    //public decimal Average { get; set; }
     public int Status { get; set; }
 }

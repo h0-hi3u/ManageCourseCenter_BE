@@ -35,9 +35,18 @@ namespace MCC.DAL.Service.Implements
 
             try
             {
+                decimal average = (academicTranscriptCreateDto.Quiz1 * 0.1m) +
+                          (academicTranscriptCreateDto.Quiz2 * 0.1m) +
+                          (academicTranscriptCreateDto.Midterm * 0.3m) +
+                          (academicTranscriptCreateDto.Final * 0.5m);
+
                 var academicTranscript = _mapper.Map<AcademicTranscript>(academicTranscriptCreateDto);
+
+                academicTranscript.Average = average;
+
                 await _academicTranscriptRepo.AddAsync(academicTranscript);
                 await _academicTranscriptRepo.SaveChangesAsync();
+
                 return actionResult.SetInfo(true, "Add success");
             }
             catch
@@ -216,7 +225,14 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError("Academic Transcript not found.");
             }
 
+            decimal average = (academicUpdateDto.Quiz1 * 0.1m) +
+                      (academicUpdateDto.Quiz2 * 0.1m) +
+                      (academicUpdateDto.Midterm * 0.3m) +
+                      (academicUpdateDto.Final * 0.5m);
+
             _mapper.Map(academicUpdateDto, academicTranscript);
+
+            academicTranscript.Average = average;
 
             bool success = await _academicTranscriptRepo.UpdateAcademicTranscriptAsync(academicTranscript);
             if (!success)

@@ -82,9 +82,9 @@ public class ClassController : ControllerBase
         return Ok(result);
     }
     [HttpPost("updateStatus")]
-    public async Task<IActionResult> UpdateClassStatus(ClassStatusUpdateDto classStatusUpdateDto)
+    public async Task<IActionResult> UpdateClassStatus(int classId, ClassStatusUpdateDto classStatusUpdateDto)
     {
-        var result = await _classService.UpdateClassStatusToEnded(classStatusUpdateDto);
+        var result = await _classService.UpdateClassStatusToEnded(classId, classStatusUpdateDto);
         return Ok(result);
     }
 }

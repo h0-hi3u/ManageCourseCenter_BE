@@ -189,11 +189,11 @@ public class ClassService : IClassService
         pagingDto.Data = data;
         return actionResult.BuildResult(pagingDto);
     }
-    public async Task<AppActionResult> UpdateClassStatusToEnded(ClassStatusUpdateDto classStatusUpdateDto)
+    public async Task<AppActionResult> UpdateClassStatusToEnded(int classId, ClassStatusUpdateDto classStatusUpdateDto)
     {
         var actionResult = new AppActionResult();
 
-        var _class = await _classRepo.GetByIdAsync(classStatusUpdateDto.Id);
+        var _class = await _classRepo.GetByIdAsync(classId);
         if(_class == null)
         {
             return actionResult.BuildError("Class not found");

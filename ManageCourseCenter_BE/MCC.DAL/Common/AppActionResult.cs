@@ -25,11 +25,13 @@ namespace MCC.DAL.Common
             Data = data;
             return this;
         }
+
         public AppActionResult BuildError(string detail)
         {
             SetInfo(false, detail);
             return this;
         }
+
         public AppActionResult SetInfo(bool success, string detail = default)
         {
             IsSuccess = success;

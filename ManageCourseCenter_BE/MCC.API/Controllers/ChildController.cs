@@ -40,4 +40,28 @@ public class ChildController : ControllerBase
         var result = await _childService.CreateChildAsync(childCreatDto);
         return Ok(result);
     }
+    [HttpPut("update-child")]
+    public async Task<IActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto)
+    {
+        var result = await _childService.UpdateChildAsync(childUpdateDto);
+        return Ok(result);
+    }
+    [HttpGet("get-child-username-password")]
+    public async Task<IActionResult> GetChildrenByUsernameAndPassword(string username, string password)
+    {
+        var result = await _childService.GetChildrenByUsernameAndPasswordAsync(username, password);
+        return Ok(result);
+    }
+    [HttpGet("cout-number-childrent")]
+    public async Task<IActionResult> CountNumberChildrentAsync()
+    {
+        var count = await _childService.CountNumberChildrent();
+        return Ok(count);
+    }
+    [HttpGet("get-all-child-paging")]
+    public async Task<IActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _childService.GetAllChildPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
 }

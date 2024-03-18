@@ -24,5 +24,13 @@ namespace MCC.API.Controllers
             var result = await _cartService.CreateCartAsync(cartCreateDto);
             return Ok(result);
         }
+
+        [HttpPut("update-cart-status")]
+        public async Task<IActionResult> UpdateStatusCartAsync(UpdateStatusCartDto updateStatusCartDto)
+        {
+            var result = await _cartService.UpdateStatusCartAsync(updateStatusCartDto);
+
+            return Ok(result);
+        }
     }
 }

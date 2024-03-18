@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.AcademicTranscriptDto;
@@ -6,6 +6,7 @@ using MCC.DAL.Dto.CourceDto;
 using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,15 @@ namespace MCC.DAL.Service.Implements
     public class AcademicTranscriptService : IAcademicTranscriptService
     {
         private readonly IAcademicTranscriptRepository _academicTranscriptRepo;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly IClassReposotory _classRepo;
 
-        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper)
+        public AcademicTranscriptService(IAcademicTranscriptRepository academicTranscriptRepo, IMapper mapper, IClassReposotory classReposotory)
         {
+            _classRepo = classReposotory;
             _academicTranscriptRepo = academicTranscriptRepo;
             _mapper = mapper;
+
         }
 
         public async Task<AppActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto)
@@ -42,6 +46,44 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
+        public async Task<AppActionResult> GetAcademicTranscriptByIdAsync(int academicTranscriptId)
+        {
+            var actionResult = new AppActionResult();
+            var data = await _academicTranscriptRepo.Entities().Include(at => at.Course).SingleOrDefaultAsync(at => at.Id == academicTranscriptId);
+            if (data == null)
+            {
+                return actionResult.BuildError("Not found!");
+            }
+            return actionResult.BuildResult(data);
+        }
+
+        public async Task<AppActionResult> GetTransByClassId(int classId)
+        {
+            var actionResult = new AppActionResult();
+            var listClass = await _classRepo
+                .Entities()
+                .Include(c => c.Course)
+                .Where(c => c.Id == classId)
+                .ToListAsync();
+            List<int> listId = new List<int>();
+            foreach (var item in listClass)
+            {
+                var temp = item.Course.Id;
+                listId.Add(temp);
+            }
+            listId.Distinct();
+            List<AcademicTranscript> listtrans = new List<AcademicTranscript>();
+            foreach(var id in listId)
+            {
+                var temp = await _academicTranscriptRepo
+                    .Entities().Include(at => at.Course)
+                    .Where(at => at.CourseId == id)
+                    .ToListAsync();
+                listtrans.AddRange(temp);
+            }
+
+            return actionResult.BuildResult(listtrans);
+        }
         public async Task<AppActionResult> getTranscriptByChildrenIDAsync(int childrenId)
         {
             var actionResult = new AppActionResult();
@@ -160,6 +202,27 @@ namespace MCC.DAL.Service.Implements
             {
                 return actionResult.BuildError($"An error occurred: {ex.Message}");
             }
+        }
+
+        public async Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto)
+        {
+            var actionResult = new AppActionResult();
+
+            var academicTranscript = await _academicTranscriptRepo.GetByIdAsync(transcriptId);
+            if (academicTranscript == null)
+            {
+                return actionResult.BuildError("Academic Transcript not found.");
+            }
+
+            _mapper.Map(academicUpdateDto, academicTranscript);
+
+            bool success = await _academicTranscriptRepo.UpdateAcademicTranscriptAsync(academicTranscript);
+            if (!success)
+            {
+                return actionResult.BuildError("Failed to update academic transcript.");
+            }
+
+            return actionResult.BuildResult("Academic Transcript updated successfully.");
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MCC.DAL.DB.Models;
 using MCC.DAL.Dto.ManagerDto;
+using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -79,15 +81,51 @@ public class ManagerController : ControllerBase
         return Ok(result);
     }
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateAsync(Manager manager)
+    public async Task<IActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto)
     {
-        await _mangerService.UpdateAsync(manager);
-        return Ok();
+        var result = await _mangerService.UpdateAsync(managerUpdateDto);
+        return Ok(result);
     }
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _mangerService.DeleteAsync(id);
         return Ok();
+    }
+    [HttpGet("get-admin-username-password")]
+    public async Task<IActionResult> GetAdminByUsernameAndPassword(string email, string password)
+    {
+        var result = await _mangerService.GetAdminByUsernameAndPasswordAsync(email, password);
+        return Ok(result);
+    }
+    [HttpGet("get-staff-username-password")]
+    public async Task<IActionResult> GetStaffByUsernameAndPassword(string email, string password)
+    {
+        var result = await _mangerService.GetStaffByUsernameAndPasswordAsync(email, password);
+        return Ok(result);
+    }
+    [HttpGet("get-manager-by-email-password")]
+    public async Task<IActionResult> GetManagerByEmailAndPasswordAsync(string email, string password)
+    {
+        var result = await _mangerService.GetManagerByEmailAndPasswordAsync(email, password);
+        return Ok(result);
+    }
+    [HttpPost("changePasswordStaff")]
+    public async Task<IActionResult> ChangePasswordStaff(int staffId,StaffChangePasswordDto changePasswordDto)
+    {
+        var result = await _mangerService.ChangePasswordStaffAsync(staffId, changePasswordDto);
+        return Ok(result);
+    }
+    [HttpPut("updateStaffInformation")]
+    public async Task<IActionResult> UpdateStaffInformation(int staffId, StaffUpdateDto staffUpdateDto)
+    {
+        var result = await _mangerService.UpdateStaffInformationAsync(staffId, staffUpdateDto);
+        return Ok(result);
+    }
+    [HttpPatch("setStatusStaff")]
+    public async Task<IActionResult> SetStatusStaff(int staffId, StaffSetStatusDto statusDto)
+    {
+        var result = await _mangerService.SetStatusStaffAsync(staffId, statusDto);
+        return Ok(result);
     }
 }

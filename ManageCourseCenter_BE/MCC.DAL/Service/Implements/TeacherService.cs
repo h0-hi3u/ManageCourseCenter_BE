@@ -24,6 +24,30 @@ public class TeacherService : ITeacherService
         _mapper = mapper;
     }
 
+    public async Task<AppActionResult> ChangePasswordTeacherAsync(int teacherId, TeacherChangePasswordDto teacherChangePasswordDto)
+    {
+        var actionResult = new AppActionResult();
+        var teacher = await _teacherRepo.GetByIdAsync(teacherId);
+
+        if (teacher == null)
+        {
+            return actionResult.BuildError("Teacher not found.");
+        }
+
+        if (teacher.Password != teacherChangePasswordDto.CurrentPassword) 
+        {
+            return actionResult.BuildError("Current password is incorrect.");
+        }
+
+        var success = await _teacherRepo.ChangePasswordAsync(teacherId, teacherChangePasswordDto.NewPassword);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to change the password.");
+        }
+
+        return actionResult.BuildResult("Password changed successfully.");
+    }
+
     public async Task<AppActionResult> CreateTeacherAsync(TeacherCreateDto teacherCreateDto)
     {
         var actionResult = new AppActionResult();
@@ -84,4 +108,63 @@ public class TeacherService : ITeacherService
             return actionResult.BuildResult(data);
         }
     }
+
+    public async Task<AppActionResult> SetTeacherStatusAsync(TeacherStatusSetDto teacherStatusSetDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var teacher = await _teacherRepo.GetByIdAsync(teacherStatusSetDto.Id);
+        if (teacher == null)
+        {
+            return actionResult.BuildError("Teacher not found.");
+        }
+
+        _mapper.Map(teacherStatusSetDto, teacher);
+
+        try
+        {
+            await _teacherRepo.UpdateTeacherAsync(teacher);
+            return actionResult.BuildResult("Status update success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError($"Status update fail: {ex.Message}");
+        }
+    }
+
+    public async Task<AppActionResult> UpdateTeacherAsync(int teacherId, TeacherUpdateDto teacherUpdateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        var teacher = await _teacherRepo.GetByIdAsync(teacherId);
+        if (teacher == null)
+        {
+            return actionResult.BuildError("Teacher not found.");
+        }
+
+        if (!string.IsNullOrEmpty(teacherUpdateDto.Email) &&
+            teacher.Email != teacherUpdateDto.Email &&
+            !(await _teacherRepo.IsEmailUniqueAsync(teacherUpdateDto.Email, teacherId)))
+        {
+            return actionResult.BuildError("Email already in use by another teacher.");
+        }
+
+        if (!string.IsNullOrEmpty(teacherUpdateDto.Phone) &&
+            teacher.Phone != teacherUpdateDto.Phone &&
+            !(await _teacherRepo.IsPhoneUniqueAsync(teacherUpdateDto.Phone, teacherId)))
+        {
+            return actionResult.BuildError("Phone already in use by another teacher.");
+        }
+
+        _mapper.Map(teacherUpdateDto, teacher);
+
+        bool success = await _teacherRepo.UpdateTeacherAsync(teacher);
+        if (!success)
+        {
+            return actionResult.BuildError("Failed to update teacher information.");
+        }
+
+        return actionResult.BuildResult("Teacher updated successfully.");
+    }
 }
+

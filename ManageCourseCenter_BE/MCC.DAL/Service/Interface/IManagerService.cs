@@ -15,7 +15,15 @@ public interface IManagerService
     Task<AppActionResult> GetListStaffAsync();
     Task<AppActionResult> GetStaffByIdAsync(int id);
     Task<AppActionResult> GetStaffByNameAsync(string name);
-    Task UpdateAsync(Manager entity);
+    Task<AppActionResult> UpdateAsync(ManagerUpdateDto managerUpdateDto);
     Task DeleteAsync(int id);
+    Task<AppActionResult> GetManagerByEmailAndPasswordAsync(string email, string password);
+
     Task<AppActionResult> CreateAsync(ManagerCreateDto entity);
+    Task<AppActionResult> GetAdminByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetManagerByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> GetStaffByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> ChangePasswordStaffAsync(int staffId, StaffChangePasswordDto dto);
+    Task<AppActionResult> UpdateStaffInformationAsync(int managerId, StaffUpdateDto dto);
+    Task<AppActionResult> SetStatusStaffAsync(int staffId, StaffSetStatusDto statusDto);
 }

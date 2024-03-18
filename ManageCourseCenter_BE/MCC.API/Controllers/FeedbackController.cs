@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MCC.API.Controllers
 {
-    [Route("api/Controller")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class FeedbackController : Controller
     {
@@ -63,6 +63,38 @@ namespace MCC.API.Controllers
         public async Task<IActionResult> CreateFeedbackAsync(FeedbackCreateDto feedbackCreateDto)
         {
             var result = await _feedbackService.CreateFeedbackAsync(feedbackCreateDto);
+            return Ok(result);
+        }
+        [HttpPut("update-feedback")]
+        public async Task<IActionResult> UpdateFeedbackAsync(FeedbackUpdateDto feedbackUpdateDto)
+        {
+            var result = await _feedbackService.UpdateFeedbackAsync(feedbackUpdateDto);
+            return Ok(result);
+        }
+
+        [HttpGet("get-feedback-by-teacher-id")]
+        public async Task<IActionResult> GetFeedbackByTeacherId(int teacherId, int pageSize, int pageIndex)
+        {
+            var result = await _feedbackService.GetFeedbackByTeacherIdAsync(teacherId, pageSize, pageIndex);
+            return Ok(result);
+        }
+
+        [HttpGet("getAllFeedbackByParentId")]
+        public async Task<IActionResult> GetAllFeedbackByParentId(int parentId, int pageSize = 10, int pageIndex = 1)
+        {
+            var result = await _feedbackService.GetAllFeedbackByParentIdAsync(parentId, pageSize, pageIndex);
+            return Ok(result);
+        }
+        [HttpPut("update-feedback-by-children-class-id")]
+        public async Task<IActionResult> UpdateFeedbackByChildrenclassId(FeedbackUpdateByChildrenClassIdDto feedbackUpdateDto)
+        {
+            var result = await _feedbackService.UpdateFeedbackByChildrenClassId(feedbackUpdateDto);
+            return Ok(result);
+        }
+        [HttpPost("create-feedback-by-children-class-id")]
+        public async Task<IActionResult> CreateFeedbackByChildrenClassId(FeedbackCreateDto feedbackCreateDto)
+        {
+            var result = await _feedbackService.CreateFeedbackByChildrenClassId(feedbackCreateDto);
             return Ok(result);
         }
     }

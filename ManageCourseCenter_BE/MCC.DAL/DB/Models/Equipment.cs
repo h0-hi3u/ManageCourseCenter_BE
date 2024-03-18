@@ -7,17 +7,19 @@ namespace MCC.DAL.DB.Models
     {
         public Equipment()
         {
-            EquipmenntActivities = new HashSet<EquipmenntActivity>();
+            EquipmentActivities = new HashSet<EquipmentActivity>();
             EquipmentReports = new HashSet<EquipmentReport>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Supplier { get; set; }
+        public int Quantity { get; set; }
         public string Description { get; set; }
         public int Type { get; set; }
         public int Status { get; set; }
 
-        public virtual ICollection<EquipmenntActivity> EquipmenntActivities { get; set; }
+        public virtual ICollection<EquipmentActivity> EquipmentActivities { get; set; }
         public virtual ICollection<EquipmentReport> EquipmentReports { get; set; }
     }
 }

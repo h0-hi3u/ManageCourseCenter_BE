@@ -1,4 +1,5 @@
 ﻿using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ParentDto;
 
 namespace MCC.DAL.Repository.Interface;
 

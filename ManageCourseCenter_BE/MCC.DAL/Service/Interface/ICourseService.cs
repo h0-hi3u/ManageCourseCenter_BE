@@ -15,4 +15,10 @@ public interface ICourseService
     Task<AppActionResult> GetCourseByNameAsync(string name);
     Task<AppActionResult> GetCourseByIdAsync(int id);
     Task<AppActionResult> CreateCourseAsync(CourseCreateDto courseCreateDto);
+    Task<AppActionResult> UpdateCourseAsync(int courseId, CourseUpdateDto courseUpdateDto);
+    Task<AppActionResult> SearchCourseByNameAsync(string name);
+    Task<AppActionResult> GetNewCourseAsync(int pageSize);
+    Task<AppActionResult> CountNumberCourse();
+    Task<AppActionResult> GetAllCourseAsync(int pageSize, int pageIndex);
+    Task<AppActionResult> GetCourseByCourseIdAsync(int courseId);
 }

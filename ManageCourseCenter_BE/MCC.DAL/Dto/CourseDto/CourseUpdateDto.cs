@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace MCC.DAL.Dto.CourceDto;
 
-public class CourseCreateDto
+public class CourseUpdateDto
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public string ImgUrl { get; set; }
     public DateTime OpenFormTime { get; set; }
     public DateTime CloseFormTime { get; set; }
     public double? Price { get; set; }

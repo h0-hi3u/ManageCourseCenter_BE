@@ -1,4 +1,4 @@
-﻿using MCC.DAL.Dto.EquipmentDto;
+using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Service.Implements;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +62,48 @@ public class EquipmentReportController : ControllerBase
     public async Task<IActionResult> CreateEquipmentReportAsync(EquipmentReportCreateDto equipReportCreateDto)
     {
         var result = await _equiprpService.CreateEquipmentReportAsync(equipReportCreateDto);
+        return Ok(result);
+    }
+    [HttpGet("get-report-by-teacher-id")]
+    public async Task<IActionResult> GetReportByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
+    {
+        var result = await _equiprpService.GetReptortByTeacherIdAsync(teacherId, pageSize, pageIndex);
+        return Ok(result);
+    }
+
+    [HttpPut("update-equipment-report")]
+    public async Task<IActionResult> UpdateEquipmentReportAsync(int equipmentReportId, EquipmentReportUpdateDto equipmentReportUpdateDto)
+    {
+        var result = await _equiprpService.UpdateEquipmentReportAsync(equipmentReportId, equipmentReportUpdateDto);
+
+        return Ok(result);
+    }
+    [HttpGet("get-all-equipment-paging")]
+
+    public async Task<IActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex)
+    {
+        var result = await _equiprpService.GetALlEquipmentReportPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
+
+    [HttpPatch("closeEquipmentReport")]
+    public async Task<IActionResult> CloseEquipmentReport(int reportId)
+    {
+        var result = await _equiprpService.SetEquipmentReportCloseByIdAsync(reportId);
+        return Ok(result);
+    }
+
+    [HttpGet("reportsStatusOpen")]
+    public async Task<IActionResult> GetAllReportOrderByStatusOpen()
+    {
+        var result = await _equiprpService.GetAllReportOrderByStatusOpenAsync();
+        return Ok(result);
+    }
+
+    [HttpPut("update-status")]
+    public async Task<IActionResult> UpdateReportStatus(EquipmentReportUpdateStatusDto equipmentReportUpdateStatusDto)
+    {
+        var result = await _equiprpService.UpdateReportStatusAsync(equipmentReportUpdateStatusDto);
         return Ok(result);
     }
 }

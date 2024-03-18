@@ -8,4 +8,5 @@ public interface IClassTimeService
     Task<AppActionResult> GetClassTimeByClassIdAsync(int classId);
     Task<AppActionResult> GetClassTimeByClassName(string className);
     Task<AppActionResult> CreateClassTimeAsync(ClassTimeCreateDto classTimeCreateDto);
+    Task<AppActionResult> UpdateClassTimeAsync(ClassTimeUpdateDto classTimeUpdateDto);
 }

@@ -9,4 +9,9 @@ public interface IChildService
     Task<AppActionResult> GetChildByIdAsync(int id);
     Task<AppActionResult> GetChildByNameAsync(string name);
     Task<AppActionResult> CreateChildAsync(ChildCreatDto childCreatDto);
+    Task<AppActionResult> UpdateChildAsync(ChildUpdateDto childUpdateDto);
+    Task<AppActionResult> GetChildrenByUsernameAndPasswordAsync(string username, string password);
+    Task<AppActionResult> Authenticate(string username, string password);
+    Task<AppActionResult> CountNumberChildrent();
+    Task<AppActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex);
 }

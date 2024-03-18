@@ -55,4 +55,36 @@ public class ClassController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("update-class-by-Id")]
+    public async Task<IActionResult> UpdateClass(int classId, ClassUpdateDto classUpdateDto)
+    {
+        var result = await _classService.UpdateClassAsync(classId, classUpdateDto);
+        return Ok(result);
+    }
+
+    [HttpGet("get-class-teacher-by-id")]
+    public async Task<IActionResult> GetClassByTeacherIdAsync(int teacherId, int pageSize, int pageIndex)
+    {
+        var result = await _classService.GetClassByTeacherIdAsync(teacherId, pageSize, pageIndex);
+        return Ok(result);
+    }
+    [HttpGet("count-number-class")]
+    public async Task<IActionResult> CountNumberClass()
+    {
+        var count = await _classService.CountNumberClass();
+        return Ok(count);
+    }
+
+    [HttpGet("get-class-by-children-id")]
+    public async Task<IActionResult> GetClassByChildrenId(int childrenId, int pageSize, int pageIndex)
+    {
+        var result = await _classService.GetAllClassByChidlrenId(childrenId, pageSize, pageIndex);
+        return Ok(result);
+    }
+    [HttpPost("updateStatus")]
+    public async Task<IActionResult> UpdateClassStatus(ClassStatusUpdateDto classStatusUpdateDto)
+    {
+        var result = await _classService.UpdateClassStatusToEnded(classStatusUpdateDto);
+        return Ok(result);
+    }
 }

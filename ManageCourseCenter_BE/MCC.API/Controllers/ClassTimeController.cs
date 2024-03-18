@@ -33,4 +33,10 @@ public class ClassTimeController : ControllerBase
         var result = await _classTimeService.CreateClassTimeAsync(classTimeCreateDto);
         return Ok(result);
     }
+    [HttpPut("update-class-time")]
+    public async Task<IActionResult> UpdateClassTimeAsync(ClassTimeUpdateDto classTimeUpdateDto)
+    {
+        var result = await _classTimeService.UpdateClassTimeAsync(classTimeUpdateDto);
+        return Ok(result);
+    }
 }

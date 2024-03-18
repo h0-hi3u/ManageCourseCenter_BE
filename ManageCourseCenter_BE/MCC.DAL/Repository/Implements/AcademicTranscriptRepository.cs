@@ -14,6 +14,7 @@ public class AcademicTranscriptRepository : RepositoryGeneric<AcademicTranscript
     public async Task<IEnumerable<AcademicTranscript>> getTranscriptByChildrenIDAsync(int childrenId)
     {
         return await _context.Set<AcademicTranscript>()
+            .Include(t => t.Course)
             .Where(t => t.ChildrenId == childrenId)
             .ToListAsync();
     }
@@ -48,5 +49,19 @@ public class AcademicTranscriptRepository : RepositoryGeneric<AcademicTranscript
             .Include(t => t.Teacher)
             .Where(t => t.Teacher.FullName == teacherName)
             .ToListAsync();
+    }
+
+    public async Task<bool> UpdateAcademicTranscriptAsync(AcademicTranscript academicTranscript)
+    {
+        try
+        {
+            _context.AcademicTranscripts.Update(academicTranscript);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

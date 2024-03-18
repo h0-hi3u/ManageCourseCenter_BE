@@ -17,13 +17,15 @@ public class ChildService : IChildService
     private IParentRepository _parentRepo;
     private IMapper _mapper;
     private IAuthService _authService;
+    private IClassReposotory _classRepo;
 
-    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService)
+    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, IClassReposotory classReposotory)
     {
         _childRepo = childRepo;
         _parentRepo = parentRepo;
         _mapper = mapper;
         _authService = authService;
+        _classRepo = classReposotory;
     }
 
     public async Task<AppActionResult> Authenticate(string username, string password)
@@ -307,5 +309,33 @@ public class ChildService : IChildService
             // Handle exceptions appropriately
             return actionResult.BuildError("Failed to update children.");
         }
+    }
+    public async Task<AppActionResult> GetAllChildByClassId(int classId)
+    {
+        var actionResult = new AppActionResult();
+        var listClass = await _classRepo
+            .Entities()
+            .Include(c => c.ChildrenClasses)
+            .Include(c => c.Course)
+            .Where(c => c.Id == classId)
+            .ToListAsync();
+        List<int> listId = new List<int>();
+        foreach(var item in listClass)
+        {
+            var temp = item.ChildrenClasses.Select(cc => cc.ChildrenId);
+            listId.AddRange(temp);
+        }
+        listId.Distinct();
+        List<Child> listChild = new List<Child>();
+        foreach(var id in listId)
+        {
+            var temp = await _childRepo
+                .Entities()
+                .Include(c => c.ChildrenClasses)
+                .Where(cc => cc.Id == id)
+                .ToListAsync();
+            listChild.AddRange(temp);
+        }
+        return actionResult.BuildResult(listChild);
     }
 }

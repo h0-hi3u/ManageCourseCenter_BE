@@ -17,4 +17,5 @@ public interface IChildService
     Task<AppActionResult> CreateChildrenWithParentID(int parentId, ChildCreatDto childCreateDto);
     Task<AppActionResult> GetAllChildrenByParentId(int id, int pageIndex, int pageSize);
     Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates);
+    Task<AppActionResult> GetAllChildByClassId(int classId);
 }

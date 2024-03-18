@@ -24,5 +24,19 @@ namespace MCC.DAL.DB.Models
 
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Child> Children { get; set; }
+
+
+        // Validation method to check if BirthDay is older than 18 years old
+        public bool IsOlderThan18()
+        {
+            // Calculate age by subtracting BirthDay from current date
+            int age = DateTime.Today.Year - BirthDay.Year;
+            // Check if the birthday has occurred this year already
+            if (BirthDay.Date > DateTime.Today.AddYears(-age))
+                age--;
+
+            // Return true if the person is older than 18
+            return age >= 18;
+        }
     }
 }

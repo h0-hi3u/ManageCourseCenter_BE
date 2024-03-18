@@ -121,7 +121,8 @@ namespace MCC.DAL.Service.Implements
                 {
                     CartId = createPaymentDto.CartId,
                     Method = CoreConstants.STT_Payment_Method_Banking,
-                    ProcessTime = DateTime.Now,
+                    CreateTime = DateTime.Now,
+                    PaidTime = DateTime.Now,
                     Status = (int)(PaymentStatus)createPaymentDto.Status
                 };
 
@@ -154,7 +155,8 @@ namespace MCC.DAL.Service.Implements
             {
                 _mapper.Map(updatePaymentProcessTimeAndStatusDto, payment);
                 payment.Status = (int)(PaymentStatus)updatePaymentProcessTimeAndStatusDto.Status;
-                payment.ProcessTime = DateTime.Now;
+                payment.CreateTime = DateTime.Now;
+                payment.PaidTime = DateTime.Now;
                 _paymentRepository.Update(payment);
                 await _paymentRepository.SaveChangesAsync();
 

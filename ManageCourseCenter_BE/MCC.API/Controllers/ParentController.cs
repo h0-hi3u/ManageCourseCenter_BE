@@ -84,5 +84,17 @@ public class ParentController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("update-children/{parentId}")]
+    public async Task<IActionResult> UpdateChildrenOfAParent(int parentId, [FromBody] List<ChildUpdateDto> childUpdates)
+    {
+        if (childUpdates == null || !childUpdates.Any())
+        {
+            return BadRequest("Invalid child update data.");
+        }
+
+        var result = await _parentService.UpdateChildrenOfAParent(parentId, childUpdates);
+        return Ok(result);
+        
+    }
 
 }

@@ -47,6 +47,20 @@ public class ParentService : IParentService
         }
     }
 
+    public async Task<AppActionResult> GetAllChildrenByParentId(int id)
+    {
+        var actionResult = new AppActionResult();
+        var children = await _parentRepo.GetChildFromParentIdAsync(id);
+        if (children != null)
+        {
+            return actionResult.BuildResult(children);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+
     public async Task<AppActionResult> GetAllParentAsync()
     {
         var actionResult = new AppActionResult();

@@ -57,4 +57,11 @@ public class ParentController : ControllerBase
         var result = await _parentService.GetParentByEmailAndPasswordAsync(email, password);
         return Ok(result);
     }
+    [HttpGet("get-all-children-by-parentId")]
+    public async Task<IActionResult> GetAllChildrenByParentIdAsync(int id)
+    {
+        var result = await _parentService.GetAllChildrenByParentId(id);
+        return Ok(result);
+    }
+
 }

@@ -58,7 +58,7 @@ public class ParentService : IParentService
         }
     }
 
-    public async Task<AppActionResult> GetAllChildrenByParentId(int parentId, int pageIndex, int pageSize)
+/*    public async Task<AppActionResult> GetAllChildrenByParentId(int parentId, int pageIndex, int pageSize)
     {
         var actionResult = new AppActionResult();
         var childrenQuery = await _parentRepo.GetAllChildFromParentIdAsync(parentId);
@@ -76,8 +76,8 @@ public class ParentService : IParentService
         {
             return actionResult.BuildError("Not found");
         }
-    }
-
+    }*/
+/*
     public async Task<AppActionResult> CreateChildrenWithParentID(int parentId, ChildCreatDto childCreateDto)
     {
         var actionResult = new AppActionResult();
@@ -132,7 +132,7 @@ public class ParentService : IParentService
         {
             return actionResult.BuildError("Add fail");
         }
-    }
+    }*/
 
 
     public async Task<AppActionResult> GetAllParentAsync()
@@ -292,7 +292,7 @@ public class ParentService : IParentService
         }
     }
 
-    public async Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates)
+/*    public async Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates)
     {
         var actionResult = new AppActionResult();
 
@@ -306,6 +306,6 @@ public class ParentService : IParentService
             // Handle exceptions appropriately
             return actionResult.BuildError("Failed to update children.");
         }
-    }
+    }*/
 
 }

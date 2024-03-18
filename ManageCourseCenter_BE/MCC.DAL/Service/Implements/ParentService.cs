@@ -269,5 +269,20 @@ public class ParentService : IParentService
         }
     }
 
+    public async Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates)
+    {
+        var actionResult = new AppActionResult();
+
+        try
+        {
+            await _parentRepo.UpdateChildrenAsync(parentId, childUpdates);
+            return actionResult.SetInfo(true, "Children updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions appropriately
+            return actionResult.BuildError("Failed to update children.");
+        }
+    }
 
 }

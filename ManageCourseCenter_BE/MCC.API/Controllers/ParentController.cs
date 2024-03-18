@@ -71,10 +71,11 @@ public class ParentController : ControllerBase
         return Ok(count);
     }
     [HttpGet("get-all-children-by-parentId")]
-    public async Task<IActionResult> GetAllChildrenByParentIdAsync(int id)
+    public async Task<IActionResult> GetAllChildrenByParentIdAsync(int parentId, int pageIndex = 1, int pageSize = 5)
     {
-        var result = await _parentService.GetAllChildrenByParentId(id);
+        var result = await _parentService.GetAllChildrenByParentId(parentId, pageIndex, pageSize);
         return Ok(result);
     }
+
 
 }

@@ -9,6 +9,7 @@ using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 using static MCC.DAL.Service.Implements.CartService;
+using System.Linq;
 
 namespace MCC.DAL.Service.Implements;
 
@@ -50,19 +51,27 @@ public class ParentService : IParentService
         }
     }
 
-    public async Task<AppActionResult> GetAllChildrenByParentId(int id)
+    public async Task<AppActionResult> GetAllChildrenByParentId(int parentId, int pageIndex, int pageSize)
     {
         var actionResult = new AppActionResult();
-        var children = await _parentRepo.GetChildFromParentIdAsync(id);
-        if (children != null)
+        var childrenQuery = await _parentRepo.GetAllChildFromParentIdAsync(parentId);
+
+        var pagedChildren = await childrenQuery
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        if (pagedChildren.Any())
         {
-            return actionResult.BuildResult(children);
+            return actionResult.BuildResult(pagedChildren);
         }
         else
         {
             return actionResult.BuildError("Not found");
         }
     }
+
+
 
     public async Task<AppActionResult> GetAllParentAsync()
     {

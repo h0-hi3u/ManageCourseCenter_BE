@@ -14,4 +14,6 @@ public interface IChildService
     Task<AppActionResult> Authenticate(string username, string password);
     Task<AppActionResult> CountNumberChildrent();
     Task<AppActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex);
+    Task<AppActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageIndex, int pageSize);
+
 }

@@ -13,7 +13,9 @@ public interface IParentService
     Task<AppActionResult> GetChildWithParentEmail(string email);
     Task<AppActionResult> CreateParentAsync(ParentCreateDto parentCreateDto);
     Task<AppActionResult> GetParentByEmailAndPasswordAsync(string email, string password);
-    Task<AppActionResult> GetAllChildrenByParentId(int id);
-    
+    Task<AppActionResult> GetAllChildrenByParentId(int id, int pageIndex, int pageSize);
+    Task<AppActionResult> CountNumberParent();
+    Task<AppActionResult> UpdateParentInformationAsync(ParentUpdateDto parentUpdateDto);
+
 
 }

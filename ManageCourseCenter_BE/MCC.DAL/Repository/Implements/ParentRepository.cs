@@ -79,4 +79,13 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
     {
         return await _dbSet.SingleOrDefaultAsync(p => p.Email == email && p.Password == password && p.Status == 1);
     }
+
+    public async Task<IQueryable<Child>> GetAllChildFromParentIdAsync(int id)
+    {
+        return _dbSet
+            .Where(p => p.Id == id)
+            .SelectMany(p => p.Children)
+            .AsQueryable();
+    }
+
 }

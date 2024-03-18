@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MCC.DAL.DB.Models
+namespace MCC.DAL.Dto.PaymentDto
 {
-    public partial class Payment
+    public class CreatePaymentDto
     {
-        public int Id { get; set; }
         public int CartId { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime PaidTime { get; set; }
         public int Method { get; set; }
         public int Status { get; set; }
-
-        public virtual Cart Cart { get; set; }
     }
 }

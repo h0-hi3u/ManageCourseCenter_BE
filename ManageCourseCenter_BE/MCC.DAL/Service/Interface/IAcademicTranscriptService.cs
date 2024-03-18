@@ -19,5 +19,6 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> UpdateAcademicTranscriptAsync(int transcriptId, AcademicTranscriptUpdateDto academicUpdateDto);
         Task<AppActionResult> CreateAcademicTranscriptAsync(AcademicTranscriptCreateDto academicTranscriptCreateDto);
         Task<AppActionResult> GetAcademicTranscriptByIdAsync(int academicTranscriptId);
+        Task<AppActionResult> GetTransByClassId(int classId);
     }
 }

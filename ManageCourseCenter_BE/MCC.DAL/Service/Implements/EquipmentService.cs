@@ -94,8 +94,12 @@ namespace MCC.DAL.Service.Implements
         public async Task<AppActionResult> GetEquipmentByNameAsync(string name)
         {
             var actionResult = new AppActionResult();
-            var data = await _equipRepo.Entities().Where(e => e.Name.Contains(name)).ToListAsync();
-            return actionResult.BuildResult(data);        }
+            var data = await _equipRepo
+                .Entities()
+                .Where(e => e.Name.Contains(name))
+                .ToListAsync();
+            return actionResult.BuildResult(data);        
+        }
 
         public async Task<AppActionResult> GetEquipmentByRoomId(int roomId)
         {
@@ -119,7 +123,10 @@ namespace MCC.DAL.Service.Implements
         public async Task<AppActionResult> GetEquipmentByTypeAsync(int type)
         {
             var actionResult = new AppActionResult();
-            var data = await _equipRepo.Entities().Where(e => e.Type.Equals(type)).ToListAsync();
+            var data = await _equipRepo
+                .Entities()
+                .Where(e => e.Type.Equals(type))
+                .ToListAsync();
             if(data != null)
             {
                 return actionResult.BuildResult(data);

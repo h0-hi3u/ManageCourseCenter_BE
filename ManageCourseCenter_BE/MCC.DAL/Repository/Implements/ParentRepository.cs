@@ -1,6 +1,7 @@
 ﻿using MCC.DAL.Common;
 using MCC.DAL.DB.Context;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.ChildDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -79,4 +80,36 @@ public class ParentRepository : RepositoryGeneric<Parent>, IParentRepository
     {
         return await _dbSet.SingleOrDefaultAsync(p => p.Email == email && p.Password == password && p.Status == 1);
     }
+
+    public async Task<IQueryable<Child>> GetAllChildFromParentIdAsync(int id)
+    {
+        return _dbSet
+            .Where(p => p.Id == id)
+            .SelectMany(p => p.Children)
+            .AsQueryable();
+    }
+
+    public Task AddChildAsync(Child child)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateChildrenAsync(int parentId, IEnumerable<ChildUpdateDto> childUpdates)
+    {
+        var parent = await _dbSet.Include(p => p.Children).SingleOrDefaultAsync(p => p.Id == parentId);
+        if (parent == null) throw new Exception("Parent not found.");
+
+        foreach (var update in childUpdates)
+        {
+            var child = parent.Children.SingleOrDefault(c => c.Id == update.Id);
+            if (child != null)
+            {
+                // Apply updates to each child
+                child.FullName = update.FullName;
+                // Update other properties as needed
+            }
+        }
+        await _context.SaveChangesAsync();
+    }
+
 }

@@ -1,4 +1,5 @@
-﻿using MCC.DAL.Dto.ParentDto;
+﻿using MCC.DAL.Dto.ChildDto;
+using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -70,4 +71,30 @@ public class ParentController : ControllerBase
         var count = await _parentService.CountNumberParent();
         return Ok(count);
     }
+    [HttpGet("get-all-children-by-parentId")]
+    public async Task<IActionResult> GetAllChildrenByParentIdAsync(int parentId, int pageIndex = 1, int pageSize = 5)
+    {
+        var result = await _parentService.GetAllChildrenByParentId(parentId, pageIndex, pageSize);
+        return Ok(result);
+    }
+    [HttpPost("create-child-with-parentId")]
+    public async Task<IActionResult> CreateChildrenWithParentID(int parentId, [FromBody] ChildCreatDto childCreateDto)
+    {
+        var result = await _parentService.CreateChildrenWithParentID(parentId, childCreateDto);
+        return Ok(result);
+    }
+
+    [HttpPut("update-children/{parentId}")]
+    public async Task<IActionResult> UpdateChildrenOfAParent(int parentId, [FromBody] List<ChildUpdateDto> childUpdates)
+    {
+        if (childUpdates == null || !childUpdates.Any())
+        {
+            return BadRequest("Invalid child update data.");
+        }
+
+        var result = await _parentService.UpdateChildrenOfAParent(parentId, childUpdates);
+        return Ok(result);
+        
+    }
+
 }

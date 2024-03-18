@@ -14,6 +14,7 @@ namespace MCC.DAL.Service.Interface
         public Task<AppActionResult> getPaymentByParentIDAsync(int parentId);
         public Task<AppActionResult> getPaymentByParentEmailAsync(string parentEmail);
         Task<AppActionResult> UpdatePaymentStatusAsync(UpdatePaymentStatusDto updatePaymentStatusDto);
-
+        Task<AppActionResult> UpdatePaymentProcessTimeAndStatusAsync(int paymentId, UpdatePaymentProcessTimeAndStatusDto updatePaymentProcessTimeAndStatusDto);
+        Task<AppActionResult> CreatePaymentAsync(CreatePaymentDto createPaymentDto);
     }
 }

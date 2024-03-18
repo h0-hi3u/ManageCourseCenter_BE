@@ -36,5 +36,22 @@ namespace MCC.API.Controllers
 
             return Ok(result);
         }
+
+
+        [HttpPut("update-payment-processtime-and-status")]
+        public async Task<IActionResult> UpdatePaymentProcessTimeAndStatusAsync(int id, [FromBody] UpdatePaymentProcessTimeAndStatusDto updatePaymentProcessTimeAndStatusDto)
+        {
+            var result = await _paymentService.UpdatePaymentProcessTimeAndStatusAsync(id, updatePaymentProcessTimeAndStatusDto);
+
+            return Ok(result);
+        }
+
+        [HttpPost("create-payment")]
+        public async Task<IActionResult> CreatePaymentAsync([FromBody] CreatePaymentDto createPaymentDto)
+        {
+            var result = await _paymentService.CreatePaymentAsync(createPaymentDto);
+
+            return Ok(result);
+        }
     }
 }

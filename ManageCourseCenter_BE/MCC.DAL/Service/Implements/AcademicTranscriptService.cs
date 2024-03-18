@@ -214,7 +214,14 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError("Academic Transcript not found.");
             }
 
+            decimal average = (academicUpdateDto.Quiz1 * 0.1m) +
+                      (academicUpdateDto.Quiz2 * 0.1m) +
+                      (academicUpdateDto.Midterm * 0.3m) +
+                      (academicUpdateDto.Final * 0.5m);
+
             _mapper.Map(academicUpdateDto, academicTranscript);
+
+            academicTranscript.Average = average;
 
             bool success = await _academicTranscriptRepo.UpdateAcademicTranscriptAsync(academicTranscript);
             if (!success)

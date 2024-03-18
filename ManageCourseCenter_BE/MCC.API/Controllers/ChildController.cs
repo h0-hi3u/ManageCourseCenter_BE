@@ -89,4 +89,10 @@ public class ChildController : ControllerBase
         return Ok(result);
 
     }
+    [HttpGet("get-all-child-by-class-id")]
+    public async Task<IActionResult> GetAllChildByClassId(int classId)
+    {
+        var result = await _childService.GetAllChildByClassId(classId);
+        return Ok(result);
+    }
 }

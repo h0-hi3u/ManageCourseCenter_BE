@@ -330,6 +330,10 @@ namespace MCC.DAL.DB.Context
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Supplier).HasColumnName("supplier");
+
+                entity.Property(e => e.Supplier).HasColumnName("quantity");
+
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Name)
@@ -349,6 +353,8 @@ namespace MCC.DAL.DB.Context
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Action).HasColumnName("action");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -543,9 +549,13 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Method).HasColumnName("method");
 
-                entity.Property(e => e.ProcessTime)
+                entity.Property(e => e.CreateTime)
                     .HasColumnType("datetime")
-                    .HasColumnName("process_time");
+                    .HasColumnName("create_time");
+
+                entity.Property(e => e.PaidTime)
+                .HasColumnType("datatime")
+                .HasColumnName("paid_time");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 

@@ -18,7 +18,7 @@ public interface IEquipmentActivityService
     Task<AppActionResult> GetEquipmentByRoomNo(int roomNo);
     Task<AppActionResult> GetEquipmentByTimeRange(DateTime from, DateTime to);
     Task<AppActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto);
-    Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateFinishedTimeDto equipmentActivityUpdateFinishedTimeDto);
+    Task<AppActionResult> UpdateEquipmentActivityFinishedTimeAsync(int id);
     Task<AppActionResult> UpdateEquipmentActivityDescriptionAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto);
     Task<AppActionResult> GetAllEquipmentActivityPagingAsync(int pageSize, int pageIndex);
 }

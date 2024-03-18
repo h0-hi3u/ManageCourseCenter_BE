@@ -21,5 +21,7 @@ namespace MCC.DAL.Service.Interface
         Task<AppActionResult> UpdateEquipmentReportAsync(int equipmentReportId, EquipmentReportUpdateDto equipmentReportUpdateDto);
         Task<AppActionResult> GetALlEquipmentReportPagingAsync(int pageSize, int pageIndex);
         Task<AppActionResult> SetEquipmentReportCloseByIdAsync(int reportId);
+        Task<AppActionResult> GetAllReportOrderByStatusOpenAsync();
+        Task<AppActionResult> UpdateReportStatusAsync(EquipmentReportUpdateStatusDto equipmentReportUpdateStatusDto);
     }
 }

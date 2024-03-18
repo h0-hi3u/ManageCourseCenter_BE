@@ -8,6 +8,7 @@ using MCC.DAL.Dto.EquipmentDto;
 using MCC.DAL.Dto.ParentDto;
 using MCC.DAL.Dto.PaymentDto;
 using MCC.DAL.Dto.RoomDto;
+using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -58,17 +59,16 @@ namespace MCC.DAL.Service.Implements
 
         public async Task<AppActionResult> GetEquipmentReportByIdAsync(int id)
         {
-            var actionReult = new AppActionResult();
-            var data = await _equiprpRepo.GetByIdAsync(id);
-            if (data != null)
+            var actionResult = new AppActionResult();
+            var report = await _equiprpRepo.GetReportByIdAsync(id);
+            if (report == null)
             {
-                return actionReult.BuildResult(data);
+                return actionResult.BuildError("Report not found.");
             }
-            else
-            {
-                return actionReult.BuildError("Not found");
-            }
+
+            return actionResult.BuildResult(report, "Report fetched successfully.");
         }
+
         public async Task<AppActionResult> GetEquipmentReportByEquipmentIdAsync(int equipmentid)
         {
             var actionReult = new AppActionResult();
@@ -258,6 +258,53 @@ namespace MCC.DAL.Service.Implements
             await _equiprpRepo.SaveChangesAsync();
 
             return result.BuildResult("Equipment report closed successfully.");
+        }
+
+        public async Task<AppActionResult> GetAllReportOrderByStatusOpenAsync()
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var openReportsQuery = _equiprpRepo.GetAllReportsByStatusAsync(CoreConstants.STT_EQUIPMENT_REPORT_OPENING);
+
+                var reportDtos = await _mapper.ProjectTo<EquipmentReportOrderStatusOpenDto>(openReportsQuery)
+                                               .OrderBy(r => r.SendTime)
+                                               .ToListAsync();
+
+                if (!reportDtos.Any())
+                {
+                    return actionResult.BuildError("No open equipment reports found.");
+                }
+
+                return actionResult.BuildResult(reportDtos, "Open equipment reports fetched successfully.");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"Failed to fetch open equipment reports: {ex.Message}");
+            }
+        }
+
+        public async Task<AppActionResult> UpdateReportStatusAsync(EquipmentReportUpdateStatusDto updateStatusDto)
+        {
+            var actionResult = new AppActionResult();
+            var report = await _equiprpRepo.GetByIdAsync(updateStatusDto.Id);
+            if (report == null)
+            {
+                return actionResult.BuildError("Report not found.");
+            }
+
+            // Update the status of the report
+            report.Status = updateStatusDto.Status;
+            try
+            {
+                await _equiprpRepo.UpdateAsync(report);
+                return actionResult.BuildResult("Report status updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"An error occurred while updating the report status: {ex.Message}");
+            }
         }
     }
 }

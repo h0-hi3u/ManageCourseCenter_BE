@@ -18,6 +18,7 @@ public class ChildService : IChildService
     private IParentRepository _parentRepo;
     private IMapper _mapper;
     private IAuthService _authService;
+    private IClassReposotory _classRepo;
     private readonly ICourseRepository _courseRepository;
 
     public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, ICourseRepository courseRepository)
@@ -27,6 +28,7 @@ public class ChildService : IChildService
         _mapper = mapper;
         _authService = authService;
         _courseRepository = courseRepository;
+        _classRepo = classReposotory;
     }
 
     public async Task<AppActionResult> Authenticate(string username, string password)
@@ -220,6 +222,124 @@ public class ChildService : IChildService
         {
             return actionResult.BuildError("No Childrent");
         }
+    }
+
+    public async Task<AppActionResult> CreateChildrenWithParentID(int parentId, ChildCreatDto childCreateDto)
+    {
+        var actionResult = new AppActionResult();
+
+        // Kiểm tra xem Parent có tồn tại không
+        var parent = await _parentRepo.GetByIdAsync(parentId);
+        if (parent == null)
+        {
+            return actionResult.BuildError("Parent not found");
+        }
+        // Check duplicate children full name of parent
+        bool isExistingChildrenFullName = false;
+        foreach (var child in parent.Children)
+        {
+            if (child.Username == childCreateDto.FullName)
+            {
+                isExistingChildrenFullName = true;
+                break;
+            }
+        }
+        if (isExistingChildrenFullName)
+        {
+            return actionResult.BuildError("Children full name existing");
+        }
+        // Check duplicate children username of parent
+        bool isExistingChildrenUserName = false;
+        foreach (var child in parent.Children)
+        {
+            if (child.FullName == childCreateDto.FullName)
+            {
+                isExistingChildrenUserName = true;
+                break;
+            }
+        }
+        if (isExistingChildrenUserName)
+        {
+            return actionResult.BuildError("Children user name existing");
+        }
+
+        try
+        {
+            // Tạo đối tượng Child mới và thêm thông tin của Parent
+            var child = _mapper.Map<Child>(childCreateDto);
+            child.ParentId = parentId; // Gán Parent ID
+
+            await _parentRepo.AddChildAsync(child); // Giả sử có phương thức này trong repo
+            await _parentRepo.SaveChangesAsync();
+
+            return actionResult.SetInfo(true, "Add success");
+        }
+        catch (Exception ex)
+        {
+            return actionResult.BuildError("Add fail");
+        }
+    }
+    public async Task<AppActionResult> GetAllChildrenByParentId(int parentId, int pageIndex, int pageSize)
+    {
+        var actionResult = new AppActionResult();
+        var childrenQuery = await _parentRepo.GetAllChildFromParentIdAsync(parentId);
+
+        var pagedChildren = await childrenQuery
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        if (pagedChildren.Any())
+        {
+            return actionResult.BuildResult(pagedChildren);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
+    }
+    public async Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates)
+    {
+        var actionResult = new AppActionResult();
+
+        try
+        {
+            await _parentRepo.UpdateChildrenAsync(parentId, childUpdates);
+            return actionResult.SetInfo(true, "Children updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions appropriately
+            return actionResult.BuildError("Failed to update children.");
+        }
+    }
+    public async Task<AppActionResult> GetAllChildByClassId(int classId)
+    {
+        var actionResult = new AppActionResult();
+        var listClass = await _classRepo
+            .Entities()
+            .Include(c => c.ChildrenClasses)
+            .Include(c => c.Course)
+            .Where(c => c.Id == classId)
+            .ToListAsync();
+        List<int> listId = new List<int>();
+        foreach(var item in listClass)
+        {
+            var temp = item.ChildrenClasses.Select(cc => cc.ChildrenId);
+            listId.AddRange(temp);
+        }
+        listId.Distinct();
+        List<Child> listChild = new List<Child>();
+        foreach(var id in listId)
+        {
+            var temp = await _childRepo
+                .Entities()
+                .Include(c => c.ChildrenClasses)
+                .Where(cc => cc.Id == id)
+                .ToListAsync();
+            listChild.AddRange(temp);
+        }
+        return actionResult.BuildResult(listChild);
     }
 
     public async Task<AppActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageIndex, int pageSize)

@@ -7,7 +7,8 @@ namespace MCC.DAL.DB.Models
     {
         public int Id { get; set; }
         public int CartId { get; set; }
-        public DateTime ProcessTime { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime PaidTime { get; set; }
         public int Method { get; set; }
         public int Status { get; set; }
 

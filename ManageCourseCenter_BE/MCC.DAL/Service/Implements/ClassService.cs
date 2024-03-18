@@ -84,9 +84,19 @@ public class ClassService : IClassService
         PagingDto pagingDto = new PagingDto();
 
         var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
-        var totalRecords = await _classRepo.Entities().Where(c => c.TeacherId == teacherId).CountAsync();
+        var totalRecords = await _classRepo
+            .Entities()
+            .Where(c => c.TeacherId == teacherId)
+            .CountAsync();
 
-        var result = await _classRepo.Entities().Include(c => c.Teacher).Include(c => c.Course).Where(c => c.TeacherId == teacherId).Skip(skip).Take(pageSize).ToListAsync();
+        var result = await _classRepo
+            .Entities()
+            .Include(c => c.Teacher)
+            .Include(c => c.Course)
+            .Where(c => c.TeacherId == teacherId)
+            .Skip(skip)
+            .Take(pageSize)
+            .ToListAsync();
         
         pagingDto.Data = result;
         pagingDto.TotalRecords = totalRecords;
@@ -179,11 +189,11 @@ public class ClassService : IClassService
         pagingDto.Data = data;
         return actionResult.BuildResult(pagingDto);
     }
-    public async Task<AppActionResult> UpdateClassStatusToEnded(ClassStatusUpdateDto classStatusUpdateDto)
+    public async Task<AppActionResult> UpdateClassStatusToEnded(int classId, ClassStatusUpdateDto classStatusUpdateDto)
     {
         var actionResult = new AppActionResult();
 
-        var _class = await _classRepo.GetByIdAsync(classStatusUpdateDto.Id);
+        var _class = await _classRepo.GetByIdAsync(classId);
         if(_class == null)
         {
             return actionResult.BuildError("Class not found");

@@ -58,6 +58,21 @@ public class EquipmentController : ControllerBase
         var result = await _equipService.UpdateEquipmentAsync(equipmentId, equipmentUpdateDto);
         return Ok(result);
     }
+
+    [HttpPut("update-equipment-to-mainataining")]
+    public async Task<IActionResult> UpdateEquipmentToMaintaining(int equipmentId)
+    {
+        var result = await _equipService.UpdateEquipmentToMaintainingAsync(equipmentId);
+        return Ok(result);
+    }
+
+    [HttpPut("update-equipment-to-using")]
+    public async Task<IActionResult> UpdateEquipmentToUsing(int equipmentId)
+    {
+        var result = await _equipService.UpdateEquipmentToUsingAsync(equipmentId);
+        return Ok(result);
+    }
+
     [HttpGet("get-equipment-by-room-id")]
     public async Task<IActionResult> GetEquipmentByRoomIdAsync(int roomId)
     {

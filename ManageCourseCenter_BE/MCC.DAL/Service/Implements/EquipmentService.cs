@@ -187,5 +187,67 @@ namespace MCC.DAL.Service.Implements
             }
             return actionResult.BuildResult("Equipment updated successfully.");
         }
+
+        public async Task<AppActionResult> UpdateEquipmentToMaintainingAsync(int equipmentId)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var equipment = await _equipRepo.GetByIdAsync(equipmentId);
+                if (equipment != null)
+                {
+                    equipment.Status = 3;
+                    var success = await _equipRepo.UpdateEquipmentAsync(equipment);
+                    if (!success)
+                    {
+                        return actionResult.BuildError("Failed to update equipment.");
+                    }
+                    else
+                    {
+                        return actionResult.BuildResult("Equipment updated successfully.");
+                    }
+                }
+                else
+                {
+                    return actionResult.BuildResult("Can not find equipment.");
+                }
+            }
+            catch (Exception)
+            {
+                return actionResult.BuildResult("Error has occured");
+            }
+        }
+
+        public async Task<AppActionResult> UpdateEquipmentToUsingAsync(int equipmentId)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var equipment = await _equipRepo.GetByIdAsync(equipmentId);
+                if (equipment != null)
+                {
+                    equipment.Status = 2;
+                    var success = await _equipRepo.UpdateEquipmentAsync(equipment);
+                    if (!success)
+                    {
+                        return actionResult.BuildError("Failed to update equipment.");
+                    }
+                    else
+                    {
+                        return actionResult.BuildResult("Equipment updated successfully.");
+                    }
+                }
+                else
+                {
+                    return actionResult.BuildResult("Can not find equipment.");
+                }
+            }
+            catch (Exception)
+            {
+                return actionResult.BuildResult("Error has occured");
+            }
+        }
     }
 }

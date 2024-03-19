@@ -81,7 +81,7 @@ namespace MCC.DAL.Service.Implements
         {
             var actionResult = new AppActionResult();
             var data = await _equipRepo.GetByIdAsync(id);
-            if(data != null)
+            if (data != null)
             {
                 return actionResult.BuildResult(data);
             }
@@ -98,7 +98,7 @@ namespace MCC.DAL.Service.Implements
                 .Entities()
                 .Where(e => e.Name.Contains(name))
                 .ToListAsync();
-            return actionResult.BuildResult(data);        
+            return actionResult.BuildResult(data);
         }
 
         public async Task<AppActionResult> GetEquipmentByRoomId(int roomId)
@@ -111,13 +111,37 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError("Not found roomId");
             }
             List<Equipment> listEquipment = new List<Equipment>();
-            foreach(var ea in room.EquipmentActivities)
+            foreach (var ea in room.EquipmentActivities)
             {
                 var equipment = await _equipRepo.GetByIdAsync(ea.EquipmentId);
                 listEquipment.Add(equipment);
             }
             listEquipment.Distinct();
             return actionResult.BuildResult(listEquipment);
+        }
+
+        public async Task<AppActionResult> GetEquipmentByTypeAndStatusAvailableAsync(int type)
+        {
+            var actionResult = new AppActionResult();
+            try
+            {
+                var equipment = await _equipRepo
+                    .Entities()
+                    .SingleOrDefaultAsync(e => e.Type.Equals(type) && e.Status == 1);
+
+                if (equipment != null)
+                {
+                    return actionResult.BuildResult(equipment);
+                }
+                else
+                {
+                    return actionResult.BuildError("Equipment not found");
+                }
+            }
+            catch (Exception)
+            {
+                return actionResult.BuildError("An error has occurred");
+            }
         }
 
         public async Task<AppActionResult> GetEquipmentByTypeAsync(int type)
@@ -127,7 +151,7 @@ namespace MCC.DAL.Service.Implements
                 .Entities()
                 .Where(e => e.Type.Equals(type))
                 .ToListAsync();
-            if(data != null)
+            if (data != null)
             {
                 return actionResult.BuildResult(data);
             }

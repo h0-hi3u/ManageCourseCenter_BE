@@ -70,4 +70,10 @@ public class EquipmentController : ControllerBase
         var result = await _equipService.GetAllEquipmentPagingAsync(pageSize, pageIndex);
         return Ok(result);
     }
+    [HttpGet("get-equipment-type-and-status-availalbe")]
+    public async Task<IActionResult> GetEquipmentByTypeAndStatusAvailableAsync(int type)
+    {
+        var reult = await _equipService.GetEquipmentByTypeAsync(type);
+        return Ok(reult);
+    }
 }

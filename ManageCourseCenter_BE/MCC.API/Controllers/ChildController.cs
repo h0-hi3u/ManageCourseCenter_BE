@@ -97,9 +97,9 @@ public class ChildController : ControllerBase
     }
 
     [HttpGet("get-list-child-not-enrolled")]
-    public async Task<IActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageSize, int pageIndex)
+    public async Task<IActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageIndex, int pageSize)
     {
-        var result = await _childService.GetChildrenListNotEnrollCourseAsync(parentId, courseId, pageSize, pageIndex);
+        var result = await _childService.GetChildrenListNotEnrollCourseAsync(parentId, courseId, pageIndex, pageSize);
         return Ok(result);
     }
 }

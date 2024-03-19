@@ -22,9 +22,11 @@ namespace MCC.DAL.Service.Implements
         private readonly IFeedbackRepository _feedbackRepo;
         private readonly IClassReposotory _classRepo;
         private IMapper _mapper;
+        private readonly IChildrenClassRepository _childrenRepo;
 
-        public FeedbackService(IFeedbackRepository feedbackRepo, IMapper mapper, IClassReposotory classRepo)
+        public FeedbackService(IFeedbackRepository feedbackRepo, IMapper mapper, IClassReposotory classRepo, IChildrenClassRepository childrenClassRepository)
         {
+            _childrenRepo = childrenClassRepository;
             _feedbackRepo = feedbackRepo;
             _mapper = mapper;
             _classRepo = classRepo;
@@ -47,12 +49,18 @@ namespace MCC.DAL.Service.Implements
             }
         }
 
-        public async Task<AppActionResult> CreateFeedbackByChildrenClassId(FeedbackCreateDto feedbackCreateDto)
+        public async Task<AppActionResult> CreateFeedbackByChildrenClassId(int childrenclassId, FeedbackCreateDto feedbackCreateDto)
         {
             var actionResult = new AppActionResult();
+            var childclId = await _childrenRepo.GetByIdAsync(childrenclassId);
+            if (childclId == null)
+            {
+                return actionResult.BuildError("Childrent Class Id InValid");
+            }
             try
             {
                 var feedBack = _mapper.Map<Feedback>(feedbackCreateDto);
+                feedBack.ChildrenClassId = childrenclassId;
                 await _feedbackRepo.AddAsync(feedBack);
                 await _feedbackRepo.SaveChangesAsync();
                 return actionResult.SetInfo(true, "Add success");

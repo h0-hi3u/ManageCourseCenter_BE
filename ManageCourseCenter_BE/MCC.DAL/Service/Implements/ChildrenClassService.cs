@@ -206,5 +206,25 @@ namespace MCC.DAL.Service.Implements
                 return actionResult.BuildError($"An error occurred: {ex.Message}");
             }
         }
+
+
+        public async Task<AppActionResult> GetChildrenClassIdByChildIdAndClassByIdAsync(int childId, int classId)
+        {
+            var actionResult = new AppActionResult();
+
+            try
+            {
+                var childrenClass = await _childrenClassRepo.GetChildrenClassIdByChildIdAndClassByIdAsync(childId, classId);
+                if (childrenClass == null)
+                {
+                    return actionResult.BuildError("No children found.");
+                }
+                return actionResult.BuildResult(childrenClass);
+            }
+            catch (Exception ex)
+            {
+                return actionResult.BuildError($"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

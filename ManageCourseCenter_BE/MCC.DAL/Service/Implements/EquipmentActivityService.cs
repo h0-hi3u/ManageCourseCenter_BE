@@ -23,6 +23,11 @@ public class EquipmentActivityService : IEquipmentActivityService
         _mapper = mapper;
     }
 
+    public Task<AppActionResult> ChangeEquipmentAsync(int oldEquipmentId, int newEquipmentId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<AppActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto)
     {
         var actionResult = new AppActionResult();
@@ -93,6 +98,13 @@ public class EquipmentActivityService : IEquipmentActivityService
     {
         var actionResult = new AppActionResult();
         var data = await _equipmentActivityRepo.GetActivitiesByTimeRangeAsync(from, to);
+        return actionResult.BuildResult(data);
+    }
+
+    public async Task<AppActionResult> GetLatestActivityByEquipmentId(int equipmentId)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _equipmentActivityRepo.GetLatestActivityByEquipmentId(equipmentId);
         return actionResult.BuildResult(data);
     }
 

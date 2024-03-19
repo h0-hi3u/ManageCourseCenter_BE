@@ -92,9 +92,9 @@ namespace MCC.API.Controllers
             return Ok(result);
         }
         [HttpPost("create-feedback-by-children-class-id")]
-        public async Task<IActionResult> CreateFeedbackByChildrenClassId(FeedbackCreateDto feedbackCreateDto)
+        public async Task<IActionResult> CreateFeedbackByChildrenClassId(int childrenclassId, FeedbackCreateDto feedbackCreateDto)
         {
-            var result = await _feedbackService.CreateFeedbackByChildrenClassId(feedbackCreateDto);
+            var result = await _feedbackService.CreateFeedbackByChildrenClassId(childrenclassId, feedbackCreateDto);
             return Ok(result);
         }
     }

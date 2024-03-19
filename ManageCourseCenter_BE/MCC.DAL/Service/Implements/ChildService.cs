@@ -21,7 +21,7 @@ public class ChildService : IChildService
     private IClassReposotory _classRepo;
     private readonly ICourseRepository _courseRepository;
 
-    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, ICourseRepository courseRepository)
+    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, ICourseRepository courseRepository, IClassReposotory classReposotory)
     {
         _childRepo = childRepo;
         _parentRepo = parentRepo;

@@ -332,7 +332,7 @@ namespace MCC.DAL.DB.Context
 
                 entity.Property(e => e.Supplier).HasColumnName("supplier");
 
-                entity.Property(e => e.Supplier).HasColumnName("quantity");
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
 
                 entity.Property(e => e.Description).HasColumnName("description");
 

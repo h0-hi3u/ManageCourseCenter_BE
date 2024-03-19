@@ -2,6 +2,7 @@
 using MCC.DAL.DB.Models;
 using MCC.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,5 +67,16 @@ public class ChildrenClassRepository : RepositoryGeneric<ChildrenClass>, IChildr
     public async Task<ChildrenClass> GetChildrenClassWithClassByIdAsync(int childrenClassId)
     {
         return await _context.ChildrenClasses.Include(cc => cc.Class).FirstOrDefaultAsync(cc => cc.Id == childrenClassId);
+    }
+
+    public async Task<string?> GetChildrenClassIdByChildIdAndClassByIdAsync(int childId, int classId)
+    {
+        var childrenClass = await _dbSet
+            .FirstOrDefaultAsync(c => c.ChildrenId == childId && c.ClassId == classId);
+        if (childrenClass != null)
+        {
+            return JsonConvert.SerializeObject(childrenClass.Id);
+        }
+        return null;
     }
 }

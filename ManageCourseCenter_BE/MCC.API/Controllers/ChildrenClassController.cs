@@ -58,5 +58,12 @@ namespace MCC.API.Controllers
             var result = await _childrenClassService.DeleteChildrenClassAsync(childrenClassId);
             return Ok(result);
         }
+
+        [HttpGet("get-children-class-Id-by-childId-and-classId")]
+        public async Task<IActionResult> GetChildrenClassIdByChildIdAndClassByIdAsync(int childId, int classId)
+        {
+            var result = await _childrenClassService.GetChildrenClassIdByChildIdAndClassByIdAsync(childId, classId);
+            return Ok(result);
+        }
     }
 }

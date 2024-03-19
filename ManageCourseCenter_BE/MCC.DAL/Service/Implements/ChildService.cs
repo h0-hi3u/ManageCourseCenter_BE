@@ -4,6 +4,7 @@ using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
 using MCC.DAL.Dto;
 using MCC.DAL.Dto.ChildDto;
+using MCC.DAL.Repository.Implements;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Repository.Interfacep;
 using MCC.DAL.Service.Interface;
@@ -18,13 +19,15 @@ public class ChildService : IChildService
     private IMapper _mapper;
     private IAuthService _authService;
     private IClassReposotory _classRepo;
+    private readonly ICourseRepository _courseRepository;
 
-    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, IClassReposotory classReposotory)
+    public ChildService(IChildRepository childRepo, IParentRepository parentRepo, IMapper mapper, IAuthService authService, ICourseRepository courseRepository, IClassReposotory classReposotory)
     {
         _childRepo = childRepo;
         _parentRepo = parentRepo;
         _mapper = mapper;
         _authService = authService;
+        _courseRepository = courseRepository;
         _classRepo = classReposotory;
     }
 
@@ -337,5 +340,43 @@ public class ChildService : IChildService
             listChild.AddRange(temp);
         }
         return actionResult.BuildResult(listChild);
+    }
+
+    public async Task<AppActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageIndex, int pageSize)
+    {
+        var actionResult = new AppActionResult();
+
+        var parentExist = await _parentRepo.GetByIdAsync(parentId);
+        if (parentExist == null)
+        {
+            return actionResult.BuildError("Parent not found");
+        }
+
+        var courseExist = await _courseRepository.GetByIdAsync(courseId);
+        if (courseExist == null)
+        {
+            return actionResult.BuildError("Course not found");
+        }
+
+        var childrenListQuery = await _childRepo.GetChildrenListNotEnrollCourseAsync(parentId, courseId);
+
+        if (childrenListQuery == null)
+        {
+            return actionResult.BuildError("No children found");
+        }
+
+        var pagedChildren = childrenListQuery
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        if (pagedChildren.Any())
+        {
+            return actionResult.BuildResult(pagedChildren);
+        }
+        else
+        {
+            return actionResult.BuildError("Not found");
+        }
     }
 }

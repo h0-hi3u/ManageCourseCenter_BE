@@ -95,4 +95,11 @@ public class ChildController : ControllerBase
         var result = await _childService.GetAllChildByClassId(classId);
         return Ok(result);
     }
+
+    [HttpGet("get-list-child-not-enrolled")]
+    public async Task<IActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageSize, int pageIndex)
+    {
+        var result = await _childService.GetChildrenListNotEnrollCourseAsync(parentId, courseId, pageSize, pageIndex);
+        return Ok(result);
+    }
 }

@@ -14,6 +14,8 @@ public interface IChildService
     Task<AppActionResult> Authenticate(string username, string password);
     Task<AppActionResult> CountNumberChildrent();
     Task<AppActionResult> GetAllChildPagingAsync(int pageSize, int pageIndex);
+    Task<AppActionResult> GetChildrenListNotEnrollCourseAsync(int parentId, int courseId, int pageIndex, int pageSize);
+
     Task<AppActionResult> CreateChildrenWithParentID(int parentId, ChildCreatDto childCreateDto);
     Task<AppActionResult> GetAllChildrenByParentId(int id, int pageIndex, int pageSize);
     Task<AppActionResult> UpdateChildrenOfAParent(int parentId, IEnumerable<ChildUpdateDto> childUpdates);

@@ -153,4 +153,24 @@ public class RoomService : IRoomService
             return actionResult.BuildError($"Status update fail: {ex.Message}");
         }
     }
+
+    public async Task<AppActionResult> GetRoomIdByActivityIdAsync(int activityId)
+    {
+        var actionResult = new AppActionResult();
+        var roomId = await _roomRepo.GetRoomIdByActivityIdAsync(activityId);
+
+        if (roomId.HasValue)
+        {
+            actionResult.IsSuccess = true;
+            actionResult.Data = roomId.Value;
+            actionResult.Detail = "Room ID fetched successfully.";
+        }
+        else
+        {
+            actionResult.IsSuccess = false;
+            actionResult.Detail = "Activity or Room not found.";
+        }
+        return actionResult;
+    }
+
 }

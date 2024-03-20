@@ -9,4 +9,5 @@ public interface IRoomRepository: IRepositoryGeneric<Room>
     Task<bool> CheckExistingRoomNoAsync(int roomNo);
     Task<bool> IsRoomNoUniqueAsync(int roomNo, int? roomId = null);
     Task<bool> UpdateRoomAsync(Room room);
+    Task<int?> GetRoomIdByActivityIdAsync(int activityId);
 }

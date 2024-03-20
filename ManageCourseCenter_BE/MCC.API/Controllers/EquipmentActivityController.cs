@@ -62,6 +62,13 @@ public class EquipmentActivityController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-latest-activity-id-by-equipment-id")]
+    public async Task<IActionResult> GetLatestActivityIdByEquipmentId(int equipmentId)
+    {
+        var result = await _equipmentActivityService.GetLatestActivityIdByEquipmentId(equipmentId);
+        return Ok(result);
+    }
+
     [HttpPost("create-equipment-activity")]
     public async Task<IActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto)
     {

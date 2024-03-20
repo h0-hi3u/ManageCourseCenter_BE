@@ -63,4 +63,10 @@ public class RoomController : ControllerBase
         var result = await _roomService.GetAllRoomPagingAsync(pageSize, pageIndex);
         return Ok(result);
     }
+    [HttpGet("GetRoomIdByActivityId")]
+    public async Task<IActionResult> GetRoomIdByActivityId(int activityId)
+    {
+        var result = await _roomService.GetRoomIdByActivityIdAsync(activityId);
+        return Ok(result);
+    }
 }

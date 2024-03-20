@@ -31,7 +31,7 @@ public class EquipmentActivityController : ControllerBase
         return Ok(result);
     }
     [HttpGet("get-managerId")]
-    public async Task<IActionResult> GetByManagerIdAsync(int managerId) 
+    public async Task<IActionResult> GetByManagerIdAsync(int managerId)
     {
         var result = await _equipmentActivityService.GetEquipmentByManagerId(managerId);
         return Ok(result);
@@ -62,10 +62,31 @@ public class EquipmentActivityController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-latest-activity-id-by-equipment-id")]
+    public async Task<IActionResult> GetLatestActivityIdByEquipmentId(int equipmentId)
+    {
+        var result = await _equipmentActivityService.GetLatestActivityIdByEquipmentId(equipmentId);
+        return Ok(result);
+    }
+
     [HttpPost("create-equipment-activity")]
     public async Task<IActionResult> CreateEquipmentActivityAsync(EquipmentActivityCreateDto equipActivityCreateDto)
     {
         var result = await _equipmentActivityService.CreateEquipmentActivityAsync(equipActivityCreateDto);
+        return Ok(result);
+    }
+
+    [HttpPost("create-maintain-activity-for-equipment")]
+    public async Task<IActionResult> CreateMaintainActivityForEquipmentAsync(int equipmentId, int managerId, int roomId)
+    {
+        var result = await _equipmentActivityService.CreateMaintainActivityForEquipmentAsync(equipmentId, managerId, roomId);
+        return Ok(result);
+    }
+
+    [HttpPost("create-moving-activity-for-equipment")]
+    public async Task<IActionResult> CreateMovingActivityForEquipmentAsync(int equipmentId, int managerId, int newRoomId)
+    {
+        var result = await _equipmentActivityService.CreateMovingActivityForEquipmentAsync(equipmentId, managerId, newRoomId);
         return Ok(result);
     }
 
@@ -75,7 +96,7 @@ public class EquipmentActivityController : ControllerBase
         var result = await _equipmentActivityService.UpdateEquipmentActivityFinishedTimeAsync(id);
         return Ok(result);
     }
-    
+
     [HttpPut("update-equipment-activity-description")]
     public async Task<IActionResult> UpdateEquipmentActivityFinishedTimeAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto)
     {
@@ -87,6 +108,13 @@ public class EquipmentActivityController : ControllerBase
     public async Task<IActionResult> GetAllEquipmentActivityPagingAsync(int pageSize, int pageIndex)
     {
         var result = await _equipmentActivityService.GetAllEquipmentActivityPagingAsync(pageSize, pageIndex);
+        return Ok(result);
+    }
+
+    [HttpPut("change-equipment")]
+    public async Task<IActionResult> ChangeEquipmentAsync(int oldEquipmentId, int newEquipmentId, int managerId)
+    {
+        var result = await _equipmentActivityService.ChangeEquipmentAsync(oldEquipmentId, newEquipmentId, managerId);
         return Ok(result);
     }
 }

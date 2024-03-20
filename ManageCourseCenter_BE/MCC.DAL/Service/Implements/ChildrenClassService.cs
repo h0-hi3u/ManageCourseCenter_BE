@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MCC.DAL.Common;
 using MCC.DAL.DB.Models;
+using MCC.DAL.Dto.AcademicTranscriptDto;
 using MCC.DAL.Dto.ChildrenClassDto;
 using MCC.DAL.Repository.Interface;
 using MCC.DAL.Repository.Interfacep;
@@ -19,14 +20,16 @@ namespace MCC.DAL.Service.Implements
         private IChildRepository _childRepo;
         private IClassReposotory _classRepo;
         private IChildrenClassRepository _childrenClassRepo;
+        private IAcademicTranscriptRepository _academicTranscriptRepo;
         private IMapper _mapper;
 
-        public ChildrenClassService(IClassReposotory classRepo, IChildRepository childRepository, IChildrenClassRepository childrenClassRepository, IMapper mapper)
+        public ChildrenClassService(IClassReposotory classRepo, IChildRepository childRepository, IChildrenClassRepository childrenClassRepository, IMapper mapper, IAcademicTranscriptRepository academicTranscriptRepo)
         {
             _classRepo = classRepo;
             _childRepo = childRepository;
             _childrenClassRepo = childrenClassRepository;
             _mapper = mapper;
+            _academicTranscriptRepo = academicTranscriptRepo;
         }
 
         public async Task<AppActionResult> CreateChildClassAsync(ChildrenClassCreateDto childrenClassCreateDto)
@@ -76,14 +79,27 @@ namespace MCC.DAL.Service.Implements
             //add children class
             try
             {
+                var classTemp = await _classRepo.Entities().SingleOrDefaultAsync(c => c.Id == childrenClassCreateDto.ClassId);
+                AcademicTranscriptCreateDto academicTranscript = new AcademicTranscriptCreateDto();
+                academicTranscript.TeacherId = classTemp.TeacherId;
+                academicTranscript.CourseId = classTemp.CourseId;
+                academicTranscript.ChildrenId = childrenClassCreateDto.ChildrenId;
+                academicTranscript.Quiz1 = 0;
+                academicTranscript.Quiz2 = 0;
+                academicTranscript.Midterm = 0;
+                academicTranscript.Final = 0;
+                academicTranscript.Average = 0;
+                academicTranscript.Status = 1;
+                var academic = _mapper.Map<AcademicTranscript>(academicTranscript);
+                await _academicTranscriptRepo.AddAsync(academic);
                 var childrenClass = _mapper.Map<ChildrenClass>(childrenClassCreateDto);
                 await _childrenClassRepo.AddAsync(childrenClass);
                 await _childrenClassRepo.SaveChangesAsync();
                 return actionResult.BuildResult("Add success");
             }
-            catch
+            catch (Exception ex)
             {
-                return actionResult.BuildError("Add fail");
+                return actionResult.BuildError(ex.Message);
             }
         }
 

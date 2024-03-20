@@ -28,7 +28,7 @@ public class RoomService : IRoomService
     {
         var actionResult = new AppActionResult();
         var checkRoomNo = await _roomRepo.CheckExistingRoomNoAsync(roomCreateDto.RoomNo);
-        if(!checkRoomNo)
+        if (!checkRoomNo)
         {
             return actionResult.BuildError("Duplicate room no");
         }
@@ -38,7 +38,8 @@ public class RoomService : IRoomService
             await _roomRepo.AddAsync(room);
             await _roomRepo.SaveChangesAsync();
             return actionResult.BuildResult("Add success");
-        } catch
+        }
+        catch
         {
             return actionResult.BuildError("Add fail");
         }
@@ -51,7 +52,7 @@ public class RoomService : IRoomService
         return actionResult.BuildResult(data);
     }
 
-    public async Task<AppActionResult> GetAllRoomPagingAsync(int pageSize ,int pageIndex)
+    public async Task<AppActionResult> GetAllRoomPagingAsync(int pageSize, int pageIndex)
     {
         var actionResult = new AppActionResult();
         PagingDto pagingDto = new PagingDto();
@@ -97,9 +98,10 @@ public class RoomService : IRoomService
         if (data != null)
         {
             return actionResult.BuildResult(data);
-        } else
+        }
+        else
         {
-           return actionResult.BuildError("Not found");
+            return actionResult.BuildError("Not found");
         }
     }
 
@@ -152,5 +154,24 @@ public class RoomService : IRoomService
         {
             return actionResult.BuildError($"Status update fail: {ex.Message}");
         }
+    }
+
+    public async Task<int> GetRoomIdByActivityIdAsync(int activityId)
+    {
+        var actionResult = new AppActionResult();
+        var roomId = await _roomRepo.GetRoomIdByActivityIdAsync(activityId);
+
+        if (roomId.HasValue)
+        {
+            actionResult.IsSuccess = true;
+            actionResult.Data = roomId.Value;
+            actionResult.Detail = "Room ID fetched successfully.";
+        }
+        else
+        {
+            actionResult.IsSuccess = false;
+            actionResult.Detail = "Activity or Room not found.";
+        }
+        return roomId.Value;
     }
 }

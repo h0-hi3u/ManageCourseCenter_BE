@@ -19,7 +19,7 @@ public class EquipmentReportRepository : RepositoryGeneric<EquipmentReport>, IEq
 
     public async Task<EquipmentReport> GetReportByIdAsync(int reportId)
     {
-        return await _context.EquipmentReports.FirstOrDefaultAsync(r => r.Id == reportId);
+        return await _dbSet.Include(r => r.Equipment).FirstOrDefaultAsync(r => r.Id == reportId);
     }
 
     public async Task UpdateAsync(EquipmentReport equipmentReport)

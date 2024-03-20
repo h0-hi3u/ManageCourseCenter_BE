@@ -16,32 +16,39 @@ public class EquipmentActivityService : IEquipmentActivityService
 {
     private IEquipmentActivityRepository _equipmentActivityRepo;
     private IEquipmentService _equipService;
+    private IRoomService _roomService;
     private IMapper _mapper;
 
-    public EquipmentActivityService(IEquipmentActivityRepository equipmentActivityRepo, IMapper mapper, IEquipmentService equipmentService)
+    public EquipmentActivityService(IEquipmentActivityRepository equipmentActivityRepo, IMapper mapper, IEquipmentService equipmentService, IRoomService roomService)
     {
         _equipmentActivityRepo = equipmentActivityRepo;
         _mapper = mapper;
         _equipService = equipmentService;
+        _roomService = roomService;
     }
 
     public async Task<AppActionResult> ChangeEquipmentAsync(int oldEquipmentId, int newEquipmentId, int managerId)
     {
         var actionResult = new AppActionResult();
+
         try
         {
             var oldLatestActivity = await GetLatestActivityByEquipmentId(oldEquipmentId);
             var newLatestActivity = await GetLatestActivityByEquipmentId(newEquipmentId);
 
-            var newRoomId = 1;
+            int oldLatestActivityId = await GetLatestActivityIdByEquipmentId(oldEquipmentId);
+            int newLatestActivityId = await GetLatestActivityIdByEquipmentId(newEquipmentId);
+
+            int oldEquipRoomId = await _roomService.GetRoomIdByActivityIdAsync(oldLatestActivityId);
+            int newEquipRoomId = await _roomService.GetRoomIdByActivityIdAsync(newLatestActivityId);
 
             if (oldLatestActivity.IsSuccess && newLatestActivity.IsSuccess)
             {
-                await UpdateEquipmentActivityFinishedTimeAsync(oldEquipmentId);
-                await UpdateEquipmentActivityFinishedTimeAsync(newEquipmentId);
+                await UpdateEquipmentActivityFinishedTimeAsync(oldLatestActivityId);
+                await UpdateEquipmentActivityFinishedTimeAsync(newLatestActivityId);
 
-                await CreateMaintainActivityForEquipmentAsync(oldEquipmentId, managerId, newRoomId);
-                await CreateMovingActivityForEquipmentAsync(newEquipmentId, managerId, newRoomId);
+                await CreateMaintainActivityForEquipmentAsync(oldEquipmentId, managerId, oldEquipRoomId);
+                await CreateMovingActivityForEquipmentAsync(newEquipmentId, managerId, newEquipRoomId);
 
                 return actionResult.SetInfo(true, "Change succes");
             }
@@ -199,6 +206,14 @@ public class EquipmentActivityService : IEquipmentActivityService
         var actionResult = new AppActionResult();
         var data = await _equipmentActivityRepo.GetLatestActivityByEquipmentId(equipmentId);
         return actionResult.BuildResult(data);
+    }
+
+    public async Task<int> GetLatestActivityIdByEquipmentId(int equipmentId)
+    {
+        var actionResult = new AppActionResult();
+        var data = await _equipmentActivityRepo.GetLatestActivityByEquipmentId(equipmentId);
+        int activityId = data.First().Id;
+        return activityId;
     }
 
     public async Task<AppActionResult> UpdateEquipmentActivityDescriptionAsync(EquipmentActivityUpdateDescriptiomDto equipmentActivityUpdateDescriptiomDto)

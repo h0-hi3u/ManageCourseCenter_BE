@@ -156,7 +156,7 @@ public class RoomService : IRoomService
         }
     }
 
-    public async Task<AppActionResult> GetRoomIdByActivityIdAsync(int activityId)
+    public async Task<int> GetRoomIdByActivityIdAsync(int activityId)
     {
         var actionResult = new AppActionResult();
         var roomId = await _roomRepo.GetRoomIdByActivityIdAsync(activityId);
@@ -172,7 +172,6 @@ public class RoomService : IRoomService
             actionResult.IsSuccess = false;
             actionResult.Detail = "Activity or Room not found.";
         }
-        return actionResult;
+        return roomId.Value;
     }
-
 }

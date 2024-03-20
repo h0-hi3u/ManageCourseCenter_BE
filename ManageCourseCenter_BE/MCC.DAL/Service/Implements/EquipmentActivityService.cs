@@ -54,12 +54,12 @@ public class EquipmentActivityService : IEquipmentActivityService
             }
             else
             {
-                return actionResult.SetInfo(true, "Change fail");
+                return actionResult.BuildError("Change fail");
             }
         }
         catch
         {
-            return actionResult.SetInfo(true, "Change fail");
+            return actionResult.BuildError("Change fail");
         }
     }
 

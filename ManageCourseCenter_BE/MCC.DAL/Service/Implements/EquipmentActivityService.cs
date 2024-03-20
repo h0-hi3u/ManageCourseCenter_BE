@@ -158,10 +158,10 @@ public class EquipmentActivityService : IEquipmentActivityService
         PagingDto pagingDto = new PagingDto();
         var skip = CalculateHelper.CalculatePaging(pageSize, pageIndex);
 
-        var totalRecords = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).ToListAsync();
-        var data = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).Skip(skip).Take(pageSize).ToListAsync();
+        var totalRecords = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).CountAsync();
+        var data = await _equipmentActivityRepo.Entities().Include(ea => ea.Manager).Include(ea => ea.Room).Include(ea => ea.Equipment).OrderByDescending(ea => ea.OperateTime).Skip(skip).Take(pageSize).ToListAsync();
 
-        pagingDto.TotalRecords = totalRecords.Count;
+        pagingDto.TotalRecords = totalRecords;
         pagingDto.Data = data;
         return actionResult.BuildResult(pagingDto);
     }

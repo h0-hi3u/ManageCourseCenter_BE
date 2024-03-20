@@ -52,4 +52,11 @@ public class RoomRepository : RepositoryGeneric<Room>, IRoomRepository
             return false;
         }
     }
+
+    public async Task<int?> GetRoomIdByActivityIdAsync(int activityId)
+    {
+        var activity = await _context.EquipmentActivities.FirstOrDefaultAsync(a => a.Id == activityId);
+        return activity?.RoomId;
+    }
+
 }

@@ -36,6 +36,11 @@ public class EquipmentActivityRepository : RepositoryGeneric<EquipmentActivity>,
         return await _dbSet.Where(ea => ea.OperateTime >= from && ea.OperateTime <= to).ToListAsync();
     }
 
+    public async Task<IEnumerable<EquipmentActivity>> GetLatestActivityByEquipmentId(int equipId)
+    {
+        return await _dbSet.Where(ea => ea.EquipmentId == equipId && ea.FinishedTime == null).ToListAsync();
+    }
+
     public async Task<bool> UpdateAsync(EquipmentActivity equipmentActivity)
     {
         try

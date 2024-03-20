@@ -17,4 +17,5 @@ public interface IChildrenClassService
     Task<AppActionResult> GetChildrenClassByClassNameAsync(string className);
     Task<AppActionResult> CreateChildClassAsync(ChildrenClassCreateDto childrenClassCreateDto);
     Task<AppActionResult> DeleteChildrenClassAsync(int childrenClassId);
+    Task<AppActionResult> GetChildrenClassIdByChildIdAndClassByIdAsync(int childId, int classId);
 }
